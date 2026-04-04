@@ -462,6 +462,217 @@
     margin-bottom: 16px;
   }
 
+  /* ── Rental yield ── */
+
+  .ry-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .ry-metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .ry-metric-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .ry-metric-value {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .ry-metric-value.green  { color: #16a34a; }
+  .ry-metric-value.amber  { color: #d97706; }
+  .ry-metric-value.red    { color: #dc2626; }
+  .ry-metric-value.teal   { color: var(--teal); }
+
+  .ry-badge {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .ry-badge.positive { background: #dcfce7; color: #15803d; }
+  .ry-badge.negative { background: #fee2e2; color: #dc2626; }
+
+  .ry-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .ry-prefill-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--teal-light);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+  }
+
+  .ry-prefill-note span { color: var(--teal-dark); font-weight: 600; }
+
+  .ry-field {
+    margin-bottom: 14px;
+  }
+
+  .ry-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .ry-field input {
+    flex: 1;
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface);
+    outline: none;
+    transition: border-color .15s;
+  }
+
+  .ry-field input:focus { border-color: var(--teal); }
+
+  /* Expense row with inline frequency selector */
+  .ry-expense-row {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .ry-freq-select {
+    flex-shrink: 0;
+    padding: 8px 6px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    outline: none;
+    transition: border-color .15s;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2394a3b8'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    padding-right: 20px;
+  }
+
+  .ry-freq-select:focus { border-color: var(--teal); }
+
+  .ry-ann-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+    min-height: 16px;
+  }
+
+  .ry-section-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--muted);
+    margin: 18px 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ry-results-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  .ry-results-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+
+  .ry-result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .ry-result-row:last-child { border-bottom: none; }
+
+  .ry-result-label { color: var(--muted); }
+
+  .ry-result-value { font-weight: 700; text-align: right; }
+
+  .ry-result-value.highlight { color: var(--teal-dark); font-size: 16px; }
+  .ry-result-value.pos { color: #16a34a; }
+  .ry-result-value.neg { color: #dc2626; }
+
+  .ry-chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+  }
+
+  .ry-chart-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
+
+  .ry-chart-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .ry-chart-wrapper { position: relative; height: 280px; }
+
+  .ry-disclaimer {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: #fef9c3;
+    border: 1px solid #fde047;
+    border-radius: 8px;
+    font-size: 12px;
+    color: #713f12;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 680px) {
+    .ry-layout { grid-template-columns: 1fr; }
+    .ry-summary { grid-template-columns: 1fr 1fr; }
+  }
+
   /* ── Frequency pill toggle ── */
   .freq-pills {
     display: flex;
@@ -566,6 +777,7 @@
     <nav>
       <button class="tab-btn active" onclick="switchTab('grants', this)">Grants &amp; schemes</button>
       <button class="tab-btn" onclick="switchTab('calc', this)">Mortgage calculator</button>
+      <button class="tab-btn" onclick="switchTab('rental', this)">Rental yield</button>
     </nav>
   </div>
 </header>
@@ -1055,6 +1267,245 @@
 
   </div><!-- /tab-calc -->
 
+
+  <!-- ══════════════ RENTAL YIELD TAB ══════════════ -->
+  <div id="tab-rental" class="tab-panel">
+
+    <div class="section-header">
+      <h1>Rental yield analyser</h1>
+      <p>Pre-filled from your mortgage calculator inputs. Adjust any value to reflect your investment scenario.</p>
+    </div>
+
+    <!-- Summary metrics -->
+    <div class="ry-summary">
+      <div class="ry-metric">
+        <div class="ry-metric-label">Gross rental yield</div>
+        <div class="ry-metric-value" id="ry-gross-yield">—</div>
+      </div>
+      <div class="ry-metric">
+        <div class="ry-metric-label">Net rental yield</div>
+        <div class="ry-metric-value teal" id="ry-net-yield">—</div>
+      </div>
+      <div class="ry-metric">
+        <div class="ry-metric-label">Weekly cashflow</div>
+        <div class="ry-metric-value" id="ry-weekly-cf">—</div>
+        <div class="ry-badge" id="ry-cf-badge">—</div>
+      </div>
+      <div class="ry-metric">
+        <div class="ry-metric-label">Break-even rent</div>
+        <div class="ry-metric-value teal" id="ry-breakeven">—</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">per week for neutral cashflow</div>
+      </div>
+    </div>
+
+    <div class="ry-prefill-note" id="ry-prefill-note" style="display:none">
+      <span>&#8594;</span> Values pre-filled from your mortgage calculator. Changes here don't affect the calculator.
+    </div>
+
+    <div class="ry-layout">
+
+      <!-- Left: inputs -->
+      <div>
+        <div class="card">
+          <h2>Property details</h2>
+
+          <div class="ry-field">
+            <label>Property value ($)</label>
+            <input type="number" id="ry-prop-value" min="50000" step="5000" oninput="updateRental()">
+          </div>
+
+          <div class="ry-field">
+            <label>Weekly rent ($)</label>
+            <input type="number" id="ry-weekly-rent" min="0" step="10" value="500" oninput="updateRental()">
+          </div>
+
+          <div class="ry-field">
+            <label>Annual property growth rate (%)</label>
+            <input type="number" id="ry-growth" min="0" max="20" step="0.1" value="3.5" oninput="updateRental()">
+          </div>
+
+          <div class="ry-field">
+            <label>Ownership period (years)</label>
+            <input type="number" id="ry-period" min="1" max="40" step="1" value="10" oninput="updateRental()">
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h2>Annual expenses</h2>
+
+          <div class="ry-section-title">Fixed costs</div>
+
+          <div class="ry-field">
+            <label>Council rates</label>
+            <div class="ry-expense-row">
+              <input type="number" id="ry-council" min="0" step="50" value="1500" oninput="updateRental()">
+              <select class="ry-freq-select" id="ry-council-freq" onchange="updateRental()">
+                <option value="52">Weekly</option>
+                <option value="12">Monthly</option>
+                <option value="4">Quarterly</option>
+                <option value="1" selected>Yearly</option>
+              </select>
+            </div>
+            <div class="ry-ann-hint" id="ry-council-hint"></div>
+          </div>
+
+          <div class="ry-field">
+            <label>Water rates</label>
+            <div class="ry-expense-row">
+              <input type="number" id="ry-water" min="0" step="50" value="800" oninput="updateRental()">
+              <select class="ry-freq-select" id="ry-water-freq" onchange="updateRental()">
+                <option value="52">Weekly</option>
+                <option value="12">Monthly</option>
+                <option value="4">Quarterly</option>
+                <option value="1" selected>Yearly</option>
+              </select>
+            </div>
+            <div class="ry-ann-hint" id="ry-water-hint"></div>
+          </div>
+
+          <div class="ry-field">
+            <label>Strata / body corporate (if applicable)</label>
+            <div class="ry-expense-row">
+              <input type="number" id="ry-strata" min="0" step="100" value="0" oninput="updateRental()">
+              <select class="ry-freq-select" id="ry-strata-freq" onchange="updateRental()">
+                <option value="52">Weekly</option>
+                <option value="12">Monthly</option>
+                <option value="4" selected>Quarterly</option>
+                <option value="1">Yearly</option>
+              </select>
+            </div>
+            <div class="ry-ann-hint" id="ry-strata-hint"></div>
+          </div>
+
+          <div class="ry-field">
+            <label>Landlord insurance</label>
+            <div class="ry-expense-row">
+              <input type="number" id="ry-insurance" min="0" step="50" value="1200" oninput="updateRental()">
+              <select class="ry-freq-select" id="ry-insurance-freq" onchange="updateRental()">
+                <option value="52">Weekly</option>
+                <option value="12">Monthly</option>
+                <option value="4">Quarterly</option>
+                <option value="1" selected>Yearly</option>
+              </select>
+            </div>
+            <div class="ry-ann-hint" id="ry-insurance-hint"></div>
+          </div>
+
+          <div class="ry-section-title">Variable costs</div>
+
+          <div class="ry-field">
+            <label>Property management fee (% of rent)</label>
+            <input type="number" id="ry-mgmt-pct" min="0" max="20" step="0.5" value="8" oninput="updateRental()" style="width:100%">
+          </div>
+
+          <div class="ry-field">
+            <label>Maintenance &amp; repairs (default 1% of property value)</label>
+            <div class="ry-expense-row">
+              <input type="number" id="ry-maintenance" min="0" step="100" oninput="updateRental()">
+              <select class="ry-freq-select" id="ry-maintenance-freq" onchange="updateRental()">
+                <option value="52">Weekly</option>
+                <option value="12">Monthly</option>
+                <option value="4">Quarterly</option>
+                <option value="1" selected>Yearly</option>
+              </select>
+            </div>
+            <div class="ry-ann-hint" id="ry-maintenance-hint"></div>
+          </div>
+
+          <div class="ry-field">
+            <label>Vacancy allowance (weeks per year)</label>
+            <input type="number" id="ry-vacancy" min="0" max="52" step="0.5" value="2" oninput="updateRental()" style="width:100%">
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: results -->
+      <div>
+        <div class="ry-results-card">
+          <h2>Income &amp; cashflow</h2>
+
+          <div class="ry-result-row">
+            <span class="ry-result-label">Annual rental income</span>
+            <span class="ry-result-value highlight" id="ry-ann-income">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Less: vacancy loss</span>
+            <span class="ry-result-value neg" id="ry-vacancy-loss">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Effective annual income</span>
+            <span class="ry-result-value" id="ry-eff-income">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Total annual expenses</span>
+            <span class="ry-result-value neg" id="ry-total-exp">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Annual mortgage repayments</span>
+            <span class="ry-result-value neg" id="ry-ann-mortgage">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Net annual cashflow</span>
+            <span class="ry-result-value highlight" id="ry-ann-cf">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Weekly cashflow</span>
+            <span class="ry-result-value highlight" id="ry-wk-cf-detail">—</span>
+          </div>
+        </div>
+
+        <div class="ry-results-card" style="margin-top:16px">
+          <h2>Growth projection over <span id="ry-period-label">10</span> years</h2>
+
+          <div class="ry-result-row">
+            <span class="ry-result-label">Current property value</span>
+            <span class="ry-result-value" id="ry-current-val">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Projected value at end of period</span>
+            <span class="ry-result-value highlight" id="ry-proj-val">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Capital gain</span>
+            <span class="ry-result-value pos" id="ry-cap-gain">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Cumulative net rental income</span>
+            <span class="ry-result-value" id="ry-cum-rent">—</span>
+          </div>
+          <div class="ry-result-row">
+            <span class="ry-result-label">Total return (capital + rent)</span>
+            <span class="ry-result-value highlight" id="ry-total-return">—</span>
+          </div>
+        </div>
+
+        <div class="ry-disclaimer">
+          Rental yield calculations are estimates only and do not account for tax implications, depreciation, capital gains tax, or changes in interest rates. Consult a licensed financial adviser or accountant before making investment decisions.
+        </div>
+      </div>
+
+    </div><!-- /ry-layout -->
+
+    <!-- Chart -->
+    <div class="ry-chart-card">
+      <h2>Projected performance over ownership period</h2>
+      <div class="ry-chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0d9488"></div>
+          <span>Cumulative net rental income (left axis)</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0369a1"></div>
+          <span>Projected property value (right axis)</span>
+        </div>
+      </div>
+      <div class="ry-chart-wrapper">
+        <canvas id="rentalChart"></canvas>
+      </div>
+    </div>
+
+  </div><!-- /tab-rental -->
+
 </main>
 
 <div class="disclaimer">
@@ -1070,6 +1521,15 @@ function switchTab(tab, btn) {
   document.getElementById('tab-' + tab).classList.add('active');
   btn.classList.add('active');
   if (tab === 'calc') updateCalc();
+  if (tab === 'rental') {
+    if (!rentalInitialised) {
+      initRental();
+      rentalInitialised = true;
+    } else {
+      // Refresh mortgage figure in case calculator state changed
+      updateRental();
+    }
+  }
 }
 
 // ── Accordion ───────────────────────────────────────────────────────────────
@@ -1117,9 +1577,9 @@ function filterState() {
 // ── Calculator ───────────────────────────────────────────────────────────────
 
 const DEFAULTS = { loan: 500000, rate: 6.14, term: 30, extra: 200 };
-const state = { ...DEFAULTS };
+const state = { ...DEFAULTS, freq: 'monthly', ioYears: 0 };
 
-const fmt = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
+const fmt    = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
 const fmtDec = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 function initCalc() {
@@ -1150,166 +1610,310 @@ function syncSlider(key, val) {
   updateCalc();
 }
 
-function updateLabels() {
-  document.getElementById('lv-loan').textContent = fmt.format(state.loan);
-  document.getElementById('lv-rate').textContent = state.rate.toFixed(2) + '%';
-  document.getElementById('lv-term').textContent = state.term + (state.term === 1 ? ' year' : ' years');
-  document.getElementById('lv-extra').textContent = fmt.format(state.extra) + '/mo';
+function setFreq(freq, btn) {
+  state.freq = freq;
+  document.querySelectorAll('.freq-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateLabels();
+  updateCalc();
 }
 
-/**
- * Simple daily interest mortgage calculation — matches Australian lender method (e.g. Westpac).
- * Base payment: derived using average 30.4167 days/month via annuity formula.
- * Simulation loop: uses actual calendar days for each month (28/29/30/31),
- *   starting from the current month, so leap-year Februaries are handled correctly.
- * monthlyInterest = balance × (annualRate / 365) × actualDaysInMonth
- */
+function setIO(val) {
+  state.ioYears = parseInt(val, 10);
+  updateCalc();
+}
 
-// Returns the number of days in a given month (0-based) of a given year.
+function freqLabel() {
+  return state.freq === 'fortnightly' ? 'fortnightly' : state.freq === 'weekly' ? 'weekly' : 'monthly';
+}
+
+function updateLabels() {
+  const fl = freqLabel();
+  document.getElementById('lv-loan').textContent  = fmt.format(state.loan);
+  document.getElementById('lv-rate').textContent  = state.rate.toFixed(2) + '%';
+  document.getElementById('lv-term').textContent  = state.term + (state.term === 1 ? ' year' : ' years');
+  document.getElementById('lv-extra').textContent = fmt.format(state.extra) + '/' + fl.slice(0,2);
+  document.getElementById('extra-field-label').textContent = 'Extra ' + fl + ' repayment';
+}
+
+// ── Interest helpers ─────────────────────────────────────────────────────────
+
 function daysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
 }
 
-function simulateLoan(principal, annualRate, termYears, extraMonthly) {
+// Base monthly P&I payment for a given principal/rate/term (annuity formula, avg days).
+function calcBaseMonthly(principal, annualRate, termMonths) {
+  if (termMonths <= 0) return 0;
   const dailyRate   = annualRate / 100 / 365;
-  const avgDays     = 365 / 12;                     // 30.4167 — used only for base payment
-  const monthlyRate = dailyRate * avgDays;
-  const maxMonths   = termYears * 12;
+  const monthlyRate = dailyRate * (365 / 12);
+  if (monthlyRate === 0) return principal / termMonths;
+  return principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));
+}
 
-  // Base payment via annuity formula (uses average month length for a stable fixed payment)
-  let basePayment;
-  if (monthlyRate === 0) {
-    basePayment = principal / maxMonths;
-  } else {
-    basePayment = principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -maxMonths));
-  }
+// Base payment per period (fortnightly = monthly/2, weekly = monthly/4).
+function calcBasePeriod(principal, annualRate, termMonths, freq) {
+  const monthly = calcBaseMonthly(principal, annualRate, termMonths);
+  if (freq === 'fortnightly') return monthly / 2;
+  if (freq === 'weekly')      return monthly / 4;
+  return monthly;
+}
 
-  const payment = basePayment + extraMonthly;
+/**
+ * Full simulation supporting IO period + payment frequency + extra repayments.
+ *
+ * IO phase  : monthly payments = balance × (r/365) × daysInMonth, no principal reduction.
+ * P&I phase : recalculated base payment over remaining term at chosen frequency.
+ *             Fortnightly/weekly: balance updated every 14/7 days using actual day counts,
+ *             with interest = balance × (r/365) × daysSinceLastPayment.
+ *             Extra repayment added each period on top of base.
+ *
+ * Returns { baseMonthly, basePeriod, ioMonthlyPayment, piBasePeriod,
+ *           balances (monthly snapshots), totalInterest, totalMonths,
+ *           ioMonths, piMonths }
+ */
+function simulateFull(principal, annualRate, termYears, extraPerPeriod, freq, ioYears) {
+  const dailyRate  = annualRate / 100 / 365;
+  const termMonths = termYears * 12;
+  const ioMonths   = ioYears * 12;
+  const piTermMo   = termMonths - ioMonths;
 
-  // Starting calendar month for the simulation
+  // Base monthly P&I payment (used for display and for monthly freq simulation)
+  const baseMonthly = calcBaseMonthly(principal, annualRate, termMonths);
+
+  // IO monthly payment (interest only on full balance, avg days)
+  const ioMonthlyPayment = principal * dailyRate * (365 / 12);
+
+  // P&I base payment per period after IO ends (recalculated over remaining term)
+  const piBaseMonthly = calcBaseMonthly(principal, annualRate, piTermMo);
+  const piBasePeriod  = calcBasePeriod(principal, annualRate, piTermMo, freq);
+
   const now = new Date();
   let simYear  = now.getFullYear();
-  let simMonth = now.getMonth(); // 0-based
+  let simMonth = now.getMonth();
 
-  // Amortise month by month using actual calendar days per month
   let balance = principal;
-  const balances = [balance];
+  const balances = [balance]; // one entry per calendar month for chart
   let totalInterest = 0;
-  let months = 0;
+  let totalMonths   = 0;
+  let piMonths      = 0;
 
-  while (balance > 0.005 && months < maxMonths) {
-    const days     = daysInMonth(simYear, simMonth);  // actual days: 28/29/30/31
-    const interest = balance * dailyRate * days;       // balance × (r/365) × actualDays
+  // ── Phase 1: Interest only (always monthly regardless of freq) ──────────────
+  for (let m = 0; m < ioMonths && balance > 0.005; m++) {
+    const days     = daysInMonth(simYear, simMonth);
+    const interest = balance * dailyRate * days;
     totalInterest += interest;
-    balance = balance + interest - payment;
-    if (balance < 0) {
-      totalInterest += balance; // balance is negative — back out the overshoot
+    // balance stays the same (interest only)
+    totalMonths++;
+    balances.push(balance);
+    simMonth++; if (simMonth > 11) { simMonth = 0; simYear++; }
+  }
+
+  // ── Phase 2: P&I at chosen frequency ────────────────────────────────────────
+  const maxPiPeriods = piTermMo * (freq === 'weekly' ? 52 / 12 : freq === 'fortnightly' ? 26 / 12 : 1);
+
+  // Simulate P&I phase in period steps (monthly=avg 30.4167d, fortnightly=14d, weekly=7d).
+  // Interest per period = balance × (annualRate/365) × daysInPeriod  (simple, no compounding).
+  // For sub-monthly frequencies, we bucket periods into calendar months for the chart.
+  const periodDays  = freq === 'fortnightly' ? 14 : freq === 'weekly' ? 7 : null;
+  const payment     = piBasePeriod + extraPerPeriod;
+  const maxPeriods  = Math.ceil(piTermMo * (freq === 'weekly' ? 52/12 : freq === 'fortnightly' ? 26/12 : 1)) + 2;
+
+  if (freq === 'monthly') {
+    let periods = 0;
+    while (balance > 0.005 && periods < maxPeriods) {
+      const days     = daysInMonth(simYear, simMonth);
+      const interest = balance * dailyRate * days;
+      totalInterest += interest;
+      balance = balance + interest - payment;
+      if (balance < 0) { totalInterest += balance; balance = 0; }
+      periods++;
+      totalMonths++;
+      piMonths++;
+      balances.push(balance);
+      simMonth++; if (simMonth > 11) { simMonth = 0; simYear++; }
+    }
+    if (balance > 0.005) {
+      totalInterest += balance * dailyRate * daysInMonth(simYear, simMonth);
+      balance = 0;
+      balances[balances.length - 1] = 0;
+    }
+  } else {
+    // Fortnightly / weekly — simulate one period at a time, snapshot balance each calendar month.
+    // Interest each period = balance × (dailyRate × periodDays)  — simple, matches monthly method.
+    let daysCounted    = 0; // days elapsed since start of P&I (for calendar month tracking)
+    let daysInCurMonth = daysInMonth(simYear, simMonth);
+    let daysToNextSnap = daysInCurMonth; // days until next calendar-month snapshot
+
+    let periods = 0;
+    while (balance > 0.005 && periods < maxPeriods) {
+      // Simple interest for this period
+      const interest = balance * dailyRate * periodDays;
+      totalInterest += interest;
+      balance = balance + interest - payment;
+      if (balance < 0) { totalInterest += balance; balance = 0; }
+      periods++;
+
+      // Advance day counter and record monthly snapshots
+      daysCounted    += periodDays;
+      daysToNextSnap -= periodDays;
+      while (daysToNextSnap <= 0) {
+        balances.push(balance);
+        totalMonths++;
+        piMonths++;
+        simMonth++; if (simMonth > 11) { simMonth = 0; simYear++; }
+        const nextMonthDays = daysInMonth(simYear, simMonth);
+        daysToNextSnap += nextMonthDays;
+      }
+    }
+    if (balance > 0.005) {
+      totalInterest += balance * dailyRate * periodDays;
       balance = 0;
     }
-    months++;
-    balances.push(balance);
-
-    // Advance calendar month
-    simMonth++;
-    if (simMonth > 11) { simMonth = 0; simYear++; }
+    // Ensure final balance is zero in chart
+    if (balances.length > 0) balances[balances.length - 1] = 0;
   }
 
-  // If the term cap was reached with remaining balance (can happen because actual
-  // calendar months accrue slightly more interest than the 365-day average payment
-  // was designed for), simulate the final adjusted payment that clears the residual.
-  if (balance > 0.005) {
-    const days = daysInMonth(simYear, simMonth);
-    totalInterest += balance * dailyRate * days;
-    balance = 0;
-    balances[balances.length - 1] = 0;
-  }
+  return {
+    baseMonthly,
+    basePeriod: freq === 'monthly' ? baseMonthly : (freq === 'fortnightly' ? baseMonthly / 2 : baseMonthly / 4),
+    ioMonthlyPayment,
+    piBasePeriod,
+    balances,
+    totalInterest,
+    totalMonths,
+    ioMonths,
+    piMonths,
+  };
+}
 
-  return { basePayment, balances, totalInterest, months };
+// ── Pure monthly P&I baseline (no IO, no extras, monthly) ────────────────────
+function simulateBaseline(principal, annualRate, termYears) {
+  return simulateFull(principal, annualRate, termYears, 0, 'monthly', 0);
+}
+
+// ── Format months as "X years Y months" ──────────────────────────────────────
+function fmtMonths(m) {
+  const y = Math.floor(m / 12), mo = m % 12;
+  return y + (y === 1 ? ' year' : ' years') + (mo > 0 ? ' ' + mo + (mo === 1 ? ' month' : ' months') : '');
 }
 
 let chart = null;
 
 function updateCalc() {
-  const { loan, rate, term, extra } = state;
+  const { loan, rate, term, extra, freq, ioYears } = state;
 
-  const std = simulateLoan(loan, rate, term, 0);
-  const ext = simulateLoan(loan, rate, term, extra);
+  const baseline = simulateBaseline(loan, rate, term);
+  const scenario = simulateFull(loan, rate, term, extra, freq, ioYears);
 
-  // Standard total interest
-  const stdTotalInterest = std.totalInterest;
+  const fl = freqLabel();
+  const hasIO  = ioYears > 0;
+  const isFreq = freq !== 'monthly';
 
-  // With extra
-  const extTotalInterest = ext.totalInterest;
-  const intSaved = stdTotalInterest - extTotalInterest;
+  // ── IO rows visibility ───────────────────────────────────────────────────
+  document.getElementById('io-row-payment').classList.toggle('visible', hasIO);
+  document.getElementById('io-row-pi').classList.toggle('visible', hasIO);
+  document.getElementById('io-row-cost').classList.toggle('visible', hasIO);
+  document.getElementById('ioWarning').classList.toggle('visible', hasIO);
+  document.getElementById('legend-io-item').classList.toggle('visible', hasIO);
 
-  const payoffMonths = ext.months;
-  const pyrs = Math.floor(payoffMonths / 12);
-  const pmos = payoffMonths % 12;
-  const payoffStr = pyrs + (pyrs === 1 ? ' year' : ' years') + (pmos > 0 ? ' ' + pmos + (pmos === 1 ? ' month' : ' months') : '');
-
-  const stdMonths = std.months;
-  const savedMonths = stdMonths - payoffMonths;
-  const syrs = Math.floor(savedMonths / 12);
-  const smos = savedMonths % 12;
-  let timeSavedStr = '';
-  if (savedMonths <= 0) {
-    timeSavedStr = '—';
-  } else {
-    timeSavedStr = (syrs > 0 ? syrs + (syrs === 1 ? ' year' : ' years') + ' ' : '') + (smos > 0 ? smos + (smos === 1 ? ' month' : ' months') : '');
-    timeSavedStr = timeSavedStr.trim();
+  if (hasIO) {
+    document.getElementById('res-io-payment').textContent = fmtDec.format(scenario.ioMonthlyPayment) + '/mo';
+    const piLabel = 'P&I payment after IO (' + fl + ')';
+    document.getElementById('lbl-pi-after').textContent = piLabel;
+    document.getElementById('res-pi-after').textContent = fmtDec.format(scenario.piBasePeriod + extra) + '/' + fl.slice(0,2);
+    const ioCost = scenario.totalInterest - baseline.totalInterest;
+    document.getElementById('res-io-cost').textContent = (ioCost >= 0 ? '+' : '') + fmt.format(ioCost);
   }
 
-  document.getElementById('res-monthly').textContent = fmtDec.format(std.basePayment);
-  document.getElementById('res-total-monthly').textContent = fmtDec.format(std.basePayment + extra);
-  document.getElementById('res-payoff').textContent = payoffStr;
-  document.getElementById('res-time-saved').textContent = timeSavedStr;
-  document.getElementById('res-int-std').textContent = fmt.format(stdTotalInterest);
-  document.getElementById('res-int-extra').textContent = fmt.format(extTotalInterest);
-  document.getElementById('res-int-saved').textContent = fmt.format(intSaved);
+  // ── Base repayment labels ────────────────────────────────────────────────
+  const periodLabel = 'Base ' + fl + ' repayment';
+  document.getElementById('lbl-monthly').textContent = periodLabel;
+  document.getElementById('res-monthly').textContent = fmtDec.format(scenario.basePeriod);
 
-  const pct = stdTotalInterest > 0 ? ((intSaved / stdTotalInterest) * 100).toFixed(1) : '0.0';
-  document.getElementById('res-saving-tag').textContent = pct + '% less interest';
+  const totalLabel = 'Total ' + fl + ' payment (incl. extra)';
+  document.getElementById('lbl-total-monthly').textContent = totalLabel;
+  document.getElementById('res-total-monthly').textContent = fmtDec.format(scenario.basePeriod + extra);
 
-  drawChart(std.balances, ext.balances);
+  // ── Payoff & time saved ─────────────────────────────────────────────────
+  document.getElementById('res-payoff').textContent = fmtMonths(scenario.totalMonths);
+
+  const savedMonths = baseline.totalMonths - scenario.totalMonths;
+  if (savedMonths <= 0) {
+    document.getElementById('res-time-saved').textContent = '—';
+  } else {
+    document.getElementById('res-time-saved').textContent = fmtMonths(savedMonths) + ' sooner';
+  }
+
+  // ── Interest ─────────────────────────────────────────────────────────────
+  document.getElementById('res-int-std').textContent   = fmt.format(baseline.totalInterest);
+  document.getElementById('res-int-extra').textContent = fmt.format(scenario.totalInterest);
+
+  const intSaved = baseline.totalInterest - scenario.totalInterest;
+  const isSaving = intSaved > 0;
+  document.getElementById('lbl-int-saved').textContent   = isSaving ? 'Interest saved vs baseline' : 'Extra interest vs baseline';
+  document.getElementById('res-int-saved').textContent   = fmt.format(Math.abs(intSaved));
+  const pct = baseline.totalInterest > 0 ? Math.abs(intSaved / baseline.totalInterest * 100).toFixed(1) : '0.0';
+  document.getElementById('res-saving-tag').textContent  = pct + '% ' + (isSaving ? 'less' : 'more') + ' interest';
+
+  // ── Chart legend label ────────────────────────────────────────────────────
+  let scenLabel = 'Your scenario';
+  if (!hasIO && !isFreq && extra === 0) scenLabel = 'Standard repayments';
+  else if (!hasIO && !isFreq) scenLabel = 'With extra repayments';
+  else if (isFreq && !hasIO) scenLabel = fl.charAt(0).toUpperCase() + fl.slice(1) + ' repayments';
+  document.getElementById('legend-teal-label').textContent = scenLabel;
+
+  drawChart(baseline.balances, scenario.balances, scenario.ioMonths);
 }
 
-function drawChart(stdBalances, extBalances) {
-  // Sample to at most ~60 points for performance
-  const maxPoints = 60;
+function drawChart(stdBalances, extBalances, ioMonths) {
+  const maxPoints = 80;
   function sample(arr) {
-    if (arr.length <= maxPoints) return arr;
+    if (arr.length <= maxPoints) return arr.map((v, i) => ({ v, i }));
     const step = arr.length / maxPoints;
     const out = [];
     for (let i = 0; i < arr.length; i += step) {
-      out.push(arr[Math.floor(i)]);
+      const idx = Math.floor(i);
+      out.push({ v: arr[idx], i: idx });
     }
-    if (out[out.length - 1] !== arr[arr.length - 1]) out.push(arr[arr.length - 1]);
+    const last = { v: arr[arr.length - 1], i: arr.length - 1 };
+    if (out[out.length - 1].i !== last.i) out.push(last);
     return out;
   }
 
   const stdSampled = sample(stdBalances);
   const extSampled = sample(extBalances);
+  const totalLen   = Math.max(stdBalances.length, extBalances.length);
 
-  // Build labels from the longer series
+  function toLabel(monthIdx) {
+    const y = Math.floor(monthIdx / 12), m = monthIdx % 12;
+    return (m === 0) ? 'Year ' + y : '';
+  }
+
+  // Build a unified index from the longer series
   const longer = stdSampled.length >= extSampled.length ? stdSampled : extSampled;
-  const labels = longer.map((_, i) => {
-    const totalMonths = Math.round(i * (Math.max(stdBalances.length, extBalances.length) - 1) / (longer.length - 1));
-    const y = Math.floor(totalMonths / 12);
-    const m = totalMonths % 12;
-    if (m === 0 || i === 0) return 'Year ' + y;
-    return '';
+  const labels  = longer.map(pt => toLabel(pt.i));
+  const stdData = longer.map(pt => {
+    // find closest point in std
+    const match = stdSampled.find(s => s.i >= pt.i);
+    return match ? match.v : 0;
+  });
+  const extData = longer.map(pt => {
+    const match = extSampled.find(s => s.i >= pt.i);
+    return match ? match.v : 0;
   });
 
-  // Pad shorter series with zeros
-  const extPadded = [...extSampled];
-  while (extPadded.length < stdSampled.length) extPadded.push(0);
+  // IO annotation: x-range in sampled indices where month index < ioMonths
+  const ioEndIdx = longer.findIndex(pt => pt.i >= ioMonths);
 
   const ctx = document.getElementById('loanChart').getContext('2d');
 
   if (chart) {
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = extPadded;
-    chart.data.datasets[1].data = stdSampled;
+    chart.data.labels           = labels;
+    chart.data.datasets[0].data = extData;
+    chart.data.datasets[1].data = stdData;
+    // Update IO band dataset
+    chart.data.datasets[2].data = longer.map((pt, i) => (i <= ioEndIdx && ioMonths > 0) ? extData[i] : null);
     chart.update();
     return;
   }
@@ -1320,26 +1924,41 @@ function drawChart(stdBalances, extBalances) {
       labels,
       datasets: [
         {
-          label: 'With extra repayments',
-          data: extPadded,
+          label: 'Your scenario',
+          data: extData,
           borderColor: '#0d9488',
           backgroundColor: 'rgba(13,148,136,.08)',
           borderWidth: 2.5,
           pointRadius: 0,
           fill: true,
-          tension: 0.35,
+          tension: 0.3,
+          order: 2,
         },
         {
-          label: 'Standard repayments',
-          data: stdSampled,
+          label: 'Monthly P&I baseline',
+          data: stdData,
           borderColor: '#cbd5e1',
           backgroundColor: 'rgba(203,213,225,.06)',
           borderWidth: 2,
           pointRadius: 0,
           fill: true,
-          tension: 0.35,
+          tension: 0.3,
           borderDash: [6, 3],
-        }
+          order: 3,
+        },
+        {
+          // IO period overlay — filled band, no border
+          label: 'Interest only period',
+          data: longer.map((pt, i) => (i <= ioEndIdx && ioMonths > 0) ? extData[i] : null),
+          borderColor: 'transparent',
+          backgroundColor: 'rgba(13,148,136,.18)',
+          borderWidth: 0,
+          pointRadius: 0,
+          fill: 'origin',
+          tension: 0.3,
+          spanGaps: false,
+          order: 1,
+        },
       ]
     },
     options: {
@@ -1349,6 +1968,7 @@ function drawChart(stdBalances, extBalances) {
       plugins: {
         legend: { display: false },
         tooltip: {
+          filter: item => item.dataset.label !== 'Interest only period',
           callbacks: {
             label(ctx) {
               return ' ' + ctx.dataset.label + ': ' + fmt.format(ctx.parsed.y);
@@ -1358,12 +1978,7 @@ function drawChart(stdBalances, extBalances) {
       },
       scales: {
         x: {
-          ticks: {
-            maxTicksLimit: 10,
-            font: { size: 12 },
-            color: '#94a3b8',
-            autoSkip: true,
-          },
+          ticks: { maxTicksLimit: 10, font: { size: 12 }, color: '#94a3b8', autoSkip: true },
           grid: { display: false },
         },
         y: {
@@ -1378,6 +1993,266 @@ function drawChart(stdBalances, extBalances) {
     }
   });
 }
+
+// ── Rental yield ─────────────────────────────────────────────────────────────
+
+let rentalChart = null;
+
+function initRental() {
+  // Pre-fill property value from calculator loan amount
+  const propVal = state.loan;
+  document.getElementById('ry-prop-value').value = propVal;
+
+  // Pre-fill maintenance as 1% of property value (yearly default)
+  document.getElementById('ry-maintenance').value = Math.round(propVal * 0.01);
+
+  // Show pre-fill note if calculator has been used (loan differs from zero)
+  if (propVal) {
+    document.getElementById('ry-prefill-note').style.display = 'flex';
+  }
+
+  updateRental();
+}
+
+// Read an expense field and annualise it based on its frequency selector.
+// Returns { annual, hint } where hint is the display string for the hint row.
+function readExpense(id) {
+  const val  = parseFloat(document.getElementById(id).value) || 0;
+  const mult = parseInt(document.getElementById(id + '-freq').value, 10);
+  const annual = val * mult;
+  const freqLabel = { 52: 'wk', 12: 'mo', 4: 'qtr', 1: 'yr' }[mult];
+  const hint = (mult !== 1 && val > 0) ? '= ' + fmt.format(Math.round(annual)) + '/yr' : '';
+  return { annual, hint };
+}
+
+function getRentalInputs() {
+  const propValue   = parseFloat(document.getElementById('ry-prop-value').value)   || 0;
+  const weeklyRent  = parseFloat(document.getElementById('ry-weekly-rent').value)  || 0;
+  const growth      = parseFloat(document.getElementById('ry-growth').value)        || 0;
+  const period      = parseInt(document.getElementById('ry-period').value, 10)      || 10;
+  const mgmtPct     = parseFloat(document.getElementById('ry-mgmt-pct').value)     || 0;
+  const vacancy     = parseFloat(document.getElementById('ry-vacancy').value)       || 0;
+
+  const councilE     = readExpense('ry-council');
+  const waterE       = readExpense('ry-water');
+  const strataE      = readExpense('ry-strata');
+  const insuranceE   = readExpense('ry-insurance');
+  const maintenanceE = readExpense('ry-maintenance');
+
+  // Update hint labels
+  document.getElementById('ry-council-hint').textContent     = councilE.hint;
+  document.getElementById('ry-water-hint').textContent       = waterE.hint;
+  document.getElementById('ry-strata-hint').textContent      = strataE.hint;
+  document.getElementById('ry-insurance-hint').textContent   = insuranceE.hint;
+  document.getElementById('ry-maintenance-hint').textContent = maintenanceE.hint;
+
+  return {
+    propValue, weeklyRent, growth, period, mgmtPct, vacancy,
+    council:     councilE.annual,
+    water:       waterE.annual,
+    strata:      strataE.annual,
+    insurance:   insuranceE.annual,
+    maintenance: maintenanceE.annual,
+  };
+}
+
+function updateRental() {
+  const { propValue, weeklyRent, growth, period,
+          council, water, strata, insurance, mgmtPct, maintenance, vacancy } = getRentalInputs();
+
+  // ── Income ────────────────────────────────────────────────────────────────
+  const annIncome   = weeklyRent * 52;
+  const vacancyLoss = weeklyRent * vacancy;
+  const effIncome   = annIncome - vacancyLoss;
+
+  // ── Expenses ──────────────────────────────────────────────────────────────
+  const mgmtFee     = effIncome * (mgmtPct / 100);
+  const totalExp    = council + water + strata + insurance + mgmtFee + maintenance;
+
+  // ── Mortgage (pull base monthly from calculator, annualise) ───────────────
+  const baseMonthly  = calcBaseMonthly(state.loan, state.rate, state.term * 12);
+  const annMortgage  = baseMonthly * 12;
+
+  // ── Cashflow ──────────────────────────────────────────────────────────────
+  const netAnnCf  = effIncome - totalExp - annMortgage;
+  const weekCf    = netAnnCf / 52;
+
+  // ── Yields ────────────────────────────────────────────────────────────────
+  const grossYield = propValue > 0 ? (annIncome / propValue) * 100 : 0;
+  const netYield   = propValue > 0 ? ((effIncome - totalExp) / propValue) * 100 : 0;
+
+  // ── Break-even rent ───────────────────────────────────────────────────────
+  // effIncome - totalExp = annMortgage
+  // (weeklyRent × 52 - weeklyRent × vacancy) × (1 - mgmtPct/100) - fixedExp = annMortgage
+  const fixedExp   = council + water + strata + insurance + maintenance;
+  const vacFactor  = (52 - vacancy) / 52;           // fraction of year rented
+  const mgmtFactor = 1 - mgmtPct / 100;
+  // weeklyRent × 52 × vacFactor × mgmtFactor - fixedExp = annMortgage
+  // weeklyRent = (annMortgage + fixedExp) / (52 × vacFactor × mgmtFactor)
+  const breakEvenWeekly = (52 * vacFactor * mgmtFactor) > 0
+    ? (annMortgage + fixedExp) / (52 * vacFactor * mgmtFactor)
+    : 0;
+
+  // ── Growth projection ─────────────────────────────────────────────────────
+  const projValue  = propValue * Math.pow(1 + growth / 100, period);
+  const capGain    = projValue - propValue;
+  // Cumulative net rental income = netAnnCf × period (simplified — ignores rent growth)
+  const cumRent    = netAnnCf * period;
+  const totalReturn = capGain + cumRent;
+
+  // ── Update DOM ────────────────────────────────────────────────────────────
+  document.getElementById('ry-period-label').textContent = period;
+
+  // Gross yield colour
+  const grossEl = document.getElementById('ry-gross-yield');
+  grossEl.textContent = grossYield.toFixed(2) + '%';
+  grossEl.className = 'ry-metric-value ' + (grossYield >= 4 ? 'green' : grossYield >= 2 ? 'amber' : 'red');
+
+  document.getElementById('ry-net-yield').textContent  = netYield.toFixed(2) + '%';
+
+  // Weekly cashflow summary metric
+  const wkCfEl    = document.getElementById('ry-weekly-cf');
+  const cfBadge   = document.getElementById('ry-cf-badge');
+  wkCfEl.textContent = fmtDec.format(Math.abs(weekCf)) + '/wk';
+  wkCfEl.className   = 'ry-metric-value ' + (weekCf >= 0 ? 'green' : 'red');
+  if (weekCf >= 0) {
+    cfBadge.textContent = 'Cash flow positive';
+    cfBadge.className   = 'ry-badge positive';
+  } else {
+    cfBadge.textContent = 'Top-up required: ' + fmtDec.format(Math.abs(weekCf)) + '/wk';
+    cfBadge.className   = 'ry-badge negative';
+  }
+
+  document.getElementById('ry-breakeven').textContent = fmt.format(Math.ceil(breakEvenWeekly)) + '/wk';
+
+  // Income & cashflow panel
+  document.getElementById('ry-ann-income').textContent  = fmt.format(annIncome);
+  document.getElementById('ry-vacancy-loss').textContent = '−' + fmt.format(vacancyLoss);
+  document.getElementById('ry-eff-income').textContent  = fmt.format(effIncome);
+  document.getElementById('ry-total-exp').textContent   = '−' + fmt.format(totalExp);
+  document.getElementById('ry-ann-mortgage').textContent = '−' + fmt.format(annMortgage);
+
+  const annCfEl = document.getElementById('ry-ann-cf');
+  annCfEl.textContent = (netAnnCf >= 0 ? '' : '−') + fmt.format(Math.abs(netAnnCf));
+  annCfEl.className   = 'ry-result-value highlight ' + (netAnnCf >= 0 ? 'pos' : 'neg');
+
+  const wkCfDetEl = document.getElementById('ry-wk-cf-detail');
+  wkCfDetEl.textContent = (weekCf >= 0 ? '' : '−') + fmtDec.format(Math.abs(weekCf)) + '/week';
+  wkCfDetEl.className   = 'ry-result-value highlight ' + (weekCf >= 0 ? 'pos' : 'neg');
+
+  // Growth panel
+  document.getElementById('ry-current-val').textContent = fmt.format(propValue);
+  document.getElementById('ry-proj-val').textContent    = fmt.format(Math.round(projValue));
+  document.getElementById('ry-cap-gain').textContent    = fmt.format(Math.round(capGain));
+
+  const cumRentEl = document.getElementById('ry-cum-rent');
+  cumRentEl.textContent = (cumRent >= 0 ? '' : '−') + fmt.format(Math.abs(Math.round(cumRent)));
+  cumRentEl.className = 'ry-result-value ' + (cumRent >= 0 ? 'pos' : 'neg');
+
+  const totRetEl = document.getElementById('ry-total-return');
+  totRetEl.textContent = (totalReturn >= 0 ? '' : '−') + fmt.format(Math.abs(Math.round(totalReturn)));
+  totRetEl.className = 'ry-result-value highlight ' + (totalReturn >= 0 ? 'pos' : 'neg');
+
+  // ── Chart ─────────────────────────────────────────────────────────────────
+  drawRentalChart(propValue, netAnnCf, growth, period);
+}
+
+function drawRentalChart(propValue, netAnnCfYear1, growthPct, period) {
+  const labels   = [];
+  const rentData = [];
+  const propData = [];
+
+  let cumRent = 0;
+  for (let y = 0; y <= period; y++) {
+    labels.push('Year ' + y);
+    cumRent += (y === 0 ? 0 : netAnnCfYear1);
+    rentData.push(cumRent);
+    propData.push(Math.round(propValue * Math.pow(1 + growthPct / 100, y)));
+  }
+
+  const ctx = document.getElementById('rentalChart').getContext('2d');
+
+  if (rentalChart) {
+    rentalChart.data.labels            = labels;
+    rentalChart.data.datasets[0].data  = rentData;
+    rentalChart.data.datasets[1].data  = propData;
+    rentalChart.update();
+    return;
+  }
+
+  rentalChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Cumulative net rental income',
+          data: rentData,
+          borderColor: '#0d9488',
+          backgroundColor: 'rgba(13,148,136,.08)',
+          borderWidth: 2.5,
+          pointRadius: 3,
+          fill: true,
+          tension: 0.3,
+          yAxisID: 'yLeft',
+        },
+        {
+          label: 'Projected property value',
+          data: propData,
+          borderColor: '#0369a1',
+          backgroundColor: 'rgba(3,105,161,.06)',
+          borderWidth: 2.5,
+          pointRadius: 3,
+          fill: true,
+          tension: 0.3,
+          yAxisID: 'yRight',
+        },
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label(c) {
+              return ' ' + c.dataset.label + ': ' + fmt.format(c.parsed.y);
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { size: 12 }, color: '#94a3b8' },
+          grid: { display: false },
+        },
+        yLeft: {
+          type: 'linear',
+          position: 'left',
+          ticks: {
+            callback: v => '$' + (Math.abs(v) >= 1e6 ? (v/1e6).toFixed(1)+'M' : (v/1e3).toFixed(0)+'k'),
+            font: { size: 11 }, color: '#0d9488',
+          },
+          grid: { color: '#f1f5f9' },
+        },
+        yRight: {
+          type: 'linear',
+          position: 'right',
+          ticks: {
+            callback: v => '$' + (v >= 1e6 ? (v/1e6).toFixed(2)+'M' : (v/1e3).toFixed(0)+'k'),
+            font: { size: 11 }, color: '#0369a1',
+          },
+          grid: { drawOnChartArea: false },
+        },
+      }
+    }
+  });
+}
+
+// ── Tab switching (updated to init rental on first visit) ────────────────────
+let rentalInitialised = false;
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 initCalc();
