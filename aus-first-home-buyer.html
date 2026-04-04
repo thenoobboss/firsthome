@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Australian first home buyer toolkit</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal: #0d9488;
+    --teal-light: #ccfbf1;
+    --teal-dark: #0f766e;
+    --blue: #0369a1;
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --muted: #64748b;
+    --danger: #dc2626;
+    --success: #16a34a;
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+    --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+  }
+
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    gap: 16px;
+  }
+
+  .logo {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+
+  .logo span { color: var(--text); font-weight: 400; }
+
+  nav { display: flex; gap: 4px; }
+
+  .tab-btn {
+    padding: 8px 18px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all .15s;
+  }
+
+  .tab-btn:hover { background: var(--bg); color: var(--text); }
+  .tab-btn.active { background: var(--teal); color: #fff; }
+
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 28px 24px 60px;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── Grants section ── */
+
+  .section-header {
+    margin-bottom: 20px;
+  }
+
+  .section-header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .section-header p { color: var(--muted); font-size: 14px; }
+
+  .state-filter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .state-filter label { font-weight: 500; white-space: nowrap; }
+
+  .state-filter select {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color .15s;
+  }
+
+  .state-filter select:focus { border-color: var(--teal); }
+
+  .scheme-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .scheme-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow .15s;
+  }
+
+  .scheme-card:hover { box-shadow: var(--shadow-md); }
+
+  .scheme-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 18px 20px 14px;
+    cursor: pointer;
+    gap: 12px;
+    user-select: none;
+  }
+
+  .scheme-title-group { flex: 1; }
+
+  .scheme-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 6px;
+    letter-spacing: .3px;
+  }
+
+  .badge-federal { background: #dbeafe; color: #1d4ed8; }
+  .badge-state { background: #fef9c3; color: #854d0e; }
+  .badge-super { background: #f3e8ff; color: #7e22ce; }
+
+  .scheme-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+
+  .scheme-subtitle { font-size: 13px; color: var(--muted); }
+
+  .scheme-chevron {
+    color: var(--muted);
+    font-size: 18px;
+    transition: transform .2s;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .scheme-card.open .scheme-chevron { transform: rotate(180deg); }
+
+  .scheme-body {
+    display: none;
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .scheme-card.open .scheme-body { display: block; }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .info-block {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+
+  .info-block-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .info-block-value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--teal-dark);
+  }
+
+  .info-block-value.large {
+    font-size: 20px;
+  }
+
+  .scheme-desc { font-size: 14px; line-height: 1.7; color: #374151; margin-top: 12px; }
+  .scheme-desc p { margin-bottom: 10px; }
+  .scheme-desc ul { padding-left: 20px; margin-bottom: 10px; }
+  .scheme-desc li { margin-bottom: 4px; }
+
+  .state-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 14px;
+  }
+
+  .state-table th {
+    background: var(--bg);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--muted);
+    border-bottom: 2px solid var(--border);
+  }
+
+  .state-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .state-table tr:last-child td { border-bottom: none; }
+  .state-table tr.highlight td { background: var(--teal-light); }
+  .state-table tr.highlight td:first-child { font-weight: 700; color: var(--teal-dark); }
+
+  .govt-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 14px;
+    padding: 6px 12px;
+    border: 1px solid var(--teal);
+    border-radius: 6px;
+    transition: all .15s;
+  }
+
+  .govt-link:hover { background: var(--teal); color: #fff; }
+
+  .not-available {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  /* ── Calculator section ── */
+
+  .calc-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  @media (max-width: 700px) {
+    .calc-layout { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+
+  .card h2 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--text);
+  }
+
+  .field { margin-bottom: 18px; }
+
+  .field label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .field label .val {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .field input[type=range] {
+    width: 100%;
+    accent-color: var(--teal);
+    height: 4px;
+    cursor: pointer;
+  }
+
+  .field-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 6px;
+  }
+
+  .field-row input[type=number] {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s;
+    background: var(--surface);
+  }
+
+  .field-row input[type=number]:focus { border-color: var(--teal); }
+
+  .results-card {
+    background: var(--teal);
+    color: #fff;
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow-md);
+  }
+
+  .results-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 18px; opacity: .9; }
+
+  .result-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,.18);
+    gap: 12px;
+  }
+
+  .result-row:last-child { border-bottom: none; }
+
+  .result-label { font-size: 13px; opacity: .85; }
+
+  .result-value {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  .result-value.accent {
+    font-size: 20px;
+    color: #a7f3d0;
+  }
+
+  .saving-tag {
+    display: inline-block;
+    background: rgba(255,255,255,.15);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 4px;
+    color: #d1fae5;
+  }
+
+  .chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+  }
+
+  .chart-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+
+  .chart-legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .chart-wrapper { position: relative; height: 300px; }
+
+  /* ── Disclaimer ── */
+
+  .disclaimer {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .disclaimer::before {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 16px;
+  }
+
+  /* ── Frequency pill toggle ── */
+  .freq-pills {
+    display: flex;
+    gap: 4px;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 4px;
+    margin-top: 8px;
+  }
+
+  .freq-pill {
+    flex: 1;
+    padding: 6px 8px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .15s;
+    text-align: center;
+  }
+
+  .freq-pill.active {
+    background: var(--surface);
+    color: var(--teal);
+    box-shadow: var(--shadow);
+    font-weight: 600;
+  }
+
+  /* ── IO period selector ── */
+  .io-select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    font-size: 14px;
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+    transition: border-color .15s;
+    margin-top: 8px;
+  }
+
+  .io-select:focus { border-color: var(--teal); }
+
+  .io-warning {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #92400e;
+    line-height: 1.5;
+  }
+
+  .io-warning.visible { display: block; }
+
+  /* ── IO result rows ── */
+  .result-row.io-row { display: none; }
+  .result-row.io-row.visible { display: flex; }
+
+  /* ── IO chart legend item ── */
+  .legend-item-io { display: none; }
+  .legend-item-io.visible { display: flex; }
+
+  .legend-io-band {
+    width: 22px;
+    height: 12px;
+    flex-shrink: 0;
+    border-radius: 2px;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(13,148,136,.3) 0px,
+      rgba(13,148,136,.3) 2px,
+      rgba(13,148,136,.07) 2px,
+      rgba(13,148,136,.07) 6px
+    );
+  }
+
+  /* ── Mobile tweaks ── */
+
+  @media (max-width: 600px) {
+    .header-inner { height: auto; padding: 10px 0; flex-direction: column; align-items: flex-start; }
+    nav { width: 100%; }
+    .tab-btn { flex: 1; text-align: center; padding: 8px 10px; font-size: 13px; }
+    main { padding: 20px 16px 50px; }
+    .info-grid { grid-template-columns: 1fr 1fr; }
+    .card, .results-card { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">First home <span>toolkit</span></div>
+    <nav>
+      <button class="tab-btn active" onclick="switchTab('grants', this)">Grants &amp; schemes</button>
+      <button class="tab-btn" onclick="switchTab('calc', this)">Mortgage calculator</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══════════════ GRANTS TAB ══════════════ -->
+  <div id="tab-grants" class="tab-panel active">
+
+    <div class="section-header">
+      <h1>Grants &amp; schemes for first home buyers</h1>
+      <p>Select your state to highlight the grants and concessions available to you.</p>
+    </div>
+
+    <div class="state-filter">
+      <label for="stateSelect">Your state or territory:</label>
+      <select id="stateSelect" onchange="filterState()">
+        <option value="ALL">All states</option>
+        <option value="NSW">New South Wales (NSW)</option>
+        <option value="VIC">Victoria (VIC)</option>
+        <option value="QLD">Queensland (QLD)</option>
+        <option value="WA">Western Australia (WA)</option>
+        <option value="SA">South Australia (SA)</option>
+        <option value="TAS">Tasmania (TAS)</option>
+        <option value="ACT">Australian Capital Territory (ACT)</option>
+        <option value="NT">Northern Territory (NT)</option>
+      </select>
+    </div>
+
+    <div class="scheme-grid" id="schemeGrid">
+
+      <!-- FHBG -->
+      <div class="scheme-card" id="card-fhbg" data-scope="FEDERAL">
+        <div class="scheme-header" onclick="toggleCard('card-fhbg')">
+          <div class="scheme-title-group">
+            <span class="scheme-badge badge-federal">Federal — all states</span>
+            <div class="scheme-title">First Home Guarantee (FHBG)</div>
+            <div class="scheme-subtitle">Buy with just a 5% deposit — no lenders mortgage insurance</div>
+          </div>
+          <div class="scheme-chevron">&#8964;</div>
+        </div>
+        <div class="scheme-body">
+          <div class="info-grid">
+            <div class="info-block">
+              <div class="info-block-label">Minimum deposit</div>
+              <div class="info-block-value large">5%</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">LMI saving (approx.)</div>
+              <div class="info-block-value large">$10,000–$30,000+</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">Places per year</div>
+              <div class="info-block-value large">35,000</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">Income cap (singles)</div>
+              <div class="info-block-value">$125,000</div>
+            </div>
+          </div>
+          <div class="scheme-desc">
+            <p><strong>What it is:</strong> The federal government guarantees up to 15% of your loan, so you only need a 5% deposit and avoid paying lenders mortgage insurance (LMI). LMI can cost tens of thousands of dollars, so this is a significant saving.</p>
+            <p><strong>Who is eligible:</strong></p>
+            <ul>
+              <li>Australian citizens or permanent residents aged 18+</li>
+              <li>First home buyers (or previous owner-occupiers who haven't owned a home in 10 years)</li>
+              <li>Annual taxable income ≤ $125,000 (singles) or ≤ $200,000 (couples)</li>
+              <li>Must be owner-occupier (not investment)</li>
+              <li>Property price caps apply by location (e.g. Sydney: $900,000; regional NSW: $750,000)</li>
+            </ul>
+            <p><strong>How to apply:</strong> Apply through one of the 32+ approved participating lenders (major banks and smaller lenders). You do not apply directly to the government.</p>
+          </div>
+          <a class="govt-link" href="https://www.housingaustralia.gov.au/support-buy-home/first-home-guarantee" target="_blank" rel="noopener">Official Housing Australia page ↗</a>
+        </div>
+      </div>
+
+      <!-- Help to Buy -->
+      <div class="scheme-card" id="card-htb" data-scope="FEDERAL">
+        <div class="scheme-header" onclick="toggleCard('card-htb')">
+          <div class="scheme-title-group">
+            <span class="scheme-badge badge-federal">Federal — all states</span>
+            <div class="scheme-title">Help to Buy (shared equity)</div>
+            <div class="scheme-subtitle">Government co-purchases up to 40% of your home</div>
+          </div>
+          <div class="scheme-chevron">&#8964;</div>
+        </div>
+        <div class="scheme-body">
+          <div class="info-grid">
+            <div class="info-block">
+              <div class="info-block-label">Government equity (new)</div>
+              <div class="info-block-value large">Up to 40%</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">Government equity (existing)</div>
+              <div class="info-block-value large">Up to 30%</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">Min. deposit required</div>
+              <div class="info-block-value large">2%</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">Income cap (singles)</div>
+              <div class="info-block-value">$90,000</div>
+            </div>
+          </div>
+          <div class="scheme-desc">
+            <p><strong>What it is:</strong> A shared equity scheme where Housing Australia co-buys a portion of your home alongside you. You take a smaller mortgage, which means smaller repayments. You can buy the government's share over time.</p>
+            <p><strong>Who is eligible:</strong></p>
+            <ul>
+              <li>Australian citizens aged 18+</li>
+              <li>First home buyers only</li>
+              <li>Annual taxable income ≤ $90,000 (singles) or ≤ $120,000 (couples)</li>
+              <li>Must be owner-occupier</li>
+              <li>Cannot own other property</li>
+            </ul>
+            <p><strong>Note:</strong> As of 2025, this scheme has passed the Senate and is expected to open to applicants through state and territory housing authorities. Check the official link for the latest rollout details.</p>
+          </div>
+          <a class="govt-link" href="https://www.housingaustralia.gov.au/support-buy-home/help-buy" target="_blank" rel="noopener">Official Housing Australia page ↗</a>
+        </div>
+      </div>
+
+      <!-- FHSSS -->
+      <div class="scheme-card" id="card-fhsss" data-scope="FEDERAL">
+        <div class="scheme-header" onclick="toggleCard('card-fhsss')">
+          <div class="scheme-title-group">
+            <span class="scheme-badge badge-super">Federal — superannuation</span>
+            <div class="scheme-title">First Home Super Saver Scheme (FHSSS)</div>
+            <div class="scheme-subtitle">Save your deposit inside super and pay less tax</div>
+          </div>
+          <div class="scheme-chevron">&#8964;</div>
+        </div>
+        <div class="scheme-body">
+          <div class="info-grid">
+            <div class="info-block">
+              <div class="info-block-label">Max. per year</div>
+              <div class="info-block-value large">$15,000</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">Total withdrawal cap</div>
+              <div class="info-block-value large">$50,000</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">Tax on contributions</div>
+              <div class="info-block-value large">15%</div>
+            </div>
+            <div class="info-block">
+              <div class="info-block-label">Typical tax saving</div>
+              <div class="info-block-value">$2,000–$6,000+</div>
+            </div>
+          </div>
+          <div class="scheme-desc">
+            <p><strong>What it is:</strong> You make voluntary concessional (pre-tax) or non-concessional (after-tax) super contributions. When you're ready to buy, you apply to the ATO to release up to $50,000 (plus associated earnings). Because contributions are taxed at 15% instead of your marginal rate, you save on tax while building your deposit.</p>
+            <p><strong>Who is eligible:</strong></p>
+            <ul>
+              <li>Australian residents aged 18+</li>
+              <li>Must never have previously requested a FHSSS release</li>
+              <li>Must intend to live in the property for at least 6 of the first 12 months you own it</li>
+              <li>Available to each individual in a couple separately (i.e. combined up to $100,000)</li>
+            </ul>
+            <p><strong>How it works:</strong> Make extra contributions to your super fund, then apply through myGov for a FHSSS determination from the ATO before signing a contract.</p>
+          </div>
+          <a class="govt-link" href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/withdrawing-and-using-your-super/first-home-super-saver-scheme" target="_blank" rel="noopener">ATO — FHSSS page ↗</a>
+        </div>
+      </div>
+
+      <!-- FHOG -->
+      <div class="scheme-card" id="card-fhog" data-scope="STATE">
+        <div class="scheme-header" onclick="toggleCard('card-fhog')">
+          <div class="scheme-title-group">
+            <span class="scheme-badge badge-state">State-based grant</span>
+            <div class="scheme-title">First Home Owner Grant (FHOG)</div>
+            <div class="scheme-subtitle">A cash grant from your state government for new builds</div>
+          </div>
+          <div class="scheme-chevron">&#8964;</div>
+        </div>
+        <div class="scheme-body">
+          <div class="scheme-desc">
+            <p><strong>What it is:</strong> A one-off cash payment from your state or territory government when you buy or build your first new home. Existing homes are generally not eligible (except NT). Grant amounts and conditions vary significantly by state.</p>
+          </div>
+          <table class="state-table" id="fhogTable">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Grant amount</th>
+                <th>Eligible property</th>
+                <th>Property cap</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-state="NSW">
+                <td>NSW</td>
+                <td>$10,000</td>
+                <td>New homes only</td>
+                <td>$600,000 (new build) / $750,000 (build contract)</td>
+              </tr>
+              <tr data-state="VIC">
+                <td>VIC</td>
+                <td>$10,000 metro / $20,000 regional</td>
+                <td>New homes only</td>
+                <td>$750,000</td>
+              </tr>
+              <tr data-state="QLD">
+                <td>QLD</td>
+                <td>$30,000</td>
+                <td>New homes only</td>
+                <td>$750,000</td>
+              </tr>
+              <tr data-state="WA">
+                <td>WA</td>
+                <td>$10,000</td>
+                <td>New homes only</td>
+                <td>$750,000</td>
+              </tr>
+              <tr data-state="SA">
+                <td>SA</td>
+                <td>$15,000</td>
+                <td>New homes only</td>
+                <td>No cap</td>
+              </tr>
+              <tr data-state="TAS">
+                <td>TAS</td>
+                <td>$30,000</td>
+                <td>New homes only</td>
+                <td>No cap</td>
+              </tr>
+              <tr data-state="ACT">
+                <td>ACT</td>
+                <td>Not available</td>
+                <td>—</td>
+                <td>—</td>
+              </tr>
+              <tr data-state="NT">
+                <td>NT</td>
+                <td>$10,000</td>
+                <td>New &amp; established homes</td>
+                <td>No cap</td>
+              </tr>
+            </tbody>
+          </table>
+          <div id="fhogLinks">
+            <a class="govt-link" href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer/first-home-owners-grant" target="_blank" rel="noopener" data-state="NSW">NSW Revenue — FHOG ↗</a>
+            <a class="govt-link" href="https://www.sro.vic.gov.au/first-home-owner" target="_blank" rel="noopener" data-state="VIC">SRO Victoria — FHOG ↗</a>
+            <a class="govt-link" href="https://www.qld.gov.au/housing/buying-owning-home/financial-help-concessions/first-home-buyers" target="_blank" rel="noopener" data-state="QLD">Queensland — FHOG ↗</a>
+            <a class="govt-link" href="https://www.finance.wa.gov.au/cms/first_home_owner_grant.aspx" target="_blank" rel="noopener" data-state="WA">WA Finance — FHOG ↗</a>
+            <a class="govt-link" href="https://www.revenuesa.sa.gov.au/grants-and-concessions/first-home-owners-grant" target="_blank" rel="noopener" data-state="SA">Revenue SA — FHOG ↗</a>
+            <a class="govt-link" href="https://www.sro.tas.gov.au/first-home-owner" target="_blank" rel="noopener" data-state="TAS">SRO Tasmania — FHOG ↗</a>
+            <a class="govt-link" href="https://www.revenue.act.gov.au/home-buyer-assistance/first-home-buyer-assistance-scheme" target="_blank" rel="noopener" data-state="ACT">ACT Revenue — grants ↗</a>
+            <a class="govt-link" href="https://nt.gov.au/property/buying-or-building-a-home/buying-land-or-a-home/first-home-owner-grant" target="_blank" rel="noopener" data-state="NT">NT Gov — FHOG ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stamp duty -->
+      <div class="scheme-card" id="card-stamp" data-scope="STATE">
+        <div class="scheme-header" onclick="toggleCard('card-stamp')">
+          <div class="scheme-title-group">
+            <span class="scheme-badge badge-state">State-based concession</span>
+            <div class="scheme-title">Stamp duty concessions &amp; exemptions</div>
+            <div class="scheme-subtitle">Reduce or eliminate transfer duty on your first home</div>
+          </div>
+          <div class="scheme-chevron">&#8964;</div>
+        </div>
+        <div class="scheme-body">
+          <div class="scheme-desc">
+            <p><strong>What it is:</strong> Transfer duty (stamp duty) is a state tax on property purchases. Most states offer first home buyers a full exemption or significant concession up to certain thresholds.</p>
+          </div>
+          <table class="state-table" id="stampTable">
+            <thead>
+              <tr>
+                <th>State</th>
+                <th>Full exemption up to</th>
+                <th>Concession up to</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-state="NSW">
+                <td>NSW</td>
+                <td>$800,000</td>
+                <td>$1,000,000</td>
+                <td>Also offers annual property tax option instead of stamp duty</td>
+              </tr>
+              <tr data-state="VIC">
+                <td>VIC</td>
+                <td>$600,000</td>
+                <td>$750,000</td>
+                <td>Principal place of residence discount applies</td>
+              </tr>
+              <tr data-state="QLD">
+                <td>QLD</td>
+                <td>$500,000</td>
+                <td>$550,000</td>
+                <td>Home concession rate applies from $0 for first homes</td>
+              </tr>
+              <tr data-state="WA">
+                <td>WA</td>
+                <td>$430,000</td>
+                <td>$530,000</td>
+                <td>Proportional concession between thresholds</td>
+              </tr>
+              <tr data-state="SA">
+                <td>SA</td>
+                <td colspan="2">No specific first home exemption</td>
+                <td>Off-the-plan concession available</td>
+              </tr>
+              <tr data-state="TAS">
+                <td>TAS</td>
+                <td>50% concession on established homes</td>
+                <td>—</td>
+                <td>Up to $400,000 purchase price</td>
+              </tr>
+              <tr data-state="ACT">
+                <td>ACT</td>
+                <td>Full exemption (income-tested)</td>
+                <td>—</td>
+                <td>Home Buyer Concession Scheme — income &amp; property caps apply</td>
+              </tr>
+              <tr data-state="NT">
+                <td>NT</td>
+                <td>$600,000</td>
+                <td>—</td>
+                <td>First Home Owner Discount applies</td>
+              </tr>
+            </tbody>
+          </table>
+          <div id="stampLinks">
+            <a class="govt-link" href="https://www.revenue.nsw.gov.au/grants-schemes/first-home-buyer" target="_blank" rel="noopener" data-state="NSW">NSW — first home buyer duty ↗</a>
+            <a class="govt-link" href="https://www.sro.vic.gov.au/first-home-buyer-duty-exemption-concession-or-reduction" target="_blank" rel="noopener" data-state="VIC">VIC SRO — duty concession ↗</a>
+            <a class="govt-link" href="https://www.qld.gov.au/housing/buying-owning-home/financial-help-concessions/first-home-buyers/transfer-duty-concessions" target="_blank" rel="noopener" data-state="QLD">QLD — transfer duty ↗</a>
+            <a class="govt-link" href="https://www.revenue.wa.gov.au/duties/transfer-duty/exemptions-and-concessions/first-home-buyer" target="_blank" rel="noopener" data-state="WA">WA Revenue — first home exemption ↗</a>
+            <a class="govt-link" href="https://www.revenuesa.sa.gov.au/grants-and-concessions/stamp-duty" target="_blank" rel="noopener" data-state="SA">Revenue SA — stamp duty ↗</a>
+            <a class="govt-link" href="https://www.sro.tas.gov.au/first-home" target="_blank" rel="noopener" data-state="TAS">SRO Tasmania — duty concession ↗</a>
+            <a class="govt-link" href="https://www.revenue.act.gov.au/home-buyer-assistance/home-buyer-concession-scheme" target="_blank" rel="noopener" data-state="ACT">ACT — home buyer concession ↗</a>
+            <a class="govt-link" href="https://nt.gov.au/property/buying-or-building-a-home/buying-land-or-a-home/territory-home-owner-discount" target="_blank" rel="noopener" data-state="NT">NT — home owner discount ↗</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /scheme-grid -->
+  </div><!-- /tab-grants -->
+
+
+  <!-- ══════════════ CALCULATOR TAB ══════════════ -->
+  <div id="tab-calc" class="tab-panel">
+
+    <div class="section-header">
+      <h1>Mortgage repayment calculator</h1>
+      <p>Simple daily interest: balance × (annual rate ÷ 365) × days in period, debited per period. No intra-period compounding.</p>
+    </div>
+
+    <div class="calc-layout">
+
+      <!-- Inputs -->
+      <div class="card">
+        <h2>Loan details</h2>
+
+        <div class="field">
+          <label>Loan amount <span class="val" id="lv-loan"></span></label>
+          <input type="range" id="sl-loan" min="100000" max="2000000" step="5000" oninput="syncInput('loan', this.value)">
+          <div class="field-row">
+            <input type="number" id="in-loan" min="100000" max="2000000" step="5000" oninput="syncSlider('loan', this.value)">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Annual interest rate <span class="val" id="lv-rate"></span></label>
+          <input type="range" id="sl-rate" min="1" max="15" step="0.01" oninput="syncInput('rate', this.value)">
+          <div class="field-row">
+            <input type="number" id="in-rate" min="1" max="15" step="0.01" oninput="syncSlider('rate', this.value)">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Loan term <span class="val" id="lv-term"></span></label>
+          <input type="range" id="sl-term" min="5" max="30" step="1" oninput="syncInput('term', this.value)">
+          <div class="field-row">
+            <input type="number" id="in-term" min="5" max="30" step="1" oninput="syncSlider('term', this.value)">
+          </div>
+        </div>
+
+        <div class="field">
+          <label><span id="extra-field-label">Extra monthly repayment</span> <span class="val" id="lv-extra"></span></label>
+          <input type="range" id="sl-extra" min="0" max="5000" step="50" oninput="syncInput('extra', this.value)">
+          <div class="field-row">
+            <input type="number" id="in-extra" min="0" max="5000" step="50" oninput="syncSlider('extra', this.value)">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Payment frequency</label>
+          <div class="freq-pills">
+            <button class="freq-pill active" onclick="setFreq('monthly', this)">Monthly</button>
+            <button class="freq-pill" onclick="setFreq('fortnightly', this)">Fortnightly</button>
+            <button class="freq-pill" onclick="setFreq('weekly', this)">Weekly</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Interest only period</label>
+          <select class="io-select" id="ioSelect" onchange="setIO(this.value)">
+            <option value="0">No interest only period</option>
+            <option value="1">1 year interest only</option>
+            <option value="2">2 years interest only</option>
+            <option value="3">3 years interest only</option>
+            <option value="5">5 years interest only</option>
+            <option value="10">10 years interest only</option>
+          </select>
+          <div class="io-warning" id="ioWarning">
+            Interest only periods significantly increase total interest paid. Your loan balance won't reduce during this time, and your P&amp;I repayments will be higher once the period ends.
+          </div>
+        </div>
+      </div>
+
+      <!-- Results -->
+      <div class="results-card">
+        <h2>Your repayment summary</h2>
+
+        <div class="result-row io-row" id="io-row-payment">
+          <span class="result-label">Interest only payment</span>
+          <span class="result-value" id="res-io-payment"></span>
+        </div>
+        <div class="result-row io-row" id="io-row-pi">
+          <span class="result-label" id="lbl-pi-after">P&amp;I payment after IO ends</span>
+          <span class="result-value" id="res-pi-after"></span>
+        </div>
+        <div class="result-row io-row" id="io-row-cost">
+          <span class="result-label">Extra interest cost from IO</span>
+          <span class="result-value" style="color:#fde68a" id="res-io-cost"></span>
+        </div>
+
+        <div class="result-row">
+          <span class="result-label" id="lbl-monthly">Base monthly repayment</span>
+          <span class="result-value" id="res-monthly"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label" id="lbl-total-monthly">Total monthly payment (incl. extra)</span>
+          <span class="result-value accent" id="res-total-monthly"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Loan paid off in</span>
+          <span class="result-value" id="res-payoff"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Time saved vs monthly P&amp;I baseline</span>
+          <span class="result-value" id="res-time-saved"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Total interest (monthly P&amp;I baseline)</span>
+          <span class="result-value" id="res-int-std"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Total interest (your scenario)</span>
+          <span class="result-value" id="res-int-extra"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label" id="lbl-int-saved">Interest saved vs baseline</span>
+          <div>
+            <div class="result-value accent" id="res-int-saved"></div>
+            <div class="saving-tag" id="res-saving-tag"></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /calc-layout -->
+
+    <!-- Chart -->
+    <div class="chart-card">
+      <h2>Remaining loan balance over time</h2>
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0d9488"></div>
+          <span id="legend-teal-label">Your scenario</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#cbd5e1"></div>
+          <span>Monthly P&amp;I baseline</span>
+        </div>
+        <div class="legend-item legend-item-io" id="legend-io-item">
+          <div class="legend-io-band"></div>
+          <span>Interest only period</span>
+        </div>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="loanChart"></canvas>
+      </div>
+    </div>
+
+  </div><!-- /tab-calc -->
+
+</main>
+
+<div class="disclaimer">
+  This tool is for general information only and does not constitute financial advice. Grant amounts, income thresholds, and property price caps are subject to change — always verify with the relevant government authority. Always consult a licensed mortgage broker or financial adviser before making any financial decisions.
+</div>
+
+<script>
+// ── Tab switching ────────────────────────────────────────────────────────────
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+  if (tab === 'calc') updateCalc();
+}
+
+// ── Accordion ───────────────────────────────────────────────────────────────
+
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+// ── State filter ─────────────────────────────────────────────────────────────
+
+function filterState() {
+  const state = document.getElementById('stateSelect').value;
+
+  // Highlight FHOG table rows
+  document.querySelectorAll('#fhogTable tbody tr').forEach(row => {
+    if (state === 'ALL') {
+      row.classList.remove('highlight');
+    } else {
+      row.classList.toggle('highlight', row.dataset.state === state);
+    }
+  });
+
+  // Highlight stamp duty table rows
+  document.querySelectorAll('#stampTable tbody tr').forEach(row => {
+    if (state === 'ALL') {
+      row.classList.remove('highlight');
+    } else {
+      row.classList.toggle('highlight', row.dataset.state === state);
+    }
+  });
+
+  // Show relevant govt links
+  ['fhogLinks', 'stampLinks'].forEach(containerId => {
+    document.querySelectorAll('#' + containerId + ' .govt-link').forEach(link => {
+      if (state === 'ALL') {
+        link.style.display = '';
+      } else {
+        link.style.display = link.dataset.state === state ? '' : 'none';
+      }
+    });
+  });
+}
+
+// ── Calculator ───────────────────────────────────────────────────────────────
+
+const DEFAULTS = { loan: 500000, rate: 6.14, term: 30, extra: 200 };
+const state = { ...DEFAULTS };
+
+const fmt = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
+const fmtDec = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+function initCalc() {
+  for (const key of ['loan', 'rate', 'term', 'extra']) {
+    document.getElementById('sl-' + key).value = DEFAULTS[key];
+    document.getElementById('in-' + key).value = DEFAULTS[key];
+  }
+  updateLabels();
+  updateCalc();
+}
+
+function syncInput(key, val) {
+  val = parseFloat(val);
+  state[key] = val;
+  document.getElementById('in-' + key).value = val;
+  updateLabels();
+  updateCalc();
+}
+
+function syncSlider(key, val) {
+  val = parseFloat(val);
+  if (isNaN(val)) return;
+  const sl = document.getElementById('sl-' + key);
+  val = Math.min(Math.max(val, parseFloat(sl.min)), parseFloat(sl.max));
+  state[key] = val;
+  sl.value = val;
+  updateLabels();
+  updateCalc();
+}
+
+function updateLabels() {
+  document.getElementById('lv-loan').textContent = fmt.format(state.loan);
+  document.getElementById('lv-rate').textContent = state.rate.toFixed(2) + '%';
+  document.getElementById('lv-term').textContent = state.term + (state.term === 1 ? ' year' : ' years');
+  document.getElementById('lv-extra').textContent = fmt.format(state.extra) + '/mo';
+}
+
+/**
+ * Simple daily interest mortgage calculation — matches Australian lender method (e.g. Westpac).
+ * Base payment: derived using average 30.4167 days/month via annuity formula.
+ * Simulation loop: uses actual calendar days for each month (28/29/30/31),
+ *   starting from the current month, so leap-year Februaries are handled correctly.
+ * monthlyInterest = balance × (annualRate / 365) × actualDaysInMonth
+ */
+
+// Returns the number of days in a given month (0-based) of a given year.
+function daysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
+function simulateLoan(principal, annualRate, termYears, extraMonthly) {
+  const dailyRate   = annualRate / 100 / 365;
+  const avgDays     = 365 / 12;                     // 30.4167 — used only for base payment
+  const monthlyRate = dailyRate * avgDays;
+  const maxMonths   = termYears * 12;
+
+  // Base payment via annuity formula (uses average month length for a stable fixed payment)
+  let basePayment;
+  if (monthlyRate === 0) {
+    basePayment = principal / maxMonths;
+  } else {
+    basePayment = principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -maxMonths));
+  }
+
+  const payment = basePayment + extraMonthly;
+
+  // Starting calendar month for the simulation
+  const now = new Date();
+  let simYear  = now.getFullYear();
+  let simMonth = now.getMonth(); // 0-based
+
+  // Amortise month by month using actual calendar days per month
+  let balance = principal;
+  const balances = [balance];
+  let totalInterest = 0;
+  let months = 0;
+
+  while (balance > 0.005 && months < maxMonths) {
+    const days     = daysInMonth(simYear, simMonth);  // actual days: 28/29/30/31
+    const interest = balance * dailyRate * days;       // balance × (r/365) × actualDays
+    totalInterest += interest;
+    balance = balance + interest - payment;
+    if (balance < 0) {
+      totalInterest += balance; // balance is negative — back out the overshoot
+      balance = 0;
+    }
+    months++;
+    balances.push(balance);
+
+    // Advance calendar month
+    simMonth++;
+    if (simMonth > 11) { simMonth = 0; simYear++; }
+  }
+
+  // If the term cap was reached with remaining balance (can happen because actual
+  // calendar months accrue slightly more interest than the 365-day average payment
+  // was designed for), simulate the final adjusted payment that clears the residual.
+  if (balance > 0.005) {
+    const days = daysInMonth(simYear, simMonth);
+    totalInterest += balance * dailyRate * days;
+    balance = 0;
+    balances[balances.length - 1] = 0;
+  }
+
+  return { basePayment, balances, totalInterest, months };
+}
+
+let chart = null;
+
+function updateCalc() {
+  const { loan, rate, term, extra } = state;
+
+  const std = simulateLoan(loan, rate, term, 0);
+  const ext = simulateLoan(loan, rate, term, extra);
+
+  // Standard total interest
+  const stdTotalInterest = std.totalInterest;
+
+  // With extra
+  const extTotalInterest = ext.totalInterest;
+  const intSaved = stdTotalInterest - extTotalInterest;
+
+  const payoffMonths = ext.months;
+  const pyrs = Math.floor(payoffMonths / 12);
+  const pmos = payoffMonths % 12;
+  const payoffStr = pyrs + (pyrs === 1 ? ' year' : ' years') + (pmos > 0 ? ' ' + pmos + (pmos === 1 ? ' month' : ' months') : '');
+
+  const stdMonths = std.months;
+  const savedMonths = stdMonths - payoffMonths;
+  const syrs = Math.floor(savedMonths / 12);
+  const smos = savedMonths % 12;
+  let timeSavedStr = '';
+  if (savedMonths <= 0) {
+    timeSavedStr = '—';
+  } else {
+    timeSavedStr = (syrs > 0 ? syrs + (syrs === 1 ? ' year' : ' years') + ' ' : '') + (smos > 0 ? smos + (smos === 1 ? ' month' : ' months') : '');
+    timeSavedStr = timeSavedStr.trim();
+  }
+
+  document.getElementById('res-monthly').textContent = fmtDec.format(std.basePayment);
+  document.getElementById('res-total-monthly').textContent = fmtDec.format(std.basePayment + extra);
+  document.getElementById('res-payoff').textContent = payoffStr;
+  document.getElementById('res-time-saved').textContent = timeSavedStr;
+  document.getElementById('res-int-std').textContent = fmt.format(stdTotalInterest);
+  document.getElementById('res-int-extra').textContent = fmt.format(extTotalInterest);
+  document.getElementById('res-int-saved').textContent = fmt.format(intSaved);
+
+  const pct = stdTotalInterest > 0 ? ((intSaved / stdTotalInterest) * 100).toFixed(1) : '0.0';
+  document.getElementById('res-saving-tag').textContent = pct + '% less interest';
+
+  drawChart(std.balances, ext.balances);
+}
+
+function drawChart(stdBalances, extBalances) {
+  // Sample to at most ~60 points for performance
+  const maxPoints = 60;
+  function sample(arr) {
+    if (arr.length <= maxPoints) return arr;
+    const step = arr.length / maxPoints;
+    const out = [];
+    for (let i = 0; i < arr.length; i += step) {
+      out.push(arr[Math.floor(i)]);
+    }
+    if (out[out.length - 1] !== arr[arr.length - 1]) out.push(arr[arr.length - 1]);
+    return out;
+  }
+
+  const stdSampled = sample(stdBalances);
+  const extSampled = sample(extBalances);
+
+  // Build labels from the longer series
+  const longer = stdSampled.length >= extSampled.length ? stdSampled : extSampled;
+  const labels = longer.map((_, i) => {
+    const totalMonths = Math.round(i * (Math.max(stdBalances.length, extBalances.length) - 1) / (longer.length - 1));
+    const y = Math.floor(totalMonths / 12);
+    const m = totalMonths % 12;
+    if (m === 0 || i === 0) return 'Year ' + y;
+    return '';
+  });
+
+  // Pad shorter series with zeros
+  const extPadded = [...extSampled];
+  while (extPadded.length < stdSampled.length) extPadded.push(0);
+
+  const ctx = document.getElementById('loanChart').getContext('2d');
+
+  if (chart) {
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = extPadded;
+    chart.data.datasets[1].data = stdSampled;
+    chart.update();
+    return;
+  }
+
+  chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'With extra repayments',
+          data: extPadded,
+          borderColor: '#0d9488',
+          backgroundColor: 'rgba(13,148,136,.08)',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          fill: true,
+          tension: 0.35,
+        },
+        {
+          label: 'Standard repayments',
+          data: stdSampled,
+          borderColor: '#cbd5e1',
+          backgroundColor: 'rgba(203,213,225,.06)',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: true,
+          tension: 0.35,
+          borderDash: [6, 3],
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label(ctx) {
+              return ' ' + ctx.dataset.label + ': ' + fmt.format(ctx.parsed.y);
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            maxTicksLimit: 10,
+            font: { size: 12 },
+            color: '#94a3b8',
+            autoSkip: true,
+          },
+          grid: { display: false },
+        },
+        y: {
+          ticks: {
+            callback: v => '$' + (v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : (v / 1e3).toFixed(0) + 'k'),
+            font: { size: 12 },
+            color: '#94a3b8',
+          },
+          grid: { color: '#f1f5f9' },
+        }
+      }
+    }
+  });
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+initCalc();
+filterState(); // apply default (ALL)
+</script>
+</body>
+</html>
