@@ -288,6 +288,171 @@
     .nsw-table td:first-child { width: 130px; min-width: 110px; }
   }
 
+  /* ── Home page ── */
+
+  .logo {
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .logo:hover { opacity: .75; }
+
+  .home-hero {
+    background: linear-gradient(135deg, var(--teal-dark) 0%, #0891b2 100%);
+    border-radius: var(--radius);
+    padding: 48px 40px;
+    color: #fff;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.06);
+    pointer-events: none;
+  }
+
+  .home-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -20px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.04);
+    pointer-events: none;
+  }
+
+  .home-hero-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: .75;
+    margin-bottom: 12px;
+  }
+
+  .home-hero-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+
+  .home-hero-title span { opacity: .6; font-weight: 400; }
+
+  .home-hero-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    opacity: .9;
+    max-width: 620px;
+    margin-bottom: 28px;
+  }
+
+  .home-hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: var(--teal-dark);
+    font-size: 14px;
+    font-weight: 700;
+    padding: 11px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all .15s;
+    text-decoration: none;
+  }
+
+  .home-hero-cta:hover { background: var(--teal-light); }
+
+  .home-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 640px) {
+    .home-features { grid-template-columns: 1fr; }
+    .home-hero { padding: 32px 24px; }
+    .home-hero-title { font-size: 24px; }
+  }
+
+  .home-feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: box-shadow .15s, border-color .15s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .home-feature-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--teal);
+  }
+
+  .home-feature-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--teal-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .home-feature-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .home-feature-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    margin-bottom: 2px;
+  }
+
+  .home-feature-desc {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .home-feature-arrow {
+    margin-top: auto;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal);
+  }
+
+  .home-disclaimer {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.65;
+    text-align: center;
+  }
+
   /* ── FAQ section ── */
 
   .faq-body-content { font-size: 14px; line-height: 1.7; color: #374151; }
@@ -1177,9 +1342,9 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo">Home<span>Pocket</span></div>
+    <div class="logo" onclick="switchHome()" role="button" tabindex="0" aria-label="Go to HomePocket home">Home<span>Pocket</span></div>
     <nav>
-      <button class="tab-btn active" onclick="switchTab('grants', this)">Grants &amp; schemes</button>
+      <button class="tab-btn" onclick="switchTab('grants', this)">Grants &amp; schemes</button>
       <button class="tab-btn" onclick="switchTab('calc', this)">Mortgage calculator</button>
       <button class="tab-btn" onclick="switchTab('rental', this)">Rental yield (For investors)</button>
       <button class="tab-btn" onclick="switchTab('faq', this)">Common questions</button>
@@ -1189,8 +1354,93 @@
 
 <main>
 
+  <!-- ══════════════ HOME TAB ══════════════ -->
+  <div id="tab-home" class="tab-panel active">
+
+    <!-- Hero -->
+    <div class="home-hero">
+      <div class="home-hero-eyebrow">NSW First Home Buyer Toolkit</div>
+      <div class="home-hero-title">Home<span>Pocket</span></div>
+      <div class="home-hero-desc">HomePocket is your essential toolkit for navigating the NSW property market. We simplify complex government grants, mortgage math, and investment analysis into clear, actionable data.</div>
+      <button class="home-hero-cta" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[0])">Get started →</button>
+    </div>
+
+    <!-- Feature cards -->
+    <div class="home-features">
+
+      <div class="home-feature-card" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[0])">
+        <div class="home-feature-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="5" width="14" height="11" rx="2" stroke="#0f766e" stroke-width="1.6"/>
+            <path d="M7 5V4a3 3 0 0 1 6 0v1" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M7 10h6M7 13h4" stroke="#0f766e" stroke-width="1.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="home-feature-tag">Grants &amp; Schemes</div>
+          <div class="home-feature-title">NSW grants &amp; stamp duty relief</div>
+        </div>
+        <div class="home-feature-desc">A guide to the NSW First Home Buyers Assistance Scheme (FHBAS), the $10,000 New Home Grant, and the Federal First Home Super Saver Scheme (FHSS). Understand exactly what you're eligible for before you buy.</div>
+        <div class="home-feature-arrow">Explore grants →</div>
+      </div>
+
+      <div class="home-feature-card" onclick="switchTab('calc', document.querySelectorAll('.tab-btn')[1])">
+        <div class="home-feature-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="14" height="14" rx="2" stroke="#0f766e" stroke-width="1.6"/>
+            <path d="M7 7h2M11 7h2M7 10h2M11 10h2M7 13h2M11 13h2" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="home-feature-tag">Mortgage Calculator</div>
+          <div class="home-feature-title">High-precision mortgage modelling</div>
+        </div>
+        <div class="home-feature-desc">Model P&amp;I and Interest-Only repayments with simple daily interest, multiple payment frequencies, extra repayments, and rate rise scenarios. See the real impact of an offset account on your loan term.</div>
+        <div class="home-feature-arrow">Open calculator →</div>
+      </div>
+
+      <div class="home-feature-card" onclick="switchTab('rental', document.querySelectorAll('.tab-btn')[2])">
+        <div class="home-feature-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 15l4-5 4 3 3-4 3 3" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="16" cy="5" r="2" stroke="#0f766e" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="home-feature-tag">Rental Yield</div>
+          <div class="home-feature-title">Investor cashflow analyser</div>
+        </div>
+        <div class="home-feature-desc">Calculate gross and net rental yields, annual cashflow after expenses and mortgage repayments, and the exact weekly rent needed to break even. Built for investors evaluating NSW properties.</div>
+        <div class="home-feature-arrow">Analyse a property →</div>
+      </div>
+
+      <div class="home-feature-card" onclick="switchTab('faq', document.querySelectorAll('.tab-btn')[3])">
+        <div class="home-feature-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="10" cy="10" r="7.5" stroke="#0f766e" stroke-width="1.6"/>
+            <path d="M10 11V10c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="10" cy="13.5" r=".75" fill="#0f766e"/>
+          </svg>
+        </div>
+        <div>
+          <div class="home-feature-tag">Common Questions</div>
+          <div class="home-feature-title">Buying process &amp; hidden costs</div>
+        </div>
+        <div class="home-feature-desc">A knowledge base covering the end-to-end buying process — from pre-approval to settlement — plus a breakdown of hidden fees including LMI, solicitor costs, transfer duty, and mortgage registration.</div>
+        <div class="home-feature-arrow">Read the guide →</div>
+      </div>
+
+    </div>
+
+    <div class="home-disclaimer">
+      HomePocket is for general information only and does not constitute financial or legal advice. Always verify grant eligibility, scheme details, and financial figures with the relevant government authority or a licensed professional.
+    </div>
+
+  </div><!-- /tab-home -->
+
+
   <!-- ══════════════ GRANTS TAB ══════════════ -->
-  <div id="tab-grants" class="tab-panel active">
+  <div id="tab-grants" class="tab-panel">
 
     <div class="section-header">
       <h1>NSW first home buyer grants &amp; schemes</h1>
@@ -2110,10 +2360,15 @@ function switchTab(tab, btn) {
       initRental();
       rentalInitialised = true;
     } else {
-      // Refresh mortgage figure in case calculator state changed
       updateRental();
     }
   }
+}
+
+function switchHome() {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-home').classList.add('active');
 }
 
 // ── Accordion ───────────────────────────────────────────────────────────────
