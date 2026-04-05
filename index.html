@@ -68,7 +68,38 @@
 
   .logo svg { display: block; }
 
-  nav { display: flex; gap: 4px; }
+  nav {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  nav::-webkit-scrollbar { display: none; }
+
+  nav .tab-btn:last-child { padding-right: 24px; }
+
+  #nav-scroll-track {
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #nav-scroll-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--teal);
+    transition: width 0.1s ease-out;
+  }
+
+  @media (min-width: 601px) {
+    #nav-scroll-track { display: none; }
+  }
 
   .tab-btn {
     padding: 8px 18px;
@@ -1513,6 +1544,7 @@
       <button class="tab-btn" onclick="switchTab('rental', this)">Rental yield (For investors)</button>
       <button class="tab-btn" onclick="switchTab('faq', this)">Common questions</button>
     </nav>
+    <div id="nav-scroll-track"><div id="nav-scroll-bar"></div></div>
   </div>
 </header>
 
@@ -2785,6 +2817,19 @@ function switchHome() {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-home').classList.add('active');
 }
+
+// ── Nav scroll indicator ─────────────────────────────────────────────────────
+
+(function () {
+  const nav = document.querySelector('nav');
+  const bar = document.getElementById('nav-scroll-bar');
+  if (!nav || !bar) return;
+  nav.addEventListener('scroll', function () {
+    const scrollable = nav.scrollWidth - nav.clientWidth;
+    const pct = scrollable > 0 ? (nav.scrollLeft / scrollable) * 100 : 0;
+    bar.style.width = pct + '%';
+  }, { passive: true });
+})();
 
 // ── State sub-navigation (Grants tab) ───────────────────────────────────────
 
