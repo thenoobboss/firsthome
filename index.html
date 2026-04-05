@@ -100,6 +100,43 @@
   .section-header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
   .section-header p { color: var(--muted); font-size: 14px; }
 
+  /* ── State sub-navigation (within Grants tab) ── */
+
+  .state-subnav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0;
+  }
+
+  .state-subnav-btn {
+    padding: 9px 20px;
+    border: none;
+    background: transparent;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    transition: all .15s;
+    position: relative;
+    bottom: -2px;
+    border-bottom: 2px solid transparent;
+  }
+
+  .state-subnav-btn:hover { color: var(--text); background: var(--bg); }
+
+  .state-subnav-btn.active {
+    color: var(--teal-dark);
+    font-weight: 700;
+    border-bottom: 2px solid var(--teal);
+    background: transparent;
+  }
+
+  .state-panel { display: none; }
+  .state-panel.active { display: block; }
+
   .nsw-scheme-grid { display: flex; flex-direction: column; gap: 20px; }
 
   /* Expandable NSW card */
@@ -1443,9 +1480,18 @@
   <div id="tab-grants" class="tab-panel">
 
     <div class="section-header">
-      <h1>NSW first home buyer grants &amp; schemes</h1>
-      <p>If you're buying your first home in NSW, you may be eligible for the following government grants and schemes.</p>
+      <h1>First home buyer grants &amp; schemes</h1>
+      <p>Select your state to see the grants and concessions available to you.</p>
     </div>
+
+    <!-- State sub-navigation -->
+    <div class="state-subnav">
+      <button class="state-subnav-btn active" onclick="switchState('nsw', this)">New South Wales (NSW)</button>
+      <button class="state-subnav-btn" onclick="switchState('qld', this)">Queensland (QLD)</button>
+    </div>
+
+    <!-- ══ NSW panel ══ -->
+    <div id="state-nsw" class="state-panel active">
 
     <div class="nsw-scheme-grid">
 
@@ -1608,6 +1654,162 @@
       Grant and scheme information is accurate as of July 2023 thresholds. Eligibility criteria and thresholds may change — always verify current details at <a href="https://www.revenue.nsw.gov.au" target="_blank" rel="noopener" style="color:inherit;font-weight:600;text-decoration:underline">revenue.nsw.gov.au</a> before making financial decisions.
     </div>
 
+    </div><!-- /state-nsw -->
+
+
+    <!-- ══ QLD panel ══ -->
+    <div id="state-qld" class="state-panel">
+
+      <div class="nsw-scheme-grid">
+
+        <!-- ── QLD Section 1: First Home Owner Grant ── -->
+        <div class="nsw-card" id="card-qld-fhog">
+          <div class="nsw-card-header" onclick="toggleCard('card-qld-fhog')">
+            <div class="nsw-header-content">
+              <div class="nsw-grant-amount">Up to $30,000 <span class="nsw-badge nsw-badge-green">Cash grant — new homes only</span></div>
+              <div class="nsw-card-title">First Home Owner Grant (FHOG)</div>
+              <div class="nsw-card-summary">A cash grant of up to $30,000 for eligible first home buyers purchasing or building a new home in Queensland. Established homes are not eligible.</div>
+            </div>
+            <div class="nsw-chevron">&#8964;</div>
+          </div>
+          <div class="nsw-card-body">
+
+            <a class="nsw-source-link" href="https://www.qld.gov.au/housing/buying-owning-home/home-buyers-financial-help/first-home-owner-grant" target="_blank" rel="noopener">Official source — QLD Government ↗</a>
+
+            <div class="nsw-note nsw-note-amber" style="margin-bottom:16px">
+              <span>⚠</span>
+              <span><strong>Key distinction:</strong> The FHOG is a cash grant for <strong>NEW homes only</strong>. Transfer duty concessions (below) apply to <strong>both new and established homes</strong>.</span>
+            </div>
+
+            <table class="nsw-table">
+              <thead><tr><th>Criteria</th><th>Details</th></tr></thead>
+              <tbody>
+                <tr><td>Grant amount</td><td><strong>Up to $30,000</strong> for eligible transactions between 20 November 2023 and 30 June 2025. Reverts to <strong>$15,000</strong> from 1 July 2025 onwards.</td></tr>
+                <tr><td>Property type</td><td>New homes only — buying a newly built home, building a new home, or buying off-the-plan. <strong>Established (existing) homes are NOT eligible.</strong></td></tr>
+                <tr><td>Price cap</td><td>Total property value (including land) must be less than <strong>$750,000</strong></td></tr>
+                <tr><td>Who can apply</td><td>Aged 18 or over, Australian citizen or permanent resident (or at least one applicant must be), buying in personal names — not a company or trust</td></tr>
+                <tr><td>Previous ownership</td><td>You must not have previously owned property in Australia (residential property in your own name, anywhere in Australia)</td></tr>
+                <tr><td>Residence requirement</td><td>Must move in and live in the home for at least <strong>6 continuous months</strong>, commencing within 1 year of settlement or construction completion</td></tr>
+                <tr><td>Previous grant</td><td>You must not have previously received a First Home Owner Grant in any Australian state or territory</td></tr>
+                <tr><td>How it's paid</td><td>Paid at settlement for purchases, or at the first progress payment for construction loans — applied through your approved lender</td></tr>
+                <tr><td>Can it be combined?</td><td>Yes — can be combined with transfer duty concessions and the Federal FHSS Scheme</td></tr>
+              </tbody>
+            </table>
+
+            <div class="nsw-note nsw-note-amber" style="margin-top:14px">
+              <span>⚠</span>
+              <span>The $30,000 grant amount applies only to contracts signed between 20 November 2023 and 30 June 2025. From 1 July 2025, the grant reverts to $15,000. Always check the QLD Government website to confirm the current amount before making decisions.</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── QLD Section 2: Transfer Duty Concessions ── -->
+        <div class="nsw-card" id="card-qld-duty">
+          <div class="nsw-card-header" onclick="toggleCard('card-qld-duty')">
+            <div class="nsw-header-content">
+              <div class="nsw-card-subtitle">Transfer duty (stamp duty) concessions</div>
+              <div class="nsw-card-title">QLD Transfer Duty Concessions for First Home Buyers</div>
+              <div class="nsw-card-summary">Eligible first home buyers in QLD may pay zero or reduced transfer duty on new homes, established homes, and vacant land — saving thousands of dollars upfront.</div>
+            </div>
+            <div class="nsw-chevron">&#8964;</div>
+          </div>
+          <div class="nsw-card-body">
+
+            <a class="nsw-source-link" href="https://www.qld.gov.au/housing/buying-owning-home/home-buyers-financial-help/transfer-duty" target="_blank" rel="noopener">Official source — QLD Government ↗</a>
+
+            <div class="nsw-note" style="margin-bottom:18px;background:#f0fdfa;border:1px solid #5eead4;color:#134e4a">
+              <span>ℹ</span>
+              <span>Unlike the FHOG (which is for new homes only), transfer duty concessions apply to <strong>both new and established homes</strong>. You may be eligible for a concession even if the FHOG does not apply to your purchase.</span>
+            </div>
+
+            <div class="nsw-section-label">First Home Concession — Established homes</div>
+            <table class="nsw-table">
+              <thead><tr><th>Property value</th><th>Transfer duty outcome</th></tr></thead>
+              <tbody>
+                <tr><td>Up to $700,000</td><td>Full concession — <strong>$0 transfer duty</strong></td></tr>
+                <tr><td>$700,001 – $800,000</td><td>Concessional (reduced) rate — sliding scale</td></tr>
+                <tr><td>Above $800,000</td><td>No first home concession applies — standard rates apply</td></tr>
+              </tbody>
+            </table>
+
+            <div class="nsw-section-label" style="margin-top:20px">First Home (New Home) Concession</div>
+            <table class="nsw-table">
+              <thead><tr><th>Property value</th><th>Transfer duty outcome</th></tr></thead>
+              <tbody>
+                <tr><td>Any value (contracts signed on or after 1 May 2025)</td><td>Full concession — <strong>$0 transfer duty</strong> regardless of property value</td></tr>
+              </tbody>
+            </table>
+
+            <div class="nsw-section-label" style="margin-top:20px">First Home Vacant Land Concession</div>
+            <table class="nsw-table">
+              <thead><tr><th>Land value</th><th>Transfer duty outcome</th></tr></thead>
+              <tbody>
+                <tr><td>Any value</td><td>Full concession — <strong>$0 transfer duty</strong> to build a first home on vacant land</td></tr>
+              </tbody>
+            </table>
+
+            <div class="nsw-section-label" style="margin-top:20px">Standard Home Concession (not first home buyers only)</div>
+            <table class="nsw-table">
+              <thead><tr><th>Detail</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td>Who qualifies</td><td>Available to any home buyer — even if you have previously owned property</td></tr>
+                <tr><td>Saving</td><td>Saves up to <strong>$7,175</strong> on transfer duty</td></tr>
+                <tr><td>Requirement</td><td>Must be purchasing a home you intend to occupy (not an investment)</td></tr>
+              </tbody>
+            </table>
+
+            <div class="nsw-section-label" style="margin-top:20px">General eligibility conditions</div>
+            <table class="nsw-table">
+              <thead><tr><th>Criteria</th><th>Details</th></tr></thead>
+              <tbody>
+                <tr><td>Property location</td><td>Must be in Queensland</td></tr>
+                <tr><td>Who can apply</td><td>Individual aged 18+, Australian citizen or permanent resident — not a company or trust</td></tr>
+                <tr><td>Previous ownership</td><td>For First Home concessions: you must never have previously owned residential property in Australia</td></tr>
+                <tr><td>Residence requirement</td><td>Must move in within 1 year of settlement and occupy the home as your principal place of residence</td></tr>
+                <tr><td>How to apply</td><td>Claim the concession on your transfer duty return, lodged through your solicitor or conveyancer at settlement</td></tr>
+              </tbody>
+            </table>
+
+            <div class="nsw-note nsw-note-green" style="margin-top:14px">
+              <span>✓</span>
+              <span>Transfer duty concessions can be combined with the First Home Owner Grant if you are purchasing or building a new home that meets all eligibility requirements.</span>
+            </div>
+            <div class="nsw-note nsw-note-amber" style="margin-top:8px">
+              <span>⚠</span>
+              <span>Transfer duty concession rules changed on 1 May 2025. Always confirm current thresholds and eligibility at the official QLD Government website before signing contracts.</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── QLD Section 3: FHSS (federal, shown in QLD context) ── -->
+        <div class="nsw-card" id="card-qld-fhss">
+          <div class="nsw-card-header" onclick="toggleCard('card-qld-fhss')">
+            <div class="nsw-header-content">
+              <div class="nsw-grant-amount" style="font-size:28px">Up to $50,000 <span class="nsw-badge nsw-badge-teal">Federal scheme — available to all Australians</span></div>
+              <div class="nsw-card-title">First Home Super Saver Scheme (FHSSS)</div>
+              <div class="nsw-card-summary">Boost your home deposit by saving through your super fund and benefit from lower tax rates. Available to all eligible Australians, including QLD buyers.</div>
+            </div>
+            <div class="nsw-chevron">&#8964;</div>
+          </div>
+          <div class="nsw-card-body">
+            <a class="nsw-source-link" href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/withdrawing-and-using-your-super/early-access-to-super/first-home-super-saver-scheme" target="_blank" rel="noopener">Official source — ATO ↗</a>
+            <div class="nsw-note" style="background:#f0fdfa;border:1px solid #5eead4;color:#134e4a">
+              <span>ℹ</span>
+              <span>This is a federal scheme — the same rules apply in QLD as in all other states. See the full details in the NSW tab, or visit the ATO website. It can be combined with QLD-specific grants and duty concessions.</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /nsw-scheme-grid -->
+
+      <div class="nsw-page-disclaimer">
+        QLD grant and concession information is sourced from the Queensland Government. Amounts, thresholds, and eligibility criteria may change — always verify current details at <a href="https://www.qld.gov.au" target="_blank" rel="noopener" style="color:inherit;font-weight:600;text-decoration:underline">qld.gov.au</a> before making financial decisions.
+      </div>
+
+    </div><!-- /state-qld -->
+
   </div><!-- /tab-grants -->
 
 
@@ -1627,9 +1829,9 @@
 
         <div class="field">
           <label>Loan amount <span class="val" id="lv-loan"></span></label>
-          <input type="range" id="sl-loan" min="100000" max="2000000" step="5000" oninput="syncInput('loan', this.value)">
+          <input type="range" id="sl-loan" min="100000" max="5000000" step="5000" oninput="syncInput('loan', this.value)">
           <div class="field-row">
-            <input type="number" id="in-loan" min="100000" max="2000000" step="5000" oninput="syncSlider('loan', this.value)">
+            <input type="number" id="in-loan" min="100000" max="5000000" step="5000" oninput="syncSlider('loan', this.value)">
           </div>
         </div>
 
@@ -2369,6 +2571,15 @@ function switchHome() {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-home').classList.add('active');
+}
+
+// ── State sub-navigation (Grants tab) ───────────────────────────────────────
+
+function switchState(state, btn) {
+  document.querySelectorAll('.state-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.state-subnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('state-' + state).classList.add('active');
+  btn.classList.add('active');
 }
 
 // ── Accordion ───────────────────────────────────────────────────────────────
