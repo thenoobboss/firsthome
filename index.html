@@ -1628,37 +1628,37 @@
           <div class="ry-section-title">Fixed costs</div>
 
           <div class="ry-field">
-            <label>Council rates</label>
+            <label>Council rates ($)</label>
             <div class="ry-expense-row">
-              <input type="number" id="ry-council" min="0" step="50" value="1500" oninput="updateRental()">
+              <input type="number" id="ry-council" min="0" step="50" placeholder="0" oninput="updateRental()">
               <select class="ry-freq-select" id="ry-council-freq" onchange="updateRental()">
                 <option value="52">Weekly</option>
                 <option value="12">Monthly</option>
-                <option value="4">Quarterly</option>
-                <option value="1" selected>Yearly</option>
+                <option value="4" selected>Quarterly</option>
+                <option value="1">Yearly</option>
               </select>
             </div>
             <div class="ry-ann-hint" id="ry-council-hint"></div>
           </div>
 
           <div class="ry-field">
-            <label>Water rates</label>
+            <label>Water rates ($)</label>
             <div class="ry-expense-row">
-              <input type="number" id="ry-water" min="0" step="50" value="800" oninput="updateRental()">
+              <input type="number" id="ry-water" min="0" step="50" placeholder="0" oninput="updateRental()">
               <select class="ry-freq-select" id="ry-water-freq" onchange="updateRental()">
                 <option value="52">Weekly</option>
                 <option value="12">Monthly</option>
-                <option value="4">Quarterly</option>
-                <option value="1" selected>Yearly</option>
+                <option value="4" selected>Quarterly</option>
+                <option value="1">Yearly</option>
               </select>
             </div>
             <div class="ry-ann-hint" id="ry-water-hint"></div>
           </div>
 
           <div class="ry-field">
-            <label>Strata / body corporate (if applicable)</label>
+            <label>Strata / body corporate ($) (if applicable)</label>
             <div class="ry-expense-row">
-              <input type="number" id="ry-strata" min="0" step="100" value="0" oninput="updateRental()">
+              <input type="number" id="ry-strata" min="0" step="100" placeholder="0" oninput="updateRental()">
               <select class="ry-freq-select" id="ry-strata-freq" onchange="updateRental()">
                 <option value="52">Weekly</option>
                 <option value="12">Monthly</option>
@@ -1670,14 +1670,14 @@
           </div>
 
           <div class="ry-field">
-            <label>Landlord insurance</label>
+            <label>Landlord insurance ($)</label>
             <div class="ry-expense-row">
-              <input type="number" id="ry-insurance" min="0" step="50" value="1200" oninput="updateRental()">
+              <input type="number" id="ry-insurance" min="0" step="50" placeholder="0" oninput="updateRental()">
               <select class="ry-freq-select" id="ry-insurance-freq" onchange="updateRental()">
                 <option value="52">Weekly</option>
-                <option value="12">Monthly</option>
+                <option value="12" selected>Monthly</option>
                 <option value="4">Quarterly</option>
-                <option value="1" selected>Yearly</option>
+                <option value="1">Yearly</option>
               </select>
             </div>
             <div class="ry-ann-hint" id="ry-insurance-hint"></div>
@@ -1687,7 +1687,7 @@
 
           <div class="ry-field">
             <label>Property management fee (% of rent)</label>
-            <input type="number" id="ry-mgmt-pct" min="0" max="20" step="0.5" value="8" oninput="updateRental()" style="width:100%">
+            <input type="number" id="ry-mgmt-pct" min="0" max="20" step="0.5" value="0" oninput="updateRental()" style="width:100%">
           </div>
         </div>
       </div>
@@ -1891,6 +1891,200 @@
         </div>
       </div>
 
+      <!-- ── Q3: Other fees ── -->
+      <div class="nsw-card" id="card-faq3">
+        <div class="nsw-card-header" onclick="toggleCard('card-faq3')">
+          <div class="nsw-header-content">
+            <div class="nsw-card-title" style="font-size:16px">What other fees do I need to budget for?</div>
+          </div>
+          <div class="nsw-chevron">&#8964;</div>
+        </div>
+        <div class="nsw-card-body">
+          <div class="faq-body-content">
+
+            <!-- Group 1: Professional fees -->
+            <div class="faq-fee-group">
+              <div class="faq-fee-group-title">Professional fees</div>
+              <table class="nsw-table">
+                <thead><tr><th>Fee</th><th>Estimated cost</th><th>Notes</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Solicitor / conveyancer</td>
+                    <td>$1,000 – $2,500</td>
+                    <td>Handles the legal transfer of property in NSW. Cost depends on complexity and time spent. Recommended to get 2–3 quotes.</td>
+                  </tr>
+                  <tr>
+                    <td>Strata report</td>
+                    <td>$0 – $200</td>
+                    <td>Required if buying an apartment or townhouse in a strata scheme. Reviews the building's financials, maintenance history, and any disputes. Free if obtained by the vendor; you pay if you order your own.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Group 2: Bank & lender fees -->
+            <div class="faq-fee-group">
+              <div class="faq-fee-group-title">Bank &amp; lender fees</div>
+              <table class="nsw-table">
+                <thead><tr><th>Fee</th><th>Estimated cost</th><th>Notes</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Lenders Mortgage Insurance (LMI)</td>
+                    <td>$5,000 – $30,000+</td>
+                    <td>Payable if your deposit is less than 20% of the property value and you are not using a government guarantee scheme (such as the First Home Guarantee). LMI protects the lender — not you — and is usually added to your loan amount. The exact cost depends on your loan-to-value ratio and loan size.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- LMI waiver sub-accordion -->
+              <div class="faq-sub-acc" id="lmi-waiver-acc">
+                <div class="faq-sub-acc-header" onclick="toggleSubAcc('lmi-waiver-acc')">
+                  <span>When can LMI be waived?</span>
+                  <span class="faq-sub-chevron">&#8964;</span>
+                </div>
+                <div class="faq-sub-acc-body">
+
+                  <div style="font-size:13.5px;color:var(--muted);margin-bottom:16px">LMI can be waived in several situations:</div>
+
+                  <!-- Item 1 -->
+                  <div class="faq-phase" style="margin-top:0"><span class="faq-phase-num">1</span>Government guarantee schemes</div>
+                  <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:16px">If you qualify for the First Home Guarantee (5% deposit) or another eligible government scheme, LMI is waived entirely — the government guarantees the remaining portion of the deposit with the lender. See the <strong>Grants &amp; schemes</strong> tab for eligibility details.</p>
+
+                  <!-- Item 2 -->
+                  <div class="faq-phase"><span class="faq-phase-num">2</span>Family guarantee (guarantor loan)</div>
+                  <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:16px">A family member (typically a parent) can use equity in their own property to guarantee part of your loan, allowing you to borrow without LMI. At Westpac, this is called the <strong>Family Security Guarantee</strong> and is available for owner-occupied and investment purchases. Independent legal advice is required for all guarantors before proceeding.</p>
+
+                  <!-- Item 3 -->
+                  <div class="faq-phase"><span class="faq-phase-num">3</span>Eligible professions — lender LMI waivers</div>
+                  <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:12px">Some lenders waive LMI for borrowers in approved professions, even without a 20% deposit. Using Westpac as an example:</p>
+
+                  <table class="nsw-table">
+                    <thead>
+                      <tr>
+                        <th>LVR allowed without LMI</th>
+                        <th>Eligible professions (Westpac example)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Up to 95% LVR (5% deposit) — no minimum income required</td>
+                        <td>Dentists, General Practitioners, Hospital-employed Doctors (Intern, Resident, Registrar, Staff Specialist), Medical Specialists</td>
+                      </tr>
+                      <tr>
+                        <td>Up to 90% LVR (10% deposit) — minimum income $90,000/yr</td>
+                        <td>Audiologists, Chiropractors, Midwives, Occupational Therapists, Osteopaths, Physiotherapists, Podiatrists, Psychologists, Radiographers, Registered Nurses, Sonographers, Speech Pathologists, Optometrists, Pharmacists, Veterinary Practitioners</td>
+                      </tr>
+                      <tr>
+                        <td>Up to 90% LVR (10% deposit) — income requirements apply</td>
+                        <td>Accountants, Legal professionals</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <p style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6">Maximum loan amount for Westpac's medico 95% LMI waiver is $5 million ($7.5 million total lending). Eligibility is subject to Westpac's credit criteria and professional qualification verification.</p>
+
+                  <div class="nsw-note nsw-note-amber" style="margin-top:12px">
+                    <span>⚠</span>
+                    <span>LMI waiver policies vary by lender. Not all lenders offer profession-based waivers, and conditions change. Always confirm current eligibility directly with your lender or mortgage broker.</span>
+                  </div>
+
+                  <p style="margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6">Westpac LMI waiver details sourced from <a href="https://www.westpac.com.au/brokers/policy" target="_blank" rel="noopener" style="color:var(--muted);font-weight:600;text-decoration:underline">westpac.com.au/brokers/policy</a> — for broker and professional reference only. Subject to Westpac credit criteria, fees and charges.</p>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Group 3: Government fees -->
+            <div class="faq-fee-group">
+              <div class="faq-fee-group-title">Government fees</div>
+              <table class="nsw-table">
+                <thead><tr><th>Fee</th><th>Estimated cost</th><th>Notes</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Transfer duty (stamp duty)</td>
+                    <td>See table below</td>
+                    <td>A state government tax payable when ownership of a property is transferred to you. May be waived or reduced if you qualify for the First Home Buyers Assistance Scheme.</td>
+                  </tr>
+                  <tr>
+                    <td>Mortgage registration fee</td>
+                    <td>~$150</td>
+                    <td>A NSW government fee to register your mortgage on the title of the property.</td>
+                  </tr>
+                  <tr>
+                    <td>Title transfer fee (name transfer)</td>
+                    <td>~$175</td>
+                    <td>A NSW government fee to transfer the property title into your name.</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Expandable duty rates sub-section -->
+              <div class="faq-sub-acc" id="duty-rates-acc">
+                <div class="faq-sub-acc-header" onclick="toggleSubAcc('duty-rates-acc')">
+                  <span>NSW standard transfer duty rates (from 1 July 2025)</span>
+                  <span class="faq-sub-chevron">&#8964;</span>
+                </div>
+                <div class="faq-sub-acc-body">
+
+                  <div class="faq-sub-section-label">Rate schedule</div>
+                  <table class="nsw-table">
+                    <thead><tr><th>Property value</th><th>Rate</th></tr></thead>
+                    <tbody>
+                      <tr><td>$0 – $16,000</td><td>$0</td></tr>
+                      <tr><td>$16,001 – $35,000</td><td>$1.25 per $100 (or part)</td></tr>
+                      <tr><td>$35,001 – $93,000</td><td>$1.50 per $100 (or part)</td></tr>
+                      <tr><td>$93,001 – $351,000</td><td>$1.75 per $100 (or part)</td></tr>
+                      <tr><td>$351,001 – $1,161,000</td><td>$4.50 per $100 (or part)</td></tr>
+                      <tr><td>$1,161,001 – $3,721,000</td><td>$5.50 per $100 (or part)</td></tr>
+                      <tr><td>Above $3,721,000</td><td>$7.00 per $100 on the excess (premium residential rate)</td></tr>
+                    </tbody>
+                  </table>
+
+                  <div class="faq-sub-section-label">Rough estimates at common price points (standard rate, no exemptions)</div>
+                  <table class="nsw-table">
+                    <thead><tr><th>Purchase price</th><th>Estimated transfer duty</th></tr></thead>
+                    <tbody>
+                      <tr><td>$500,000</td><td>~$17,990</td></tr>
+                      <tr><td>$600,000</td><td>~$22,490</td></tr>
+                      <tr><td>$700,000</td><td>~$26,990</td></tr>
+                      <tr><td>$800,000</td><td>~$31,335</td></tr>
+                      <tr><td>$900,000</td><td>~$35,835</td></tr>
+                      <tr><td>$1,000,000</td><td>~$40,335</td></tr>
+                    </tbody>
+                  </table>
+
+                  <div class="nsw-note nsw-note-green" style="margin-top:12px">
+                    <span>✓</span>
+                    <span>First home buyers purchasing a property valued up to $800,000 pay $0 transfer duty under the First Home Buyers Assistance Scheme. A concessional (reduced) rate applies for properties valued between $800,001 and $999,999.</span>
+                  </div>
+                  <div class="nsw-note nsw-note-amber" style="margin-top:8px">
+                    <span>⚠</span>
+                    <span>Transfer duty is due within 3 months of signing contracts, or at settlement if that occurs sooner. It must be paid from your savings — it cannot be added to your home loan.</span>
+                  </div>
+                  <div style="margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6">
+                    Rates sourced from Revenue NSW, effective 1 July 2025. Always verify at <a href="https://www.revenue.nsw.gov.au" target="_blank" rel="noopener" style="color:var(--muted);font-weight:600;text-decoration:underline">revenue.nsw.gov.au</a> before making financial decisions.
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary callout -->
+            <div class="faq-callout">
+              <div class="faq-callout-title">On a typical $750,000 NSW first home purchase, non-government-scheme buyers could face upfront costs of approximately:</div>
+              <ul class="faq-callout-list">
+                <li><strong>Transfer duty:</strong> ~$28,800 (or $0 if FHBAS eligible)</li>
+                <li><strong>Solicitor:</strong> ~$1,500</li>
+                <li><strong>Mortgage registration + title transfer:</strong> ~$325</li>
+                <li><strong>Strata report (if applicable):</strong> ~$200</li>
+                <li><strong>LMI (if &lt;20% deposit):</strong> $5,000 – $30,000+</li>
+              </ul>
+              <div class="faq-callout-footer">Always budget for these costs on top of your deposit.</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div><!-- /nsw-scheme-grid -->
 
   </div><!-- /tab-faq -->
@@ -1927,6 +2121,11 @@ function switchTab(tab, btn) {
 function toggleCard(id) {
   const card = document.getElementById(id);
   card.classList.toggle('open');
+}
+
+function toggleSubAcc(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
 }
 
 // ── Calculator ───────────────────────────────────────────────────────────────
