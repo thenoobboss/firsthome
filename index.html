@@ -9,9 +9,9 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --teal: #0d9488;
+    --teal: #0f766e;
     --teal-light: #ccfbf1;
-    --teal-dark: #0f766e;
+    --teal-dark: #0c5c56;
     --blue: #0369a1;
     --bg: #f8fafc;
     --surface: #ffffff;
@@ -55,18 +55,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    height: 70px;
     gap: 16px;
   }
 
   .logo {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--teal);
+    display: flex;
+    align-items: center;
     white-space: nowrap;
+    flex-shrink: 0;
   }
 
-  .logo span { color: var(--text); font-weight: 400; }
+  .logo svg { display: block; }
 
   nav { display: flex; gap: 4px; }
 
@@ -93,6 +93,98 @@
 
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
+
+  /* ── Borrowing Power section ── */
+
+  .borrow-disclaimer {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--color-background-warning);
+    border: 1px solid var(--color-border-warning);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--color-text-warning);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .borrow-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .borrow-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 20px;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: var(--shadow);
+    transition: box-shadow .15s, border-color .15s, transform .12s;
+    cursor: pointer;
+  }
+
+  .borrow-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--teal);
+    transform: translateY(-1px);
+  }
+
+  .borrow-card-logo { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+
+  .borrow-favicon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    object-fit: contain;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+
+  .borrow-card-body { flex: 1; }
+
+  .borrow-card-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .borrow-card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .borrow-card-arrow {
+    flex-shrink: 0;
+    color: var(--muted);
+    transition: color .15s, transform .15s;
+  }
+
+  .borrow-card:hover .borrow-card-arrow {
+    color: var(--teal);
+    transform: translateX(3px);
+  }
+
+  .borrow-footer-note {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .borrow-grid { grid-template-columns: 1fr; }
+  }
 
   /* ── Grants section ── */
 
@@ -334,7 +426,7 @@
   .logo:hover { opacity: .75; }
 
   .home-hero {
-    background: linear-gradient(135deg, var(--teal-dark) 0%, #0891b2 100%);
+    background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, #0d9488 100%);
     border-radius: var(--radius);
     padding: 48px 40px;
     color: #fff;
@@ -1379,9 +1471,44 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo" onclick="switchHome()" role="button" tabindex="0" aria-label="Go to HomePocket home">Home<span>Pocket</span></div>
+    <div class="logo" onclick="switchHome()" role="button" tabindex="0" aria-label="Go to HomePocket home">
+      <svg width="180" height="44" viewBox="0 0 360 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="HomePocket logo">
+        <!-- ── Icon: house with pocket ── -->
+        <!-- Roof -->
+        <polyline points="6,42 44,8 82,42" stroke="#0f766e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Left wall -->
+        <line x1="14" y1="37" x2="14" y2="78" stroke="#0f766e" stroke-width="5" stroke-linecap="round"/>
+        <!-- Right wall -->
+        <line x1="74" y1="37" x2="74" y2="78" stroke="#0f766e" stroke-width="5" stroke-linecap="round"/>
+        <!-- Pocket outline (U-shape with flaps) -->
+        <path d="M18,52 L18,72 Q18,78 24,78 L64,78 Q70,78 70,72 L70,52 Z" stroke="#0f766e" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
+        <!-- Pocket top flaps -->
+        <line x1="18" y1="52" x2="28" y2="52" stroke="#0f766e" stroke-width="4.5" stroke-linecap="round"/>
+        <line x1="60" y1="52" x2="70" y2="52" stroke="#0f766e" stroke-width="4.5" stroke-linecap="round"/>
+        <!-- Banknote 1 (left, tilted left) -->
+        <rect x="28" y="33" width="18" height="26" rx="2" transform="rotate(-12,37,46)" fill="#0f766e" opacity="0.18"/>
+        <rect x="28" y="33" width="18" height="26" rx="2" transform="rotate(-12,37,46)" stroke="#0f766e" stroke-width="3" fill="none"/>
+        <!-- Banknote 2 (center, slight tilt) -->
+        <rect x="32" y="30" width="18" height="27" rx="2" transform="rotate(-4,41,43)" fill="#0f766e" opacity="0.13"/>
+        <rect x="32" y="30" width="18" height="27" rx="2" transform="rotate(-4,41,43)" stroke="#0f766e" stroke-width="3" fill="none"/>
+        <!-- Banknote 3 (right, upright) -->
+        <rect x="38" y="29" width="18" height="27" rx="2" transform="rotate(6,47,42)" fill="white" opacity="0.6"/>
+        <rect x="38" y="29" width="18" height="27" rx="2" transform="rotate(6,47,42)" stroke="#0f766e" stroke-width="3" fill="none"/>
+        <!-- Coin -->
+        <circle cx="30" cy="62" r="9" fill="white" stroke="#0f766e" stroke-width="3.5"/>
+        <circle cx="30" cy="62" r="5" fill="none" stroke="#0f766e" stroke-width="2"/>
+
+        <!-- ── Wordmark ── -->
+        <text x="96" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="32" font-weight="800" letter-spacing="-0.5">
+          <tspan fill="#0f766e">Home</tspan><tspan fill="#1e293b" font-weight="600">Pocket</tspan>
+        </text>
+        <!-- Tagline -->
+        <text x="97" y="66" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#64748b" letter-spacing="1.5">YOUR AUSTRALIAN PROPERTY TOOLKIT</text>
+      </svg>
+    </div>
     <nav>
       <button class="tab-btn" onclick="switchTab('grants', this)">Grants &amp; schemes</button>
+      <button class="tab-btn" onclick="switchTab('borrow', this)">Borrowing power</button>
       <button class="tab-btn" onclick="switchTab('calc', this)">Mortgage calculator</button>
       <button class="tab-btn" onclick="switchTab('rental', this)">Rental yield (For investors)</button>
       <button class="tab-btn" onclick="switchTab('faq', this)">Common questions</button>
@@ -1421,7 +1548,24 @@
         <div class="home-feature-arrow">Explore grants →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('calc', document.querySelectorAll('.tab-btn')[1])">
+      <div class="home-feature-card" onclick="switchTab('borrow', document.querySelectorAll('.tab-btn')[1])">
+        <div class="home-feature-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="6" width="16" height="11" rx="2" stroke="#0f766e" stroke-width="1.6"/>
+            <path d="M6 6V5a4 4 0 0 1 8 0v1" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="10" cy="12" r="2" stroke="#0f766e" stroke-width="1.5"/>
+            <path d="M10 14v1" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="home-feature-tag">Lender Limits</div>
+          <div class="home-feature-title">Maximum borrowing power</div>
+        </div>
+        <div class="home-feature-desc">Compare borrowing capacities from Australia's Big Four banks. Understand how lenders assess your income and expenses to determine your total loan capacity.</div>
+        <div class="home-feature-arrow">Check capacity →</div>
+      </div>
+
+      <div class="home-feature-card" onclick="switchTab('calc', document.querySelectorAll('.tab-btn')[2])">
         <div class="home-feature-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="3" width="14" height="14" rx="2" stroke="#0f766e" stroke-width="1.6"/>
@@ -1436,7 +1580,7 @@
         <div class="home-feature-arrow">Open calculator →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('rental', document.querySelectorAll('.tab-btn')[2])">
+      <div class="home-feature-card" onclick="switchTab('rental', document.querySelectorAll('.tab-btn')[3])">
         <div class="home-feature-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 15l4-5 4 3 3-4 3 3" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1451,7 +1595,7 @@
         <div class="home-feature-arrow">Analyse a property →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('faq', document.querySelectorAll('.tab-btn')[3])">
+      <div class="home-feature-card" onclick="switchTab('faq', document.querySelectorAll('.tab-btn')[4])">
         <div class="home-feature-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="10" cy="10" r="7.5" stroke="#0f766e" stroke-width="1.6"/>
@@ -1813,6 +1957,75 @@
   </div><!-- /tab-grants -->
 
 
+  <!-- ══════════════ BORROWING POWER TAB ══════════════ -->
+  <div id="tab-borrow" class="tab-panel">
+    <div class="section-header">
+      <h1>How much can I borrow?</h1>
+      <p>Use an official bank calculator to estimate your borrowing capacity based on your income, expenses, and deposit.</p>
+    </div>
+
+    <div class="borrow-disclaimer">
+      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="9" stroke="#92400e" stroke-width="1.8"/><path d="M10 6v4m0 3h.01" stroke="#92400e" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span><strong>Note:</strong> Borrowing capacities vary between lenders based on individual risk assessments and internal policies. These calculators provide estimates only and do not constitute a loan offer.</span>
+    </div>
+
+    <div class="borrow-grid">
+
+      <!-- Westpac -->
+      <a class="borrow-card" href="https://www.westpac.com.au/personal-banking/home-loans/calculator/mortgage-calculator/maximum-borrowing-calculator/" target="_blank" rel="noopener noreferrer">
+        <div class="borrow-card-logo">
+          <img src="https://www.google.com/s2/favicons?sz=64&domain=westpac.com.au" alt="Westpac" class="borrow-favicon">
+        </div>
+        <div class="borrow-card-body">
+          <div class="borrow-card-name">Westpac</div>
+          <div class="borrow-card-desc">Maximum borrowing power calculator</div>
+        </div>
+        <svg class="borrow-card-arrow" width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <!-- Commonwealth Bank -->
+      <a class="borrow-card" href="https://www.commbank.com.au/digital/home-loans/calculator/how-much-can-i-borrow" target="_blank" rel="noopener noreferrer">
+        <div class="borrow-card-logo">
+          <img src="https://www.google.com/s2/favicons?sz=64&domain=commbank.com.au" alt="Commonwealth Bank" class="borrow-favicon">
+        </div>
+        <div class="borrow-card-body">
+          <div class="borrow-card-name">Commonwealth Bank</div>
+          <div class="borrow-card-desc">How much can I borrow calculator</div>
+        </div>
+        <svg class="borrow-card-arrow" width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <!-- ANZ -->
+      <a class="borrow-card" href="https://www.anz.com.au/personal/home-loans/calculators-tools/borrowing-power-calculator/" target="_blank" rel="noopener noreferrer">
+        <div class="borrow-card-logo">
+          <img src="https://www.google.com/s2/favicons?sz=64&domain=anz.com.au" alt="ANZ" class="borrow-favicon">
+        </div>
+        <div class="borrow-card-body">
+          <div class="borrow-card-name">ANZ</div>
+          <div class="borrow-card-desc">Borrowing power calculator</div>
+        </div>
+        <svg class="borrow-card-arrow" width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <!-- NAB -->
+      <a class="borrow-card" href="https://www.nab.com.au/personal/home-loans/calculators/borrowing-calculator" target="_blank" rel="noopener noreferrer">
+        <div class="borrow-card-logo">
+          <img src="https://www.google.com/s2/favicons?sz=64&domain=nab.com.au" alt="NAB" class="borrow-favicon">
+        </div>
+        <div class="borrow-card-body">
+          <div class="borrow-card-name">NAB</div>
+          <div class="borrow-card-desc">Borrowing calculator</div>
+        </div>
+        <svg class="borrow-card-arrow" width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+    </div>
+
+    <p class="borrow-footer-note">Clicking a bank card will open the lender's official website in a new tab. HomePocket is not affiliated with any of these institutions.</p>
+
+  </div><!-- /tab-borrow -->
+
+
   <!-- ══════════════ CALCULATOR TAB ══════════════ -->
   <div id="tab-calc" class="tab-panel">
 
@@ -1941,7 +2154,7 @@
       <h2>Remaining loan balance over time</h2>
       <div class="chart-legend">
         <div class="legend-item">
-          <div class="legend-dot" style="background:#0d9488"></div>
+          <div class="legend-dot" style="background:#0f766e"></div>
           <span id="legend-teal-label">Your scenario</span>
         </div>
         <div class="legend-item">
@@ -2969,8 +3182,8 @@ function drawChart(stdBalances, extBalances, ioMonths) {
         {
           label: 'Your scenario',
           data: extData,
-          borderColor: '#0d9488',
-          backgroundColor: 'rgba(13,148,136,.08)',
+          borderColor: '#0f766e',
+          backgroundColor: 'rgba(15,118,110,.08)',
           borderWidth: 2.5,
           pointRadius: 0,
           fill: true,
