@@ -39,24 +39,20 @@
     min-height: 100vh;
   }
 
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    position: sticky;
+  #sidebar {
+    position: fixed;
+    left: 0;
     top: 0;
-    z-index: 100;
-    box-shadow: var(--shadow);
-  }
-
-  .header-inner {
-    max-width: 960px;
-    margin: 0 auto;
+    width: 260px;
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 32px 20px 40px;
+    z-index: 1000;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 70px;
-    gap: 16px;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: var(--shadow);
   }
 
   .logo {
@@ -64,30 +60,54 @@
     align-items: center;
     white-space: nowrap;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: opacity .15s;
+    margin-bottom: 28px;
   }
 
-  .logo svg { display: block; }
+  .logo:hover { opacity: .75; }
+  .logo svg { display: block; max-width: 100%; }
 
   nav {
     display: flex;
-    gap: 4px;
-    overflow-x: auto;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    flex-direction: column;
+    gap: 2px;
   }
 
-  nav::-webkit-scrollbar { display: none; }
+  @media (max-width: 768px) {
+    #sidebar {
+      width: 100%;
+      height: auto;
+      flex-direction: row;
+      align-items: center;
+      padding: 0 16px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      overflow: visible;
+    }
 
-  nav .tab-btn:last-child { padding-right: 24px; }
+    .logo { margin-bottom: 0; }
 
-  #nav-scroll-track {
+    nav {
+      flex-direction: row;
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 10px 0;
+    }
+
+    nav::-webkit-scrollbar { display: none; }
+    nav .tab-btn:last-child { padding-right: 16px; }
+  }
+
+  .scroll-track {
+    display: none;
     width: 100%;
     height: 2px;
-    background: var(--border);
-    position: relative;
-    overflow: hidden;
+    background: var(--bg);
+    flex-shrink: 0;
   }
 
   #nav-scroll-bar {
@@ -97,12 +117,29 @@
     transition: width 0.1s ease-out;
   }
 
-  @media (min-width: 601px) {
-    #nav-scroll-track { display: none; }
+  @media (max-width: 600px) {
+    #sidebar {
+      flex-direction: column;
+      padding: 12px 0 0;
+      align-items: stretch;
+    }
+
+    .logo {
+      align-self: center;
+      margin-bottom: 8px;
+      margin-right: 0;
+    }
+
+    nav {
+      border-top: 1px solid var(--border);
+      padding: 8px 16px;
+    }
+
+    .scroll-track { display: block; }
   }
 
   .tab-btn {
-    padding: 8px 18px;
+    padding: 10px 14px;
     border: none;
     background: transparent;
     border-radius: 8px;
@@ -111,15 +148,32 @@
     font-weight: 500;
     color: var(--muted);
     transition: all .15s;
+    text-align: left;
+    width: 100%;
   }
 
   .tab-btn:hover { background: var(--bg); color: var(--text); }
   .tab-btn.active { background: var(--teal); color: #fff; }
 
   main {
+    margin-left: 260px;
     max-width: 960px;
-    margin: 0 auto;
-    padding: 28px 24px 60px;
+    padding: 36px 40px 60px;
+  }
+
+  @media (max-width: 768px) {
+    main {
+      margin-left: 0;
+      margin-top: 62px;
+      padding: 24px 20px 60px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    main {
+      margin-top: 120px;
+      padding: 20px 16px 60px;
+    }
   }
 
   .tab-panel { display: none; }
@@ -428,6 +482,7 @@
 
   .nsw-note-amber { background: #fef9c3; border: 1px solid #fde047; color: #713f12; }
   .nsw-note-green { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; }
+  .nsw-note-red   { background: #fef2f2; border: 1px solid #fca5a5; color: #7f1d1d; }
 
   /* Page disclaimer */
   .nsw-page-disclaimer {
@@ -450,15 +505,9 @@
 
   /* ── Home page ── */
 
-  .logo {
-    cursor: pointer;
-    transition: opacity .15s;
-  }
-  .logo:hover { opacity: .75; }
-
   .home-hero {
     background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, #0d9488 100%);
-    border-radius: var(--radius);
+    border-radius: 16px;
     padding: 48px 40px;
     color: #fff;
     margin-bottom: 32px;
@@ -1489,20 +1538,90 @@
   /* ── Mobile tweaks ── */
 
   @media (max-width: 600px) {
-    .header-inner { height: auto; padding: 10px 0; flex-direction: column; align-items: flex-start; }
-    nav { width: 100%; }
-    .tab-btn { flex: 1; text-align: center; padding: 8px 10px; font-size: 13px; }
-    main { padding: 20px 16px 50px; }
+    .tab-btn { padding: 8px 10px; font-size: 13px; }
     .info-grid { grid-template-columns: 1fr 1fr; }
     .card, .results-card { padding: 16px; }
   }
+
+  /* ── Google Translate suppression ── */
+  .goog-te-banner-frame,
+  .goog-te-balloon-frame,
+  #goog-gt-tt,
+  .goog-tooltip,
+  .VIpgJd-ZVi9od-ORHb-OEVmcd,
+  .VIpgJd-ZVi9od-ORHb { display: none !important; }
+  body { top: 0 !important; }
+  .skiptranslate { display: none !important; }
+  font { display: inline; }          /* Google Translate wraps words in <font> */
+
+  /* ── Translate button ── */
+  #translate-wrap {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  #translate-btn {
+    width: 100%;
+    padding: 9px 14px;
+    background: transparent;
+    color: var(--teal);
+    border: 1.5px solid var(--teal);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  #translate-btn:hover {
+    background: var(--teal);
+    color: #fff;
+  }
+
+  #translate-btn.active {
+    background: var(--teal);
+    color: #fff;
+  }
+
+  @media (max-width: 768px) {
+    #translate-wrap {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+      margin-left: auto;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+    #translate-btn { width: auto; padding: 6px 12px; font-size: 12px; }
+  }
+
+  @media (max-width: 600px) {
+    #translate-wrap { display: none; }
+  }
+
 </style>
 </head>
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'zh-CN',
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo" onclick="switchHome()" role="button" tabindex="0" aria-label="Go to HomePocket home">
+<div id="sidebar">
+  <div class="logo" onclick="switchHome()" role="button" tabindex="0" aria-label="Go to HomePocket home">
       <svg width="180" height="44" viewBox="0 0 360 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="HomePocket logo">
         <!-- ── Icon: house with pocket ── -->
         <!-- Roof -->
@@ -1544,9 +1663,15 @@
       <button class="tab-btn" onclick="switchTab('rental', this)">Rental yield (For investors)</button>
       <button class="tab-btn" onclick="switchTab('faq', this)">Common questions</button>
     </nav>
-    <div id="nav-scroll-track"><div id="nav-scroll-bar"></div></div>
-  </div>
-</header>
+    <div class="scroll-track"><div id="nav-scroll-bar"></div></div>
+    <div id="translate-wrap">
+      <div id="google_translate_element" style="display:none"></div>
+      <button id="translate-btn" onclick="toggleTranslate()" aria-label="Translate page">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M3 5h8M7 3v2M11 5c0 3-2 5.5-5 6.5M9 14c-1-1-3-2.5-3-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11l5 8M12.5 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span id="translate-btn-label">翻译 / Translate</span>
+      </button>
+    </div>
+</div>
 
 <main>
 
@@ -1608,7 +1733,7 @@
           <div class="home-feature-tag">Mortgage Calculator</div>
           <div class="home-feature-title">High-precision mortgage modelling</div>
         </div>
-        <div class="home-feature-desc">Model P&amp;I and Interest-Only repayments with simple daily interest, multiple payment frequencies, extra repayments, and rate rise scenarios. See the real impact of an offset account on your loan term.</div>
+        <div class="home-feature-desc">Model Principle &amp; Interest and Interest-Only repayments with simple daily interest, multiple payment frequencies, extra repayments, and rate rise scenarios. See the real impact of an offset account on your loan term.</div>
         <div class="home-feature-arrow">Open calculator →</div>
       </div>
 
@@ -1824,6 +1949,60 @@
         </div>
       </div>
 
+      <!-- ── Section 4: Australian Government 5% Deposit Scheme ── -->
+      <div class="nsw-card" id="card-5pct">
+        <div class="nsw-card-header" onclick="toggleCard('card-5pct')">
+          <div class="nsw-header-content">
+            <div class="nsw-card-subtitle">No LMI · No income cap · Unlimited places</div>
+            <div class="nsw-card-title">Australian Government 5% Deposit Scheme</div>
+            <div class="nsw-card-summary">Buy a home with just a 5% deposit and avoid paying Lenders Mortgage Insurance (LMI). Formerly known as the Home Guarantee Scheme.</div>
+          </div>
+          <div class="nsw-chevron">&#8964;</div>
+        </div>
+        <div class="nsw-card-body">
+
+          <div class="nsw-section-label">Usage warning — owner-occupier only</div>
+          <div class="nsw-note nsw-note-red" style="margin-bottom:8px">
+            <span>⚠</span>
+            <span><strong>You must live in the property as your primary residence.</strong> To maintain the government guarantee and avoid being forced to pay LMI retrospectively, the home cannot be converted into a rental property until you have paid off at least 20% of the property value (reached 80% LVR). Converting to an investment property before this threshold triggers an LMI liability that the scheme was designed to avoid.</span>
+          </div>
+
+          <div class="nsw-note nsw-note-amber" style="margin-bottom:18px">
+            <span>⚠</span>
+            <span>The government guarantee is not a cash payment — it is a promise to the bank. If you default on the loan, the government covers the lender's shortfall, but you remain fully liable to the government for that amount.</span>
+          </div>
+
+          <a class="nsw-source-link" href="https://firsthomebuyers.gov.au/australian-government-5-percent-deposit-scheme" target="_blank" rel="noopener">Official source — First Home Buyers Australia ↗</a>
+
+          <div class="nsw-section-label">How it works</div>
+          <div style="font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px;padding:14px 16px;background:var(--bg);border-radius:8px;border:1px solid var(--border)">
+            When using this scheme, you contribute <strong>5%</strong> of the property's value as a deposit. The Australian Government provides a guarantee for up to <strong>15%</strong> of the value. This means you borrow the remaining <strong>95%</strong> of the purchase price from the bank. Because of the 15% guarantee, the bank treats your total security as 20% — which is why you avoid the LMI fee despite having a 95% Loan-to-Value Ratio (LVR).
+          </div>
+
+          <div class="nsw-section-label">Eligibility requirements</div>
+          <table class="nsw-table">
+            <thead><tr><th>Criteria</th><th>Details</th></tr></thead>
+            <tbody>
+              <tr><td>Who can apply</td><td>Australian citizen or permanent resident, aged 18 or over</td></tr>
+              <tr><td>Income cap</td><td>No income cap — available to all eligible buyers regardless of income</td></tr>
+              <tr><td>Property type</td><td>New or existing residential homes — houses, townhouses, apartments, land + build contracts</td></tr>
+              <tr><td>Price cap (Sydney &amp; major regional centres)</td><td>Up to $1,500,000</td></tr>
+              <tr><td>Price cap (other NSW regions)</td><td>Varies — check the official price cap table for your postcode</td></tr>
+              <tr><td>Places available</td><td>Unlimited — no waitlist, no annual cap</td></tr>
+              <tr><td>First home buyer requirement</td><td>At least one applicant must be a first home buyer (joint applications permitted where one buyer has previously owned)</td></tr>
+              <tr><td>Participating lenders</td><td>Must apply through an approved participating lender — not all banks participate</td></tr>
+              <tr><td>Minimum deposit</td><td>5% of the property purchase price (genuine savings requirements apply per lender)</td></tr>
+              <tr><td>Can be combined?</td><td>Yes — can be used alongside the FHBAS (stamp duty exemption), FHOG, and FHSSS</td></tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.6;padding:10px 0;border-top:1px solid var(--border)">
+            Scheme information sourced from firsthomebuyers.gov.au. Price caps and eligibility may change — always verify at <a href="https://www.housingaustralia.gov.au" target="_blank" rel="noopener" style="color:var(--muted);font-weight:600;text-decoration:underline">housingaustralia.gov.au</a> before making decisions.
+          </div>
+
+        </div>
+      </div>
+
     </div><!-- /nsw-scheme-grid -->
 
     <div class="nsw-page-disclaimer">
@@ -1979,6 +2158,60 @@
         </div>
 
       </div><!-- /nsw-scheme-grid -->
+
+      <!-- ── Australian Government 5% Deposit Scheme ── -->
+      <div class="nsw-card" id="card-5pct-qld">
+        <div class="nsw-card-header" onclick="toggleCard('card-5pct-qld')">
+          <div class="nsw-header-content">
+            <div class="nsw-card-subtitle">No LMI · No income cap · Unlimited places</div>
+            <div class="nsw-card-title">Australian Government 5% Deposit Scheme</div>
+            <div class="nsw-card-summary">Buy a home with just a 5% deposit and avoid paying Lenders Mortgage Insurance (LMI). Formerly known as the Home Guarantee Scheme.</div>
+          </div>
+          <div class="nsw-chevron">&#8964;</div>
+        </div>
+        <div class="nsw-card-body">
+
+          <div class="nsw-section-label">Usage warning — owner-occupier only</div>
+          <div class="nsw-note nsw-note-red" style="margin-bottom:8px">
+            <span>⚠</span>
+            <span><strong>You must live in the property as your primary residence.</strong> To maintain the government guarantee and avoid being forced to pay LMI retrospectively, the home cannot be converted into a rental property until you have paid off at least 20% of the property value (reached 80% LVR). Converting to an investment property before this threshold triggers an LMI liability that the scheme was designed to avoid.</span>
+          </div>
+
+          <div class="nsw-note nsw-note-amber" style="margin-bottom:18px">
+            <span>⚠</span>
+            <span>The government guarantee is not a cash payment — it is a promise to the bank. If you default on the loan, the government covers the lender's shortfall, but you remain fully liable to the government for that amount.</span>
+          </div>
+
+          <a class="nsw-source-link" href="https://firsthomebuyers.gov.au/australian-government-5-percent-deposit-scheme" target="_blank" rel="noopener">Official source — First Home Buyers Australia ↗</a>
+
+          <div class="nsw-section-label">How it works</div>
+          <div style="font-size:14px;line-height:1.7;color:var(--text);margin-bottom:18px;padding:14px 16px;background:var(--bg);border-radius:8px;border:1px solid var(--border)">
+            When using this scheme, you contribute <strong>5%</strong> of the property's value as a deposit. The Australian Government provides a guarantee for up to <strong>15%</strong> of the value. This means you borrow the remaining <strong>95%</strong> of the purchase price from the bank. Because of the 15% guarantee, the bank treats your total security as 20% — which is why you avoid the LMI fee despite having a 95% Loan-to-Value Ratio (LVR).
+          </div>
+
+          <div class="nsw-section-label">Eligibility requirements</div>
+          <table class="nsw-table">
+            <thead><tr><th>Criteria</th><th>Details</th></tr></thead>
+            <tbody>
+              <tr><td>Who can apply</td><td>Australian citizen or permanent resident, aged 18 or over</td></tr>
+              <tr><td>Income cap</td><td>No income cap — available to all eligible buyers regardless of income</td></tr>
+              <tr><td>Property type</td><td>New or existing residential homes — houses, townhouses, apartments, land + build contracts</td></tr>
+              <tr><td>Price cap (Brisbane &amp; major regional centres)</td><td>Up to $1,500,000</td></tr>
+              <tr><td>Price cap (other QLD regions)</td><td>Varies — check the official price cap table for your postcode</td></tr>
+              <tr><td>Places available</td><td>Unlimited — no waitlist, no annual cap</td></tr>
+              <tr><td>First home buyer requirement</td><td>At least one applicant must be a first home buyer (joint applications permitted where one buyer has previously owned)</td></tr>
+              <tr><td>Participating lenders</td><td>Must apply through an approved participating lender — not all banks participate</td></tr>
+              <tr><td>Minimum deposit</td><td>5% of the property purchase price (genuine savings requirements apply per lender)</td></tr>
+              <tr><td>Can be combined?</td><td>Yes — can be used alongside the QLD First Home Concession, FHOG, and FHSSS</td></tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.6;padding:10px 0;border-top:1px solid var(--border)">
+            Scheme information sourced from firsthomebuyers.gov.au. Price caps and eligibility may change — always verify at <a href="https://www.housingaustralia.gov.au" target="_blank" rel="noopener" style="color:var(--muted);font-weight:600;text-decoration:underline">housingaustralia.gov.au</a> before making decisions.
+          </div>
+
+        </div>
+      </div>
 
       <div class="nsw-page-disclaimer">
         QLD grant and concession information is sourced from the Queensland Government. Amounts, thresholds, and eligibility criteria may change — always verify current details at <a href="https://www.qld.gov.au" target="_blank" rel="noopener" style="color:inherit;font-weight:600;text-decoration:underline">qld.gov.au</a> before making financial decisions.
@@ -2812,13 +3045,82 @@ function switchTab(tab, btn) {
   }
 }
 
+// ── Google Translate toggle ───────────────────────────────────────────────────
+
+let _translated = false;
+
+function _fireCombo(lang) {
+  const select = document.querySelector('.goog-te-combo');
+  if (!select) return false;
+  select.value = lang;
+  const ev = document.createEvent('HTMLEvents');
+  ev.initEvent('change', true, true);
+  select.dispatchEvent(ev);
+  return true;
+}
+
+function _tryTranslate(lang, attempts) {
+  if (!_fireCombo(lang) && attempts > 0) {
+    setTimeout(() => _tryTranslate(lang, attempts - 1), 250);
+  }
+}
+
+function _clearGoogTransCookie() {
+  const past = 'expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
+  document.cookie = 'googtrans=; ' + past;
+  document.cookie = 'googtrans=; domain=' + window.location.hostname + '; ' + past;
+  document.cookie = 'googtrans=; domain=.' + window.location.hostname + '; ' + past;
+}
+
+function toggleTranslate() {
+  const btn   = document.getElementById('translate-btn');
+  const label = document.getElementById('translate-btn-label');
+
+  if (!_translated) {
+    // Save active tab so we can restore it if the user later reverts
+    const active = document.querySelector('.tab-panel.active');
+    if (active) sessionStorage.setItem('hp_tab', active.id);
+
+    _tryTranslate('zh-CN', 12);
+    _translated = true;
+    label.textContent = 'English';
+    btn.classList.add('active');
+  } else {
+    // Save current tab, clear Google's cookie, then reload — the only
+    // reliable way to fully revert all DOM text back to English.
+    const active = document.querySelector('.tab-panel.active');
+    if (active) sessionStorage.setItem('hp_tab', active.id);
+    sessionStorage.setItem('hp_restoring', '1');
+    _clearGoogTransCookie();
+    window.location.reload();
+  }
+}
+
+// After an English-restore reload, re-activate whichever tab was open.
+(function () {
+  if (!sessionStorage.getItem('hp_restoring')) return;
+  sessionStorage.removeItem('hp_restoring');
+  const tabId = sessionStorage.getItem('hp_tab') || 'tab-home';
+  sessionStorage.removeItem('hp_tab');
+  const panel = document.getElementById(tabId);
+  if (!panel) return;
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    if ((b.getAttribute('onclick') || '').includes("'" + tabId.replace('tab-', '') + "'")) {
+      b.classList.add('active');
+    }
+  });
+  panel.classList.add('active');
+})();
+
 function switchHome() {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-home').classList.add('active');
 }
 
-// ── Nav scroll indicator ─────────────────────────────────────────────────────
+// ── Nav scroll indicator (mobile) ────────────────────────────────────────────
 
 (function () {
   const nav = document.querySelector('nav');
@@ -2854,7 +3156,7 @@ function toggleSubAcc(id) {
 
 // ── Calculator ───────────────────────────────────────────────────────────────
 
-const DEFAULTS = { loan: 500000, rate: 6.14, term: 30, extra: 0 };
+const DEFAULTS = { loan: 500000, rate: 5.84, term: 30, extra: 0 };
 const state = { ...DEFAULTS, freq: 'monthly', ioYears: 0 };
 
 const fmt    = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
