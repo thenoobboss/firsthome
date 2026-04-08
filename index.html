@@ -202,9 +202,8 @@
   #sp-toggle {
     width: 32px;
     min-width: 32px;
-    height: 100%;
+    align-self: stretch;   /* fills full panel height regardless of content */
     background: var(--teal);
-    border: none;
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -215,6 +214,7 @@
     padding: 0;
     flex-shrink: 0;
     transition: background .15s;
+    user-select: none;
   }
 
   #sp-toggle:hover { background: var(--teal-dark); }
@@ -4029,12 +4029,12 @@ initStats();
 <aside id="stats-panel" aria-label="Market snapshot">
 
   <!-- Minimised handle — always visible on desktop -->
-  <button id="sp-toggle" onclick="toggleStatsPanel()" aria-label="Toggle live data panel">
+  <div id="sp-toggle" onclick="toggleStatsPanel()" role="button" tabindex="0" aria-label="Toggle live data panel" onkeydown="if(event.key==='Enter'||event.key===' ')toggleStatsPanel()">
     <svg class="sp-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
       <path d="M8 2L4 6L8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     <span class="sp-live-label">Live Data</span>
-  </button>
+  </div>
 
   <!-- Expandable content -->
   <div id="sp-content">
