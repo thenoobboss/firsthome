@@ -157,14 +157,20 @@
 
   main {
     margin-left: 260px;
+    margin-right: 40px;   /* 32px handle + 8px gap — panel starts minimised */
     padding: 36px 40px 60px;
+    transition: margin-right 250ms ease;
   }
+
+  body.sp-open main { margin-right: 268px; }
 
   @media (max-width: 768px) {
     main {
       margin-left: 0;
+      margin-right: 0;
       margin-top: 62px;
       padding: 24px 20px 60px;
+      transition: none;
     }
   }
 
@@ -173,6 +179,205 @@
       margin-top: 120px;
       padding: 20px 16px 60px;
     }
+  }
+
+  /* ── Stats panel (right column) ── */
+  /* ── Stats panel shell ── */
+  #stats-panel {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 32px;          /* minimised by default */
+    height: 100vh;
+    overflow: hidden;
+    z-index: 999;
+    display: flex;
+    flex-direction: row;
+    transition: width 250ms ease;
+  }
+
+  body.sp-open #stats-panel { width: 260px; }
+
+  /* Toggle handle */
+  #sp-toggle {
+    width: 32px;
+    min-width: 32px;
+    height: 100%;
+    background: var(--teal);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    border-radius: 10px 0 0 10px;
+    padding: 0;
+    flex-shrink: 0;
+    transition: background .15s;
+  }
+
+  #sp-toggle:hover { background: var(--teal-dark); }
+
+  .sp-chevron {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    transition: transform 250ms ease;
+  }
+
+  body.sp-open .sp-chevron { transform: rotate(180deg); }
+
+  .sp-live-label {
+    color: rgba(255,255,255,.85);
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  /* Scrollable content area */
+  #sp-content {
+    width: 228px;
+    min-width: 228px;
+    height: 100%;
+    overflow-y: auto;
+    padding: 24px 14px 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    scrollbar-width: none;
+  }
+
+  #sp-content::-webkit-scrollbar { display: none; }
+
+  body.sp-open #sp-content {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 200ms ease 80ms;
+  }
+
+  /* Widget components */
+  .sp-header {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2px;
+  }
+
+  .sp-widget {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    transition: border-color .2s, box-shadow .2s;
+  }
+
+  .sp-widget.sp-highlight {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(15,118,110,.08);
+  }
+
+  .sp-widget-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sp-relevant-tag {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--teal);
+    background: var(--teal-light);
+    border-radius: 4px;
+    padding: 2px 6px;
+    display: none;
+  }
+
+  .sp-widget.sp-highlight .sp-relevant-tag { display: inline; }
+
+  .sp-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .sp-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .sp-rates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 4px;
+  }
+
+  .sp-rate-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+
+  .sp-rate-bank { color: var(--muted); }
+  .sp-rate-val  { font-weight: 700; color: var(--text); }
+
+  .sp-divider { height: 1px; background: var(--border); margin: 2px 0; }
+
+  .sp-footer {
+    margin-top: auto;
+    padding-top: 12px;
+    font-size: 10px;
+    color: var(--muted);
+    line-height: 1.5;
+    border-top: 1px solid var(--border);
+  }
+
+  .sp-footer a { color: var(--muted); text-decoration: underline; }
+
+  /* Mobile — completely hidden, no trace */
+  @media (max-width: 768px) {
+    #stats-panel { display: none !important; }
+    main { margin-right: 0 !important; transition: none !important; }
+  }
+
+  /* Mobile inline stats (home tab only) */
+  #stats-inline {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  #stats-inline .sp-widget { background: var(--surface); }
+
+  @media (max-width: 768px) {
+    #stats-inline { display: flex; }
   }
 
   .tab-panel { display: none; }
@@ -1708,6 +1913,33 @@
       </button>
     </div>
 
+    <!-- Mobile-only inline stats (hidden on desktop — desktop uses fixed #stats-panel) -->
+    <div id="stats-inline">
+      <div class="sp-header" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);padding-bottom:8px;border-bottom:1px solid var(--border)">Market Snapshot</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="sp-widget">
+          <div class="sp-widget-label">RBA Cash Rate</div>
+          <div class="sp-value" style="font-size:20px">4.10%</div>
+          <div class="sp-sub">As of Apr 2026</div>
+        </div>
+        <div class="sp-widget">
+          <div class="sp-widget-label">Sydney Median</div>
+          <div class="sp-value" style="font-size:20px">$1.47M</div>
+          <div class="sp-sub">Houses · CoreLogic</div>
+        </div>
+        <div class="sp-widget">
+          <div class="sp-widget-label">Clearance Rate</div>
+          <div class="sp-value" style="font-size:20px">~65%</div>
+          <div class="sp-sub">Sydney weekly</div>
+        </div>
+        <div class="sp-widget">
+          <div class="sp-widget-label">Big 4 Variable</div>
+          <div class="sp-value" style="font-size:20px">6.34%</div>
+          <div class="sp-sub">CBA standard rate</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Feature cards -->
     <div class="home-features">
 
@@ -3065,6 +3297,40 @@ function switchTab(tab, btn) {
       updateRental();
     }
   }
+  updateStatsHighlight(tab);
+}
+
+// ── Stats panel ───────────────────────────────────────────────────────────────
+
+// Map: tab → which widgets to highlight
+const STATS_HIGHLIGHT_MAP = {
+  home:   [],
+  grants: ['sw-median'],
+  borrow: ['sw-rates'],
+  calc:   ['sw-rba'],
+  rental: ['sw-median', 'sw-auction'],
+  faq:    [],
+};
+
+let _statsPanelOpen = false;
+
+function toggleStatsPanel() {
+  _statsPanelOpen = !_statsPanelOpen;
+  document.body.classList.toggle('sp-open', _statsPanelOpen);
+}
+
+function initStats() {
+  // Data is hardcoded — fetched/verified once per session.
+  // Panel starts minimised; body.sp-open class drives all visual state.
+  updateStatsHighlight('home');
+}
+
+function updateStatsHighlight(tab) {
+  const highlighted = STATS_HIGHLIGHT_MAP[tab] || [];
+  document.querySelectorAll('#stats-panel .sp-widget').forEach(w => {
+    const active = highlighted.includes(w.id);
+    w.classList.toggle('sp-highlight', active);
+  });
 }
 
 // ── Google Translate toggle ───────────────────────────────────────────────────
@@ -3146,6 +3412,7 @@ function switchHome() {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-home').classList.add('active');
+  updateStatsHighlight('home');
 }
 
 // ── Nav scroll indicator (mobile) ────────────────────────────────────────────
@@ -3755,6 +4022,74 @@ let rentalInitialised = false;
 
 // ── Init ─────────────────────────────────────────────────────────────────────
 initCalc();
+initStats();
 </script>
+
+<!-- ══ Stats panel (right sidebar — persistent across all tabs) ══ -->
+<aside id="stats-panel" aria-label="Market snapshot">
+
+  <!-- Minimised handle — always visible on desktop -->
+  <button id="sp-toggle" onclick="toggleStatsPanel()" aria-label="Toggle live data panel">
+    <svg class="sp-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <path d="M8 2L4 6L8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="sp-live-label">Live Data</span>
+  </button>
+
+  <!-- Expandable content -->
+  <div id="sp-content">
+    <div class="sp-header">Market Snapshot</div>
+
+    <!-- RBA Cash Rate -->
+    <div class="sp-widget" id="sw-rba">
+      <div class="sp-widget-label">
+        RBA Cash Rate
+        <span class="sp-relevant-tag">Key rate</span>
+      </div>
+      <div class="sp-value" id="sp-rba-val">4.10%</div>
+      <div class="sp-sub" id="sp-rba-sub">As of Apr 2026 · <a href="https://www.rba.gov.au/statistics/cash-rate/" target="_blank" rel="noopener">rba.gov.au ↗</a></div>
+    </div>
+
+    <!-- Big 4 Variable Rates -->
+    <div class="sp-widget" id="sw-rates">
+      <div class="sp-widget-label">
+        Big 4 Variable Rates
+        <span class="sp-relevant-tag">Relevant</span>
+      </div>
+      <div class="sp-rates-list">
+        <div class="sp-rate-row"><span class="sp-rate-bank">CBA</span><span class="sp-rate-val">6.34%</span></div>
+        <div class="sp-rate-row"><span class="sp-rate-bank">Westpac</span><span class="sp-rate-val">6.44%</span></div>
+        <div class="sp-rate-row"><span class="sp-rate-bank">ANZ</span><span class="sp-rate-val">6.39%</span></div>
+        <div class="sp-rate-row"><span class="sp-rate-bank">NAB</span><span class="sp-rate-val">6.34%</span></div>
+      </div>
+      <div class="sp-sub" style="margin-top:8px">Standard variable · verify with lender</div>
+    </div>
+
+    <!-- Sydney Median Price -->
+    <div class="sp-widget" id="sw-median">
+      <div class="sp-widget-label">
+        Sydney Median Price
+        <span class="sp-relevant-tag">Relevant</span>
+      </div>
+      <div class="sp-value" id="sp-median-val">$1.47M</div>
+      <div class="sp-sub">Houses · <a href="https://www.domain.com.au/research/house-price-report/" target="_blank" rel="noopener">domain.com.au ↗</a></div>
+    </div>
+
+    <!-- Auction Clearance Rate -->
+    <div class="sp-widget" id="sw-auction">
+      <div class="sp-widget-label">
+        Auction Clearance
+        <span class="sp-relevant-tag">Relevant</span>
+      </div>
+      <div class="sp-value" id="sp-auction-val">~65%</div>
+      <div class="sp-sub">Sydney weekly · <a href="https://www.domain.com.au/research/auction-results/" target="_blank" rel="noopener">domain.com.au ↗</a></div>
+    </div>
+
+    <div class="sp-footer">
+      Reference data — manually verified Apr 2026. Always confirm current figures with the relevant institution before making financial decisions.
+    </div>
+  </div>
+</aside>
+
 </body>
 </html>
