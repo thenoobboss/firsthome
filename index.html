@@ -4,1829 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HomePocket</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --teal: #0f766e;
-    --teal-light: #ccfbf1;
-    --teal-dark: #0c5c56;
-    --blue: #0369a1;
-    --bg: #f8fafc;
-    --surface: #ffffff;
-    --border: #e2e8f0;
-    --text: #1e293b;
-    --muted: #64748b;
-    --danger: #dc2626;
-    --success: #16a34a;
-    --radius: 9px;
-    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
-    --shadow-md: 0 4px 12px rgba(0,0,0,.08);
-    --color-background-warning: #fffbeb;
-    --color-text-warning: #92400e;
-    --color-border-warning: #f59e0b;
-    --color-background-danger: #fef2f2;
-    --color-border-danger: #fca5a5;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  #sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 260px;
-    height: 100vh;
-    background: var(--surface);
-    border-right: 1px solid var(--border);
-    padding: 32px 20px 40px;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    box-shadow: var(--shadow);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: opacity .15s;
-    margin-bottom: 28px;
-  }
-
-  .logo:hover { opacity: .75; }
-  .logo svg { display: block; max-width: 100%; }
-
-  nav {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  @media (max-width: 768px) {
-    #sidebar {
-      width: 100%;
-      height: auto;
-      flex-direction: row;
-      align-items: center;
-      padding: 0 16px;
-      border-right: none;
-      border-bottom: 1px solid var(--border);
-      overflow: visible;
-    }
-
-    .logo { margin-bottom: 0; }
-
-    nav {
-      flex-direction: row;
-      overflow-x: auto;
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding: 10px 0;
-    }
-
-    nav::-webkit-scrollbar { display: none; }
-    nav .tab-btn:last-child { padding-right: 16px; }
-  }
-
-  .scroll-track {
-    display: none;
-    width: 100%;
-    height: 2px;
-    background: var(--bg);
-    flex-shrink: 0;
-  }
-
-  #nav-scroll-bar {
-    height: 100%;
-    width: 0%;
-    background: var(--teal);
-    transition: width 0.1s ease-out;
-  }
-
-  @media (max-width: 600px) {
-    #sidebar {
-      flex-direction: column;
-      padding: 12px 0 0;
-      align-items: stretch;
-    }
-
-    .logo {
-      align-self: center;
-      margin-bottom: 8px;
-      margin-right: 0;
-    }
-
-    nav {
-      border-top: 1px solid var(--border);
-      padding: 8px 16px;
-    }
-
-    .scroll-track { display: block; }
-  }
-
-  .tab-btn {
-    padding: 10px 14px;
-    border: none;
-    background: transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--muted);
-    transition: all .15s;
-    text-align: left;
-    width: 100%;
-  }
-
-  .tab-btn:hover { background: var(--bg); color: var(--text); }
-  .tab-btn.active { background: var(--teal); color: #fff; }
-
-  main {
-    margin-left: 260px;
-    margin-right: 40px;   /* 32px handle + 8px gap — panel starts minimised */
-    padding: 36px 40px 60px;
-    transition: margin-right 250ms ease;
-  }
-
-  body.sp-open main { margin-right: 268px; }
-
-  @media (max-width: 768px) {
-    main {
-      margin-left: 0;
-      margin-right: 0;
-      margin-top: 62px;
-      padding: 24px 20px 60px;
-      transition: none;
-    }
-  }
-
-  @media (max-width: 600px) {
-    main {
-      margin-top: 120px;
-      padding: 20px 16px 60px;
-    }
-  }
-
-  /* ── Stats panel (right column) ── */
-  /* ── Stats panel shell ── */
-  #stats-panel {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 32px;          /* minimised by default */
-    height: 100vh;
-    overflow: hidden;
-    z-index: 999;
-    display: flex;
-    flex-direction: row;
-    transition: width 250ms ease;
-  }
-
-  body.sp-open #stats-panel { width: 260px; }
-
-  /* Toggle handle */
-  #sp-toggle {
-    width: 32px;
-    min-width: 32px;
-    align-self: stretch;   /* fills full panel height regardless of content */
-    background: var(--teal);
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    border-radius: 10px 0 0 10px;
-    padding: 0;
-    flex-shrink: 0;
-    transition: background .15s;
-    user-select: none;
-  }
-
-  #sp-toggle:hover { background: var(--teal-dark); }
-
-  .sp-chevron {
-    color: #fff;
-    display: flex;
-    align-items: center;
-    transition: transform 250ms ease;
-  }
-
-  body.sp-open .sp-chevron { transform: rotate(180deg); }
-
-  .sp-live-label {
-    color: rgba(255,255,255,.85);
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    white-space: nowrap;
-    user-select: none;
-  }
-
-  /* Scrollable content area */
-  #sp-content {
-    width: 228px;
-    min-width: 228px;
-    height: 100%;
-    overflow-y: auto;
-    padding: 24px 14px 36px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 150ms ease;
-    background: var(--surface);
-    border-left: 1px solid var(--border);
-    scrollbar-width: none;
-  }
-
-  #sp-content::-webkit-scrollbar { display: none; }
-
-  body.sp-open #sp-content {
-    opacity: 1;
-    pointer-events: auto;
-    transition: opacity 200ms ease 80ms;
-  }
-
-  /* Widget components */
-  .sp-header {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted);
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 2px;
-  }
-
-  .sp-widget {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px;
-    transition: border-color .2s, box-shadow .2s;
-  }
-
-  .sp-widget.sp-highlight {
-    border-color: var(--teal);
-    box-shadow: 0 0 0 3px rgba(15,118,110,.08);
-  }
-
-  .sp-widget-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .8px;
-    color: var(--muted);
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .sp-relevant-tag {
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    color: var(--teal);
-    background: var(--teal-light);
-    border-radius: 4px;
-    padding: 2px 6px;
-    display: none;
-  }
-
-  .sp-widget.sp-highlight .sp-relevant-tag { display: inline; }
-
-  .sp-value {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--text);
-    line-height: 1.1;
-  }
-
-  .sp-sub {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 3px;
-  }
-
-  .sp-rates-list {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-top: 4px;
-  }
-
-  .sp-rate-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-  }
-
-  .sp-rate-bank { color: var(--muted); }
-  .sp-rate-val  { font-weight: 700; color: var(--text); }
-
-  .sp-divider { height: 1px; background: var(--border); margin: 2px 0; }
-
-  .sp-footer {
-    margin-top: auto;
-    padding-top: 12px;
-    font-size: 10px;
-    color: var(--muted);
-    line-height: 1.5;
-    border-top: 1px solid var(--border);
-  }
-
-  .sp-footer a { color: var(--muted); text-decoration: underline; }
-
-  /* Mobile — completely hidden, no trace */
-  @media (max-width: 768px) {
-    #stats-panel { display: none !important; }
-    main { margin-right: 0 !important; transition: none !important; }
-  }
-
-  /* Mobile inline stats (home tab only) */
-  #stats-inline {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  #stats-inline .sp-widget { background: var(--surface); }
-
-  @media (max-width: 768px) {
-    #stats-inline { display: flex; }
-  }
-
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* ── Borrowing Power section ── */
-
-  .borrow-disclaimer {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    background: var(--color-background-warning);
-    border: 1px solid var(--color-border-warning);
-    border-radius: var(--radius);
-    padding: 14px 18px;
-    font-size: 14px;
-    color: var(--color-text-warning);
-    margin-bottom: 28px;
-    line-height: 1.5;
-  }
-
-  .borrow-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-
-  .borrow-card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px 20px;
-    text-decoration: none;
-    color: var(--text);
-    box-shadow: var(--shadow);
-    transition: box-shadow .15s, border-color .15s, transform .12s;
-    cursor: pointer;
-  }
-
-  .borrow-card:hover {
-    box-shadow: var(--shadow-md);
-    border-color: var(--teal);
-    transform: translateY(-1px);
-  }
-
-  .borrow-card-logo { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-
-  .borrow-favicon {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    object-fit: contain;
-    border: 1px solid var(--border);
-    background: #fff;
-  }
-
-  .borrow-card-body { flex: 1; }
-
-  .borrow-card-name {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 3px;
-  }
-
-  .borrow-card-desc {
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.4;
-  }
-
-  .borrow-card-arrow {
-    flex-shrink: 0;
-    color: var(--muted);
-    transition: color .15s, transform .15s;
-  }
-
-  .borrow-card:hover .borrow-card-arrow {
-    color: var(--teal);
-    transform: translateX(3px);
-  }
-
-  .borrow-footer-note {
-    font-size: 13px;
-    color: var(--muted);
-    text-align: center;
-    margin-top: 8px;
-  }
-
-  @media (max-width: 600px) {
-    .borrow-grid { grid-template-columns: 1fr; }
-  }
-
-  /* ── Grants section ── */
-
-  .section-header { margin-bottom: 20px; }
-  .section-header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-  .section-header p { color: var(--muted); font-size: 14px; }
-
-  /* ── State sub-navigation (within Grants tab) ── */
-
-  .state-subnav {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 24px;
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 0;
-  }
-
-  .state-subnav-btn {
-    padding: 9px 20px;
-    border: none;
-    background: transparent;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--muted);
-    transition: all .15s;
-    position: relative;
-    bottom: -2px;
-    border-bottom: 2px solid transparent;
-  }
-
-  .state-subnav-btn:hover { color: var(--text); background: var(--bg); }
-
-  .state-subnav-btn.active {
-    color: var(--teal-dark);
-    font-weight: 700;
-    border-bottom: 2px solid var(--teal);
-    background: transparent;
-  }
-
-  .state-panel { display: none; }
-  .state-panel.active { display: block; }
-
-  .nsw-scheme-grid { display: flex; flex-direction: column; gap: 20px; }
-
-  /* Expandable NSW card */
-  .nsw-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: box-shadow .15s;
-  }
-
-  .nsw-card:hover { box-shadow: var(--shadow-md); }
-
-  .nsw-card-header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 22px 24px;
-    cursor: pointer;
-    gap: 16px;
-    user-select: none;
-    transition: background .12s;
-  }
-
-  .nsw-card-header:hover { background: var(--bg); }
-
-  .nsw-header-content { flex: 1; }
-
-  .nsw-grant-amount {
-    font-size: 34px;
-    font-weight: 800;
-    color: var(--teal);
-    line-height: 1.1;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-
-  .nsw-badge {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    letter-spacing: .3px;
-  }
-
-  .nsw-badge-green { background: #dcfce7; color: #15803d; }
-  .nsw-badge-teal  { background: var(--teal-light); color: var(--teal-dark); }
-
-  .nsw-card-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 5px;
-    line-height: 1.3;
-  }
-
-  .nsw-card-subtitle {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--teal-dark);
-    margin-bottom: 6px;
-  }
-
-  .nsw-card-summary { font-size: 14px; color: var(--muted); line-height: 1.5; }
-
-  .nsw-chevron {
-    color: var(--muted);
-    font-size: 20px;
-    transition: transform .2s;
-    flex-shrink: 0;
-    margin-top: 8px;
-  }
-
-  .nsw-card.open .nsw-chevron { transform: rotate(180deg); }
-
-  .nsw-card-body {
-    display: none;
-    padding: 0 24px 24px;
-    border-top: 1px solid var(--border);
-  }
-
-  .nsw-card.open .nsw-card-body { display: block; }
-
-  /* Source link button */
-  .nsw-source-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--teal);
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    margin: 18px 0 20px;
-    padding: 8px 16px;
-    border: 1.5px solid var(--teal);
-    border-radius: 7px;
-    transition: all .15s;
-  }
-
-  .nsw-source-link:hover { background: var(--teal); color: #fff; }
-
-  /* Eligibility table */
-  .nsw-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13.5px;
-    margin-bottom: 4px;
-  }
-
-  .nsw-table th {
-    background: var(--bg);
-    padding: 9px 14px;
-    text-align: left;
-    font-weight: 600;
-    color: var(--muted);
-    border-bottom: 2px solid var(--border);
-  }
-
-  .nsw-table td {
-    padding: 9px 14px;
-    border-bottom: 1px solid var(--border);
-    vertical-align: top;
-    line-height: 1.55;
-  }
-
-  .nsw-table tr:last-child td { border-bottom: none; }
-
-  .nsw-table td:first-child {
-    font-weight: 600;
-    color: var(--text);
-    width: 220px;
-    min-width: 150px;
-  }
-
-  /* Section sub-label */
-  .nsw-section-label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .6px;
-    color: var(--muted);
-    margin: 20px 0 10px;
-  }
-
-  .nsw-table-subtitle {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-
-  /* Notes */
-  .nsw-note {
-    display: flex;
-    gap: 8px;
-    padding: 11px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1.55;
-    margin-top: 12px;
-  }
-
-  .nsw-note-amber { background: #fef9c3; border: 1px solid #fde047; color: #713f12; }
-  .nsw-note-green { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; }
-  .nsw-note-red   { background: #fef2f2; border: 1px solid #fca5a5; color: #7f1d1d; }
-
-  /* Page disclaimer */
-  .nsw-page-disclaimer {
-    margin-top: 24px;
-    padding: 14px 18px;
-    background: #fef9c3;
-    border: 1px solid #fde047;
-    border-radius: 8px;
-    font-size: 12px;
-    color: #713f12;
-    line-height: 1.65;
-  }
-
-  @media (max-width: 600px) {
-    .nsw-card-header { padding: 16px; }
-    .nsw-card-body { padding: 0 16px 20px; }
-    .nsw-grant-amount { font-size: 26px; }
-    .nsw-table td:first-child { width: 130px; min-width: 110px; }
-  }
-
-  /* ── Home page ── */
-
-  .home-hero {
-    background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, #0d9488 100%);
-    border-radius: 16px;
-    padding: 48px 40px;
-    color: #fff;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .home-hero::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 260px; height: 260px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.06);
-    pointer-events: none;
-  }
-
-  .home-hero::after {
-    content: '';
-    position: absolute;
-    bottom: -60px; left: -20px;
-    width: 200px; height: 200px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.04);
-    pointer-events: none;
-  }
-
-  .home-hero-eyebrow {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: .75;
-    margin-bottom: 12px;
-  }
-
-  .home-hero-title {
-    font-size: 32px;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 18px;
-  }
-
-  .home-hero-title span { opacity: .6; font-weight: 400; }
-
-  .home-hero-desc {
-    font-size: 16px;
-    line-height: 1.7;
-    opacity: .9;
-    max-width: 620px;
-    margin-bottom: 28px;
-  }
-
-  .home-hero-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: #fff;
-    color: var(--teal-dark);
-    font-size: 14px;
-    font-weight: 700;
-    padding: 11px 22px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all .15s;
-    text-decoration: none;
-  }
-
-  .home-hero-cta:hover { background: var(--teal-light); }
-
-  .home-features {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-bottom: 32px;
-  }
-
-  @media (max-width: 640px) {
-    .home-features { grid-template-columns: 1fr; }
-    .home-hero { padding: 32px 24px; }
-    .home-hero-title { font-size: 24px; }
-  }
-
-  .home-feature-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 30px;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    transition: box-shadow .15s, border-color .15s;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .home-feature-card:hover {
-    box-shadow: var(--shadow-md);
-    border-color: var(--teal);
-  }
-
-  .home-feature-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--teal-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .home-feature-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .home-feature-tag {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 20px;
-    background: var(--teal-light);
-    color: var(--teal-dark);
-    margin-bottom: 2px;
-  }
-
-  .home-feature-desc {
-    font-size: 13.5px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-
-  .home-feature-arrow {
-    margin-top: auto;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--teal);
-  }
-
-  .home-disclaimer {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px 18px;
-    font-size: 12.5px;
-    color: var(--muted);
-    line-height: 1.65;
-    text-align: center;
-  }
-
-  /* ── FAQ section ── */
-
-  .faq-body-content { font-size: 14px; line-height: 1.7; color: #374151; }
-
-  .faq-highlight-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 18px 0;
-  }
-
-  @media (max-width: 560px) { .faq-highlight-grid { grid-template-columns: 1fr; } }
-
-  .faq-highlight-block {
-    background: var(--teal-light);
-    border-left: 3px solid var(--teal);
-    border-radius: 6px;
-    padding: 12px 14px;
-  }
-
-  .faq-highlight-block strong {
-    display: block;
-    color: var(--teal-dark);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    margin-bottom: 4px;
-  }
-
-  .faq-phase {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 22px 0 10px;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--teal-dark);
-    text-transform: uppercase;
-    letter-spacing: .5px;
-  }
-
-  .faq-phase-num {
-    background: var(--teal);
-    color: #fff;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-
-  .faq-steps { list-style: none; padding: 0; margin: 0; }
-
-  .faq-steps li {
-    padding: 9px 12px 9px 14px;
-    border-left: 3px solid var(--border);
-    margin-bottom: 8px;
-    border-radius: 0 6px 6px 0;
-    background: var(--bg);
-    line-height: 1.6;
-  }
-
-  .faq-steps li strong { color: var(--text); }
-
-  .faq-steps li .faq-sub {
-    margin-top: 6px;
-    padding-left: 14px;
-    font-size: 13px;
-    color: var(--muted);
-  }
-
-  .faq-offset-summary {
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 16px 18px;
-    margin: 14px 0;
-    font-size: 14px;
-    line-height: 1.75;
-  }
-
-  /* ── Fee groups (Q3) ── */
-
-  .faq-fee-group { margin-top: 26px; }
-  .faq-fee-group:first-child { margin-top: 4px; }
-
-  .faq-fee-group-title {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .6px;
-    color: var(--teal-dark);
-    padding-bottom: 8px;
-    margin-bottom: 10px;
-    border-bottom: 2px solid var(--teal-light);
-  }
-
-  /* Sub-accordion (duty rates inside Q3) */
-  .faq-sub-acc {
-    margin-top: 14px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .faq-sub-acc-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 11px 14px;
-    cursor: pointer;
-    background: var(--bg);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    user-select: none;
-    gap: 8px;
-    transition: background .12s;
-  }
-
-  .faq-sub-acc-header:hover { background: #f1f5f9; }
-
-  .faq-sub-chevron {
-    font-size: 14px;
-    color: var(--muted);
-    transition: transform .2s;
-    flex-shrink: 0;
-  }
-
-  .faq-sub-acc.open .faq-sub-chevron { transform: rotate(180deg); }
-
-  .faq-sub-acc-body {
-    display: none;
-    padding: 16px;
-    border-top: 1px solid var(--border);
-  }
-
-  .faq-sub-acc.open .faq-sub-acc-body { display: block; }
-
-  .faq-sub-section-label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .6px;
-    color: var(--muted);
-    margin: 16px 0 8px;
-  }
-
-  .faq-sub-section-label:first-child { margin-top: 0; }
-
-  /* Summary callout */
-  .faq-callout {
-    margin-top: 26px;
-    background: var(--teal-light);
-    border-left: 4px solid var(--teal);
-    border-radius: 0 var(--radius) var(--radius) 0;
-    padding: 18px 20px;
-  }
-
-  .faq-callout-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--teal-dark);
-    margin-bottom: 12px;
-    line-height: 1.4;
-  }
-
-  .faq-callout-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 12px;
-  }
-
-  .faq-callout-list li {
-    padding: 6px 0;
-    font-size: 13.5px;
-    color: var(--teal-dark);
-    border-bottom: 1px solid rgba(13,148,136,.18);
-    line-height: 1.5;
-  }
-
-  .faq-callout-list li:last-child { border-bottom: none; }
-
-  .faq-callout-footer {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--teal-dark);
-  }
-
-  /* ── Offset before/after visual ── */
-  .faq-viz {
-    margin: 20px 0;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .faq-viz-header {
-    background: var(--bg);
-    padding: 9px 16px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: .6px;
-    border-bottom: 1px solid var(--border);
-    text-align: center;
-  }
-
-  .faq-viz-cols {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .faq-viz-col { padding: 18px 20px; }
-
-  .faq-viz-col + .faq-viz-col {
-    border-left: 1px solid var(--border);
-    background: #f0fdfa;
-  }
-
-  .faq-viz-col-label {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    margin-bottom: 2px;
-    text-align: center;
-  }
-
-  .faq-viz-col-label.before { color: #b45309; }
-  .faq-viz-col-label.after  { color: var(--teal-dark); }
-
-  .faq-viz-balance-text {
-    font-size: 12px;
-    color: var(--muted);
-    text-align: center;
-    margin-bottom: 14px;
-  }
-
-  .faq-viz-balance-text strong { color: var(--text); font-size: 13px; }
-
-  .faq-viz-bar {
-    height: 34px;
-    border-radius: 6px;
-    overflow: hidden;
-    display: flex;
-    margin-bottom: 14px;
-    background: #e2e8f0;
-  }
-
-  .faq-viz-bar-seg {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .faq-viz-bar-seg.interest  { background: #f97316; }
-  .faq-viz-bar-seg.principal { background: var(--teal); }
-
-  .faq-viz-stat {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    font-size: 13px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .faq-viz-stat:last-of-type { border-bottom: none; }
-
-  .faq-viz-stat-label {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    color: var(--muted);
-  }
-
-  .faq-viz-dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .faq-viz-dot.interest  { background: #f97316; }
-  .faq-viz-dot.principal { background: var(--teal); }
-
-  .faq-viz-stat-val { font-weight: 700; color: var(--text); }
-
-  .faq-viz-total {
-    margin-top: 10px;
-    padding-top: 8px;
-    border-top: 2px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .faq-viz-footer {
-    background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
-    border-top: 1px solid #99f6e4;
-    padding: 13px 20px;
-    font-size: 13.5px;
-    color: var(--teal-dark);
-    text-align: center;
-    line-height: 1.6;
-  }
-
-  @media (max-width: 580px) {
-    .faq-viz-cols { grid-template-columns: 1fr; }
-    .faq-viz-col + .faq-viz-col { border-left: none; border-top: 1px solid var(--border); }
-  }
-
-  /* ── Calculator section ── */
-
-  .calc-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: start;
-  }
-
-  @media (max-width: 700px) {
-    .calc-layout { grid-template-columns: 1fr; }
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px;
-    box-shadow: var(--shadow);
-  }
-
-  .card h2 {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 18px;
-    color: var(--text);
-  }
-
-  .field { margin-bottom: 18px; }
-
-  .field label {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-
-  .field label .val {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .field input[type=range] {
-    width: 100%;
-    accent-color: var(--teal);
-    height: 4px;
-    cursor: pointer;
-  }
-
-  .field-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-top: 6px;
-  }
-
-  .field-row input[type=number] {
-    flex: 1;
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 14px;
-    color: var(--text);
-    outline: none;
-    transition: border-color .15s;
-    background: var(--surface);
-  }
-
-  .field-row input[type=number]:focus { border-color: var(--teal); }
-
-  .results-card {
-    background: var(--teal);
-    color: #fff;
-    border-radius: var(--radius);
-    padding: 22px;
-    box-shadow: var(--shadow-md);
-  }
-
-  .results-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 18px; opacity: .9; }
-
-  .result-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,.18);
-    gap: 12px;
-  }
-
-  .result-row:last-child { border-bottom: none; }
-
-  .result-label { font-size: 13px; opacity: .85; }
-
-  .result-value {
-    font-size: 16px;
-    font-weight: 700;
-    text-align: right;
-  }
-
-  .result-value.accent {
-    font-size: 20px;
-    color: #a7f3d0;
-  }
-
-  .saving-tag {
-    display: inline-block;
-    background: rgba(255,255,255,.15);
-    border-radius: 20px;
-    padding: 2px 10px;
-    font-size: 12px;
-    font-weight: 600;
-    margin-top: 4px;
-    color: #d1fae5;
-  }
-
-  .chart-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px;
-    box-shadow: var(--shadow);
-    margin-top: 20px;
-  }
-
-  .chart-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
-
-  .chart-legend {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-    font-size: 13px;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-
-  .legend-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .chart-wrapper { position: relative; height: 300px; }
-
-  /* ── Rate rise scenarios ── */
-
-  .rate-scenarios { margin-top: 24px; }
-
-  .rate-scenarios > h2 {
-    font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    color: var(--text);
-  }
-
-  .rate-warn-banner {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    background: var(--color-background-warning);
-    border: 1px solid var(--color-border-warning);
-    border-left: 4px solid var(--color-border-warning);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-bottom: 18px;
-    font-size: 13.5px;
-    color: var(--color-text-warning);
-    line-height: 1.65;
-  }
-
-  .rate-warn-icon { flex-shrink: 0; margin-top: 1px; }
-
-  .rate-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 16px;
-  }
-
-  .rate-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 3px solid var(--teal);
-    border-radius: var(--radius);
-    padding: 18px 16px 16px;
-    box-shadow: var(--shadow);
-  }
-
-  .rate-card-rate {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--teal);
-    line-height: 1.1;
-    margin-bottom: 2px;
-  }
-
-  .rate-card-rate-label {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-
-  .rate-card-freq-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    color: var(--muted);
-    margin-bottom: 4px;
-  }
-
-  .rate-card-payment {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--text);
-    margin-bottom: 4px;
-    line-height: 1.15;
-  }
-
-  .rate-card-diff {
-    font-size: 13px;
-    font-weight: 600;
-    color: #d97706;
-  }
-
-  .rate-note {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    background: var(--color-background-danger);
-    border: 1px solid var(--color-border-danger);
-    border-left: 4px solid #dc2626;
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    font-size: 13.5px;
-    color: #7f1d1d;
-    line-height: 1.65;
-  }
-
-  .rate-note-icon { flex-shrink: 0; margin-top: 2px; }
-
-  @media (max-width: 640px) {
-    .rate-cards { grid-template-columns: 1fr; }
-  }
-
-  /* ── Disclaimer ── */
-
-  .disclaimer {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 24px 40px;
-    font-size: 12px;
-    color: var(--muted);
-    text-align: center;
-    line-height: 1.6;
-  }
-
-  .disclaimer::before {
-    content: '';
-    display: block;
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 16px;
-  }
-
-  /* ── Rental yield ── */
-
-  .ry-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-
-  .ry-metric {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    box-shadow: var(--shadow);
-  }
-
-  .ry-metric-label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .ry-metric-value {
-    font-size: 24px;
-    font-weight: 800;
-    line-height: 1.1;
-  }
-
-  .ry-metric-value.green  { color: #16a34a; }
-  .ry-metric-value.amber  { color: #d97706; }
-  .ry-metric-value.red    { color: #dc2626; }
-  .ry-metric-value.teal   { color: var(--teal); }
-
-  .ry-badge {
-    display: inline-block;
-    margin-top: 6px;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .ry-badge.positive { background: #dcfce7; color: #15803d; }
-  .ry-badge.negative { background: #fee2e2; color: #dc2626; }
-
-  .ry-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: start;
-  }
-
-  .ry-prefill-note {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--muted);
-    background: var(--teal-light);
-    border-radius: 8px;
-    padding: 8px 12px;
-    margin-bottom: 16px;
-  }
-
-  .ry-prefill-note span { color: var(--teal-dark); font-weight: 600; }
-
-  .ry-field {
-    margin-bottom: 14px;
-  }
-
-  .ry-field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 5px;
-  }
-
-  .ry-field input {
-    flex: 1;
-    min-width: 0;
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 14px;
-    color: var(--text);
-    background: var(--surface);
-    outline: none;
-    transition: border-color .15s;
-  }
-
-  .ry-field input:focus { border-color: var(--teal); }
-
-  /* Expense row with inline frequency selector */
-  .ry-expense-row {
-    display: flex;
-    gap: 6px;
-    align-items: center;
-  }
-
-  .ry-freq-select {
-    flex-shrink: 0;
-    padding: 8px 6px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--bg);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    outline: none;
-    transition: border-color .15s;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2394a3b8'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 6px center;
-    padding-right: 20px;
-  }
-
-  .ry-freq-select:focus { border-color: var(--teal); }
-
-  .ry-ann-hint {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 3px;
-    min-height: 16px;
-  }
-
-  .ry-section-title {
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    color: var(--muted);
-    margin: 18px 0 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .ry-results-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .ry-results-card h2 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
-
-  .ry-result-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    gap: 12px;
-    font-size: 14px;
-  }
-
-  .ry-result-row:last-child { border-bottom: none; }
-
-  .ry-result-label { color: var(--muted); }
-
-  .ry-result-value { font-weight: 700; text-align: right; }
-
-  .ry-result-value.highlight { color: var(--teal-dark); font-size: 16px; }
-  .ry-result-value.pos { color: #16a34a; }
-  .ry-result-value.neg { color: #dc2626; }
-
-  .ry-disclaimer {
-    margin-top: 20px;
-    padding: 12px 16px;
-    background: #fef9c3;
-    border: 1px solid #fde047;
-    border-radius: 8px;
-    font-size: 12px;
-    color: #713f12;
-    line-height: 1.6;
-  }
-
-  @media (max-width: 680px) {
-    .ry-layout { grid-template-columns: 1fr; }
-    .ry-summary { grid-template-columns: 1fr 1fr; }
-  }
-
-  /* ── Frequency pill toggle ── */
-  .freq-pills {
-    display: flex;
-    gap: 4px;
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 4px;
-    margin-top: 8px;
-  }
-
-  .freq-pill {
-    flex: 1;
-    padding: 6px 8px;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all .15s;
-    text-align: center;
-  }
-
-  .freq-pill.active {
-    background: var(--surface);
-    color: var(--teal);
-    box-shadow: var(--shadow);
-    font-weight: 600;
-  }
-
-  /* ── IO period selector ── */
-  .io-select {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    font-size: 14px;
-    color: var(--text);
-    cursor: pointer;
-    outline: none;
-    transition: border-color .15s;
-    margin-top: 8px;
-  }
-
-  .io-select:focus { border-color: var(--teal); }
-
-  .io-warning {
-    display: none;
-    margin-top: 10px;
-    padding: 10px 14px;
-    background: #fef3c7;
-    border: 1px solid #f59e0b;
-    border-radius: 8px;
-    font-size: 13px;
-    color: #92400e;
-    line-height: 1.5;
-  }
-
-  .io-warning.visible { display: block; }
-
-  /* ── IO result rows ── */
-  .result-row.io-row { display: none; }
-  .result-row.io-row.visible { display: flex; }
-
-  /* ── IO chart legend item ── */
-  .legend-item-io { display: none; }
-  .legend-item-io.visible { display: flex; }
-
-  .legend-io-band {
-    width: 22px;
-    height: 12px;
-    flex-shrink: 0;
-    border-radius: 2px;
-    background: repeating-linear-gradient(
-      45deg,
-      rgba(13,148,136,.3) 0px,
-      rgba(13,148,136,.3) 2px,
-      rgba(13,148,136,.07) 2px,
-      rgba(13,148,136,.07) 6px
-    );
-  }
-
-  /* ── Mobile tweaks ── */
-
-  @media (max-width: 600px) {
-    .tab-btn { padding: 8px 10px; font-size: 13px; }
-    .info-grid { grid-template-columns: 1fr 1fr; }
-    .card, .results-card { padding: 16px; }
-  }
-
-  /* ── Google Translate suppression ── */
-  .goog-te-banner-frame,
-  .goog-te-balloon-frame,
-  #goog-gt-tt,
-  .goog-tooltip,
-  .VIpgJd-ZVi9od-ORHb-OEVmcd,
-  .VIpgJd-ZVi9od-ORHb { display: none !important; }
-  body { top: 0 !important; }
-  .skiptranslate { display: none !important; }
-  font { display: inline; }          /* Google Translate wraps words in <font> */
-
-  /* ── Translate button ── */
-  #translate-wrap {
-    margin-top: auto;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-  }
-
-  #translate-btn {
-    width: 100%;
-    padding: 9px 14px;
-    background: transparent;
-    color: var(--teal);
-    border: 1.5px solid var(--teal);
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    white-space: nowrap;
-  }
-
-  #translate-btn:hover {
-    background: var(--teal);
-    color: #fff;
-  }
-
-  #translate-btn.active {
-    background: var(--teal);
-    color: #fff;
-  }
-
-  /* Mobile translate button (below hero) */
-  #translate-mobile-wrap { display: none; margin-bottom: 20px; }
-
-  #translate-btn-mobile {
-    width: 100%;
-    height: 48px;
-    padding: 0 20px;
-    background: transparent;
-    color: var(--teal);
-    border: 1.5px solid var(--teal);
-    border-radius: 16px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .15s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    white-space: nowrap;
-  }
-
-  #translate-btn-mobile:hover,
-  #translate-btn-mobile.active { background: var(--teal); color: #fff; }
-
-  @media (max-width: 768px) {
-    /* Hide the sidebar button — mobile button takes over */
-    #translate-wrap { display: none !important; }
-    /* Show the below-hero button */
-    #translate-mobile-wrap { display: block; }
-  }
-
-</style>
+<!-- Styles — main first, then tab-specific files -->
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/navbar.css">
+<link rel="stylesheet" href="css/hero.css">
+<link rel="stylesheet" href="css/calculator.css">
+<link rel="stylesheet" href="css/grants.css">
+<link rel="stylesheet" href="css/rental.css">
+<link rel="stylesheet" href="css/faq.css">
+<link rel="stylesheet" href="css/deposit.css">
+<link rel="stylesheet" href="css/simulator.css">
 </head>
+
+<!-- Google Translate widget initialisation -->
 <script>
   function googleTranslateElementInit() {
     new google.translate.TranslateElement({
@@ -1837,8 +28,10 @@
   }
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+
 <body>
 
+<!-- ══ Sidebar navigation ══ -->
 <div id="sidebar">
   <div class="logo" onclick="switchHome()" role="button" tabindex="0" aria-label="Go to HomePocket home">
       <svg width="180" height="44" viewBox="0 0 360 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="HomePocket logo">
@@ -1876,6 +69,8 @@
       </svg>
     </div>
     <nav>
+      <button class="tab-btn" data-tab="advice" onclick="switchTab('advice', this)">Friendly Advice</button>
+      <button class="tab-btn" data-tab="deposit" onclick="switchTab('deposit', this)">Deposit Growth</button>
       <button class="tab-btn" onclick="switchTab('grants', this)">Grants &amp; schemes</button>
       <button class="tab-btn" onclick="switchTab('borrow', this)">Borrowing power</button>
       <button class="tab-btn" onclick="switchTab('calc', this)">Mortgage calculator</button>
@@ -1894,6 +89,395 @@
 
 <main>
 
+  <!-- ══════════════ FRIENDLY ADVICE TAB ══════════════ -->
+  <div id="tab-advice" class="tab-panel">
+
+    <div class="section-header">
+      <h1>Friendly Advice</h1>
+      <p>A plain-English guide to buying your first home in Australia — no jargon, no fluff.</p>
+    </div>
+
+    <!-- Buying Roadmap -->
+    <div style="margin-bottom: 32px;">
+      <h2 style="font-size:18px;font-weight:700;margin-bottom:20px;color:var(--text)">Your Buying Roadmap</h2>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <!-- Step 1 — HIGHLIGHTED -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--teal-light);border:2px solid var(--teal);border-radius:var(--radius);padding:18px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;">1</div>
+          <div>
+            <div style="font-weight:700;color:var(--teal-dark);font-size:15px;margin-bottom:4px;">Comfortable Repayments</div>
+            <div style="font-size:14px;color:#134e4a;line-height:1.6;">Before anything else, use the <strong>HomePocket Mortgage Calculator</strong> to find a monthly repayment that fits your actual lifestyle — not just the maximum the bank will lend you. The bank's limit and your comfort limit are very different numbers. Start here.</div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">2</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Research Grants &amp; Schemes</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Check what government money is on the table before you save a single dollar extra. The NSW First Home Buyers Assistance Scheme (stamp duty waiver), the $10,000 FHOG, and the Federal 5% Deposit Scheme can save you tens of thousands. See the <strong>Grants &amp; schemes</strong> tab.</div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">3</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Save Your Deposit</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Aim for <strong>20%</strong> to avoid Lenders Mortgage Insurance (LMI), or as low as <strong>5%</strong> if you qualify for the First Home Guarantee. Don't forget to budget for stamp duty, solicitor fees, and other upfront costs on top of your deposit.</div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">4</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Boost Your Deposit via FHSSS</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Salary-sacrifice into super, then withdraw up to <strong>$50,000</strong> at a lower tax rate under the First Home Super Saver Scheme. Start contributions early — the ATO takes <strong>15–20 business days</strong> to release funds once you request them.</div>
+          </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">5</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Get Pre-Approval</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Obtain a formal Approval in Principle from a lender. This tells you exactly how much you can borrow and shows agents and vendors that you're a serious, qualified buyer. Use the <strong>Borrowing Power</strong> tab to compare lenders.</div>
+          </div>
+        </div>
+
+        <!-- Step 6 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">6</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Engage a Solicitor or Conveyancer Early</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Get a solicitor or conveyancer lined up before you start seriously shopping. When you find a property, you need them ready to review the contract of sale immediately — the best deals don't wait.</div>
+          </div>
+        </div>
+
+        <!-- Step 7 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">7</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Set Your Search Criteria</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Define your must-haves vs. nice-to-haves: suburb, commute distance, bedrooms, parking, body corporate. Set up property alerts on Domain and realestate.com.au so you're notified the moment something matching hits the market.</div>
+          </div>
+        </div>
+
+        <!-- Step 8 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">8</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Attend Inspections &amp; Ask Hard Questions</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Go to open homes with a critical eye. Look for moisture stains, cracked rendering, sloping floors, and drainage issues. Ask the agent: when was it last rented? why is the vendor selling? has it ever had pest damage? Agents are obligated to disclose known defects.</div>
+          </div>
+        </div>
+
+        <!-- Step 9 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">9</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Order Building, Pest &amp; Strata Reports</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">A building and pest inspection ($400–$800) is cheap insurance against a six-figure mistake. For apartments and townhouses, a <strong>strata report</strong> reveals the building's financial health, outstanding levies, and any pending special levies — critical before you commit.</div>
+          </div>
+        </div>
+
+        <!-- Step 10 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">10</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Review the Contract of Sale</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Have your solicitor review the full contract before you make any offer. They will flag easements, caveats, zoning restrictions, and any conditions that could affect the property's value or your ability to use it as intended.</div>
+          </div>
+        </div>
+
+        <!-- Step 11 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">11</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Make Your Offer or Bid at Auction</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;"><strong>Private treaty:</strong> Negotiate price and conditions; request a "subject to finance" clause where possible. <strong>Auction:</strong> You must have your finance and reports completed before bidding — if you win, contracts exchange on the spot unconditionally and a 10% deposit is due immediately.</div>
+          </div>
+        </div>
+
+        <!-- Step 12 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">12</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Exchange Contracts &amp; Pay Your Deposit</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Both parties sign contracts and exchange — you are now legally committed. A cooling-off period (typically 5 business days in NSW for private treaty) applies, during which you can withdraw at a small penalty. Cooling-off does <em>not</em> apply to auctions.</div>
+          </div>
+        </div>
+
+        <!-- Step 13 -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--bg);border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:var(--muted);">13</div>
+          <div>
+            <div style="font-weight:700;color:var(--text);font-size:15px;margin-bottom:4px;">Pre-Settlement Inspection</div>
+            <div style="font-size:14px;color:var(--muted);line-height:1.6;">Inspect the property 1–3 days before settlement to confirm it is in the agreed condition — all inclusions (appliances, light fittings, curtains) are present and the property is undamaged. If anything has changed, alert your solicitor immediately so they can hold settlement funds if necessary.</div>
+          </div>
+        </div>
+
+        <!-- Step 14 — HIGHLIGHTED -->
+        <div style="display:flex;gap:16px;align-items:flex-start;background:var(--teal-light);border:2px solid var(--teal);border-radius:var(--radius);padding:18px 20px;">
+          <div style="flex-shrink:0;width:32px;height:32px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;">14</div>
+          <div>
+            <div style="font-weight:700;color:var(--teal-dark);font-size:15px;margin-bottom:4px;">Settlement Day &amp; The Offset Account</div>
+            <div style="font-size:14px;color:#134e4a;line-height:1.6;">Your bank transfers the remaining funds to the vendor and the title transfers to your name — you get the keys. <strong>Do this on Day 1:</strong> move every dollar of remaining savings into your offset account. Every dollar sitting in offset reduces the principal your interest is calculated on. A $50,000 offset on a $500,000 loan at 6.14% saves you over $3,000 in interest in the first year alone — and shaves years off your loan term.</div>
+          </div>
+        </div>
+
+      </div><!-- /steps -->
+    </div>
+
+    <!-- Pro-Tip box -->
+    <div style="background:var(--color-background-warning);border:1px solid var(--color-border-warning);border-radius:var(--radius);padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin-bottom:32px;">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="9" stroke="#92400e" stroke-width="1.8"/><path d="M10 5v5m0 3h.01" stroke="#92400e" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <div>
+        <div style="font-weight:700;color:var(--color-text-warning);font-size:14px;margin-bottom:6px;">Pro-Tip — FHSSS Fund Release Timing</div>
+        <div style="font-size:14px;color:var(--color-text-warning);line-height:1.6;">The ATO takes <strong>15–20 business days</strong> to release your First Home Super Saver Scheme funds after you submit your release request. You must also have your ATO determination <em>before</em> signing any purchase contract. Plan your FHSSS withdrawal well before you expect to need the funds — do not wait until you have found a property. The clock doesn't start until the ATO receives a valid release request, and delays around tax time are common.</div>
+      </div>
+    </div>
+
+    <div class="home-disclaimer">
+      This roadmap is general guidance only and does not constitute financial or legal advice. Property purchase processes may vary by state and individual circumstance. Always consult a licensed mortgage broker, solicitor, or financial adviser before making decisions.
+    </div>
+
+  </div><!-- /tab-advice -->
+
+
+  <!-- ══════════════ DEPOSIT GROWTH TAB ══════════════ -->
+  <div id="tab-deposit" class="tab-panel">
+
+    <!-- Header -->
+    <div class="deposit-header">
+      <h2>Deposit Growth Pathways</h2>
+      <p>Three ways people build their first home deposit — pick the vibe that matches your personality and timeline.</p>
+    </div>
+
+    <!-- Disclaimer -->
+    <div class="deposit-disclaimer">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#a16207" stroke-width="1.8"/><path d="M10 6v4m0 3h.01" stroke="#a16207" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span><strong>Heads up:</strong> HomePocket doesn't give financial advice. This is just a look at how different people tackle the 'savings mountain.' Do your own research or talk to a pro before moving big money.</span>
+    </div>
+
+    <!-- 3-pathway card grid -->
+    <div class="deposit-pathway-grid">
+
+      <!-- ── Pathway 1: The 'Sleep Easy' Path ── -->
+      <div class="deposit-pathway-card deposit-pathway-low">
+        <div class="deposit-pathway-top"></div>
+        <div class="deposit-pathway-inner">
+          <div class="deposit-pathway-badge">Low Risk</div>
+          <div class="deposit-pathway-icon">😴</div>
+          <div class="deposit-pathway-title">The 'Sleep Easy' Path</div>
+
+          <div class="deposit-section">
+            <div class="deposit-section-label">The Vibe</div>
+            <p>You want your money exactly where you left it, plus a little extra. Peace of mind over max returns.</p>
+          </div>
+
+          <div class="deposit-whatif">
+            <div class="deposit-section-label">The 'What If?'</div>
+            <p>It's the safest way to save, but it's slow. You won't lose money in a crash, but house prices might climb faster than your interest rate can keep up.</p>
+          </div>
+
+          <button class="deposit-explore-btn" onclick="openDepositSim('low')">
+            <span>See how it works →</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Pathway 2: The 'Slow & Steady' Path ── -->
+      <div class="deposit-pathway-card deposit-pathway-med">
+        <div class="deposit-pathway-top"></div>
+        <div class="deposit-pathway-inner">
+          <div class="deposit-pathway-badge">Medium Risk</div>
+          <div class="deposit-pathway-icon">📈</div>
+          <div class="deposit-pathway-title">The 'Slow &amp; Steady' Path</div>
+
+          <div class="deposit-section">
+            <div class="deposit-section-label">The Vibe</div>
+            <p>You're okay with some bumps along the way if it means potentially beating what the bank offers you.</p>
+          </div>
+
+          <div class="deposit-whatif">
+            <div class="deposit-section-label">The 'What If?'</div>
+            <p>You need a <strong>3–5 year runway</strong>. If the market dips right when you're ready to buy, you might have to wait for it to bounce back — or sell at a loss to hit your timeline.</p>
+          </div>
+
+          <button class="deposit-explore-btn" onclick="openDepositSim('med')">
+            <span>See how it works →</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── Pathway 3: The 'Wildcard' Path ── -->
+      <div class="deposit-pathway-card deposit-pathway-high">
+        <div class="deposit-pathway-top"></div>
+        <div class="deposit-pathway-inner">
+          <div class="deposit-pathway-badge">High Risk</div>
+          <div class="deposit-pathway-icon">🎲</div>
+          <div class="deposit-pathway-title">The 'Wildcard' Path</div>
+
+          <div class="deposit-section">
+            <div class="deposit-section-label">The Vibe</div>
+            <p>You're trying to speedrun your way to a deposit. High conviction, high stakes — not for the faint-hearted.</p>
+          </div>
+
+          <div class="deposit-whatif">
+            <div class="deposit-section-label">The 'What If?'</div>
+            <p>This is high-octane. You could double your money — or lose half of it in a weekend. <strong>Only for money you're genuinely prepared to lose.</strong></p>
+          </div>
+
+          <button class="deposit-explore-btn" onclick="openDepositSim('high')">
+            <span>See how it works →</span>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /deposit-pathway-grid -->
+
+  </div><!-- /tab-deposit -->
+
+
+  <!-- ══════════════ DEPOSIT SIMULATOR ══════════════ -->
+  <div id="tab-deposit-sim" class="tab-panel">
+
+    <!-- Top nav -->
+    <div class="sim-topbar">
+      <button class="sim-back-btn" onclick="closeDepositSim()">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M13 4l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to Paths
+      </button>
+      <span id="sim-path-badge" class="sim-path-badge"></span>
+    </div>
+
+    <!-- Single-column content wrapper -->
+    <div class="sim-content-wrap">
+
+      <!-- Educational content (JS-populated) -->
+      <div id="sim-edu-col"></div>
+
+      <!-- Savings Simulator — only shown for the Sleep Easy (low) path -->
+      <div id="sim-calc-section" class="sim-calc-section">
+
+        <div class="sim-calc-intro">
+          <div class="sim-calc-intro-eyebrow">Run the Numbers</div>
+          <h3 class="sim-calc-intro-title">Your Savings Simulator</h3>
+          <p class="sim-calc-intro-sub">Plug in your details below to see exactly when you'll hit your deposit target — or work backwards from a buying date.</p>
+          <p class="sim-calc-intro-disclaimer">Calculated daily, compounded monthly. This means the earlier you put in the funds for the month, the more interest you will receive.</p>
+        </div>
+
+        <div class="sim-calc-card">
+
+          <!-- Mode toggle -->
+          <div class="sim-mode-tabs">
+            <button class="sim-mode-btn active" id="smbtn-forward" onclick="setSimMode('forward')">How long will it take?</button>
+            <button class="sim-mode-btn" id="smbtn-reverse" onclick="setSimMode('reverse')">Work backwards</button>
+          </div>
+
+          <!-- Input fields -->
+          <div class="sim-fields">
+
+            <!-- Goal (prominent — shown in both modes) -->
+            <div class="sim-field sim-field-goal">
+              <label class="sim-label sim-label-goal">How much do you want to save to?</label>
+              <div class="sim-input-wrap sim-input-wrap-goal">
+                <span class="sim-input-pre sim-input-pre-goal">$</span>
+                <input id="sim-target" type="number" value="100000" min="1" step="5000" oninput="updateSim()">
+              </div>
+            </div>
+
+            <!-- Starting savings (shared) -->
+            <div class="sim-field-row">
+              <div class="sim-field">
+                <label class="sim-label">What's currently in your savings</label>
+                <div class="sim-input-wrap">
+                  <span class="sim-input-pre">$</span>
+                  <input id="sim-start" type="number" value="5000" min="0" step="500" oninput="updateSim()">
+                </div>
+              </div>
+
+              <!-- Forward mode: monthly deposit -->
+              <div class="sim-field" id="sim-fwd-inputs">
+                <label class="sim-label">Your monthly deposit</label>
+                <div class="sim-input-wrap">
+                  <span class="sim-input-pre">$</span>
+                  <input id="sim-contrib" type="number" value="1500" min="0" step="50" oninput="updateSim()">
+                </div>
+              </div>
+            </div>
+
+            <!-- Reverse mode: buying timeline -->
+            <div id="sim-rev-inputs" style="display:none">
+              <div class="sim-field">
+                <label class="sim-label">I want to buy in</label>
+                <div class="sim-buydate-row">
+                  <div class="sim-input-wrap">
+                    <input id="sim-buy-yrs" type="number" value="2" min="0" max="30" oninput="updateSim()">
+                    <span class="sim-input-post">yrs</span>
+                  </div>
+                  <div class="sim-input-wrap">
+                    <input id="sim-buy-mos" type="number" value="6" min="0" max="11" oninput="updateSim()">
+                    <span class="sim-input-post">mo</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interest / growth rate (shared) -->
+            <div class="sim-field">
+              <div class="sim-rate-header">
+                <label class="sim-label">Interest / Growth Rate</label>
+                <div class="sim-rate-input-wrap">
+                  <input id="sim-rate-input" type="number" value="5.0" min="0" max="8" step="0.5"
+                         oninput="updateSimRateFromInput()">
+                  <span class="sim-rate-input-suffix">%</span>
+                </div>
+              </div>
+              <input id="sim-rate" type="range" class="sim-rate-slider"
+                     min="0" max="8" step="0.5" value="5"
+                     oninput="updateSimRate()">
+              <div class="sim-rate-hints">
+                <span>0%</span><span>2%</span><span>5%</span><span>8%</span>
+              </div>
+            </div>
+
+          </div><!-- /sim-fields -->
+
+          <!-- Outputs (JS-populated) -->
+          <div class="sim-outputs" id="sim-outputs"></div>
+
+          <!-- Assumptions & Limitations — static, always visible -->
+          <div class="sim-assumptions">
+            <div class="sim-assumptions-header">
+              <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M10 6v4m0 3h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+              Calculator Assumptions and Method
+            </div>
+            <ul class="sim-assumptions-list">
+              <li>This calculator calculates compound interest on the starting balance and factors in any regular monthly deposit. It assumes no withdrawals or changes in interest rates during the savings period.</li>
+              <li>The displayed rate is for illustration purposes only; you may manually input your own interest rate into the calculator.</li>
+              <li>Total amounts (including interest earned) are rounded to the nearest cent.</li>
+              <li>This calculator doesn't take into account the impact of fees, charges, tax on interest, or changes to interest rates.</li>
+              <li>Each calculation starts on the first day of the current month and assumes all deposits are made on the first day of the month.</li>
+            </ul>
+          </div>
+
+        </div><!-- /sim-calc-card -->
+
+      </div><!-- /sim-calc-section -->
+
+    </div><!-- /sim-content-wrap -->
+
+  </div><!-- /tab-deposit-sim -->
+
+
   <!-- ══════════════ HOME TAB ══════════════ -->
   <div id="tab-home" class="tab-panel active">
 
@@ -1902,7 +486,7 @@
       <div class="home-hero-eyebrow">NSW First Home Buyer Toolkit</div>
       <div class="home-hero-title">Home<span>Pocket</span></div>
       <div class="home-hero-desc">HomePocket is your essential toolkit for navigating the NSW property market. We simplify complex government grants, mortgage math, and investment analysis into clear, actionable data.</div>
-      <button class="home-hero-cta" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[0])">Get started →</button>
+      <button class="home-hero-cta" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[2])">Get started →</button>
     </div>
 
     <!-- Mobile translate button (hidden on desktop via CSS) -->
@@ -1943,7 +527,7 @@
     <!-- Feature cards -->
     <div class="home-features">
 
-      <div class="home-feature-card" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[0])">
+      <div class="home-feature-card" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[2])">
         <div class="home-feature-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="5" width="14" height="11" rx="2" stroke="#0f766e" stroke-width="1.6"/>
@@ -1959,7 +543,7 @@
         <div class="home-feature-arrow">Explore grants →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('borrow', document.querySelectorAll('.tab-btn')[1])">
+      <div class="home-feature-card" onclick="switchTab('borrow', document.querySelectorAll('.tab-btn')[3])">
         <div class="home-feature-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="2" y="6" width="16" height="11" rx="2" stroke="#0f766e" stroke-width="1.6"/>
@@ -1976,7 +560,7 @@
         <div class="home-feature-arrow">Check capacity →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('calc', document.querySelectorAll('.tab-btn')[2])">
+      <div class="home-feature-card" onclick="switchTab('calc', document.querySelectorAll('.tab-btn')[4])">
         <div class="home-feature-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="3" width="14" height="14" rx="2" stroke="#0f766e" stroke-width="1.6"/>
@@ -1991,7 +575,7 @@
         <div class="home-feature-arrow">Open calculator →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('rental', document.querySelectorAll('.tab-btn')[3])">
+      <div class="home-feature-card" onclick="switchTab('rental', document.querySelectorAll('.tab-btn')[5])">
         <div class="home-feature-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M3 15l4-5 4 3 3-4 3 3" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -2006,7 +590,7 @@
         <div class="home-feature-arrow">Analyse a property →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('faq', document.querySelectorAll('.tab-btn')[4])">
+      <div class="home-feature-card" onclick="switchTab('faq', document.querySelectorAll('.tab-btn')[6])">
         <div class="home-feature-icon">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="10" cy="10" r="7.5" stroke="#0f766e" stroke-width="1.6"/>
@@ -2271,147 +855,151 @@
 
       <div class="nsw-scheme-grid">
 
-        <!-- ── QLD Section 1: First Home Owner Grant ── -->
-        <div class="nsw-card" id="card-qld-fhog">
-          <div class="nsw-card-header" onclick="toggleCard('card-qld-fhog')">
-            <div class="nsw-header-content">
-              <div class="nsw-grant-amount">Up to $30,000 <span class="nsw-badge nsw-badge-green">Cash grant — new homes only</span></div>
-              <div class="nsw-card-title">First Home Owner Grant (FHOG)</div>
-              <div class="nsw-card-summary">A cash grant of up to $30,000 for eligible first home buyers purchasing or building a new home in Queensland. Established homes are not eligible.</div>
-            </div>
-            <div class="nsw-chevron">&#8964;</div>
+      <!-- ── QLD Card 1: First Home Owner Grant ── -->
+      <div class="nsw-card" id="card-qld-fhog">
+        <div class="nsw-card-header" onclick="toggleCard('card-qld-fhog')">
+          <div class="nsw-header-content">
+            <div class="nsw-grant-amount">$30,000 <span class="nsw-badge nsw-badge-green">Tax-free cash</span></div>
+            <div class="nsw-card-title">First Home Owner Grant (FHOG)</div>
+            <div class="nsw-card-summary">A $30,000 cash grant for eligible first home buyers purchasing a newly built or off-the-plan home in Queensland.</div>
           </div>
-          <div class="nsw-card-body">
-
-            <a class="nsw-source-link" href="https://www.qld.gov.au/housing/buying-owning-home/home-buyers-financial-help/first-home-owner-grant" target="_blank" rel="noopener">Official source — QLD Government ↗</a>
-
-            <div class="nsw-note nsw-note-amber" style="margin-bottom:16px">
-              <span>⚠</span>
-              <span><strong>Key distinction:</strong> The FHOG is a cash grant for <strong>NEW homes only</strong>. Transfer duty concessions (below) apply to <strong>both new and established homes</strong>.</span>
-            </div>
-
-            <table class="nsw-table">
-              <thead><tr><th>Criteria</th><th>Details</th></tr></thead>
-              <tbody>
-                <tr><td>Grant amount</td><td><strong>Up to $30,000</strong> for eligible transactions between 20 November 2023 and 30 June 2025. Reverts to <strong>$15,000</strong> from 1 July 2025 onwards.</td></tr>
-                <tr><td>Property type</td><td>New homes only — buying a newly built home, building a new home, or buying off-the-plan. <strong>Established (existing) homes are NOT eligible.</strong></td></tr>
-                <tr><td>Price cap</td><td>Total property value (including land) must be less than <strong>$750,000</strong></td></tr>
-                <tr><td>Who can apply</td><td>Aged 18 or over, Australian citizen or permanent resident (or at least one applicant must be), buying in personal names — not a company or trust</td></tr>
-                <tr><td>Previous ownership</td><td>You must not have previously owned property in Australia (residential property in your own name, anywhere in Australia)</td></tr>
-                <tr><td>Residence requirement</td><td>Must move in and live in the home for at least <strong>6 continuous months</strong>, commencing within 1 year of settlement or construction completion</td></tr>
-                <tr><td>Previous grant</td><td>You must not have previously received a First Home Owner Grant in any Australian state or territory</td></tr>
-                <tr><td>How it's paid</td><td>Paid at settlement for purchases, or at the first progress payment for construction loans — applied through your approved lender</td></tr>
-                <tr><td>Can it be combined?</td><td>Yes — can be combined with transfer duty concessions and the Federal FHSS Scheme</td></tr>
-              </tbody>
-            </table>
-
-            <div class="nsw-note nsw-note-amber" style="margin-top:14px">
-              <span>⚠</span>
-              <span>The $30,000 grant amount applies only to contracts signed between 20 November 2023 and 30 June 2025. From 1 July 2025, the grant reverts to $15,000. Always check the QLD Government website to confirm the current amount before making decisions.</span>
-            </div>
-
-          </div>
+          <div class="nsw-chevron">&#8964;</div>
         </div>
+        <div class="nsw-card-body">
 
-        <!-- ── QLD Section 2: Transfer Duty Concessions ── -->
-        <div class="nsw-card" id="card-qld-duty">
-          <div class="nsw-card-header" onclick="toggleCard('card-qld-duty')">
-            <div class="nsw-header-content">
-              <div class="nsw-card-subtitle">Transfer duty (stamp duty) concessions</div>
-              <div class="nsw-card-title">QLD Transfer Duty Concessions for First Home Buyers</div>
-              <div class="nsw-card-summary">Eligible first home buyers in QLD may pay zero or reduced transfer duty on new homes, established homes, and vacant land — saving thousands of dollars upfront.</div>
-            </div>
-            <div class="nsw-chevron">&#8964;</div>
+          <a class="nsw-source-link" href="https://www.qld.gov.au/housing/buying-owning-home/home-buyers-financial-help/first-home-owner-grant" target="_blank" rel="noopener">Official source — QLD Government ↗</a>
+
+          <table class="nsw-table">
+            <thead><tr><th>Criteria</th><th>Details</th></tr></thead>
+            <tbody>
+              <tr><td>Grant amount</td><td>$30,000 (tax-free, not means tested) — contracts signed 20 Nov 2023 to 30 Jun 2025; reverts to $15,000 from 1 Jul 2025</td></tr>
+              <tr><td>Property type</td><td>Newly built home, off-the-plan, or owner-builder — houses, townhouses, apartments, units. Established homes are <strong>not</strong> eligible.</td></tr>
+              <tr><td>Price cap</td><td>Total property value (including land) must not exceed $750,000</td></tr>
+              <tr><td>Who can apply</td><td>Individual(s) aged 18+, Australian citizen or permanent resident, buying in personal names (not company or trust)</td></tr>
+              <tr><td>Previous ownership</td><td>You must never have previously owned residential property anywhere in Australia</td></tr>
+              <tr><td>Previous grant</td><td>You must never have received a First Home Owner Grant in any Australian state or territory</td></tr>
+              <tr><td>Residence requirement</td><td>Must move in within 1 year of settlement and live there for at least 6 continuous months</td></tr>
+              <tr><td>How it's paid</td><td>Paid at settlement via your approved lender (bank as Approved Agent), or apply directly via the Office of State Revenue within 1 year of taking occupancy</td></tr>
+              <tr><td>Can it be combined?</td><td>Yes — can be used alongside the First Home Concession (stamp duty) and the FHSSS</td></tr>
+            </tbody>
+          </table>
+
+          <div class="nsw-note nsw-note-amber" style="margin-top:16px">
+            <span>⚠</span>
+            <span>The $30,000 amount applies to contracts signed between 20 Nov 2023 and 30 Jun 2025. Always verify the current figure at the QLD Government website before making decisions.</span>
           </div>
-          <div class="nsw-card-body">
 
-            <a class="nsw-source-link" href="https://www.qld.gov.au/housing/buying-owning-home/home-buyers-financial-help/transfer-duty" target="_blank" rel="noopener">Official source — QLD Government ↗</a>
-
-            <div class="nsw-note" style="margin-bottom:18px;background:#f0fdfa;border:1px solid #5eead4;color:#134e4a">
-              <span>ℹ</span>
-              <span>Unlike the FHOG (which is for new homes only), transfer duty concessions apply to <strong>both new and established homes</strong>. You may be eligible for a concession even if the FHOG does not apply to your purchase.</span>
+          <div style="background:var(--color-background-warning);border:1px solid var(--color-border-warning);border-radius:var(--radius);padding:14px 16px;display:flex;gap:12px;align-items:flex-start;margin-top:12px;">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="9" stroke="#92400e" stroke-width="1.8"/><path d="M10 5v5m0 3h.01" stroke="#92400e" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <div style="font-size:13px;color:var(--color-text-warning);line-height:1.6;">
+              <strong>Pro-Tip — How to apply:</strong> In QLD, you can apply through your bank (as an Approved Agent) at the time of your loan — the grant is paid automatically at settlement. Alternatively, apply directly via the <strong>Office of State Revenue</strong> after settlement, within 1 year of taking occupancy. Applying via your lender is faster and simpler for most buyers.
             </div>
-
-            <div class="nsw-section-label">First Home Concession — Established homes</div>
-            <table class="nsw-table">
-              <thead><tr><th>Property value</th><th>Transfer duty outcome</th></tr></thead>
-              <tbody>
-                <tr><td>Up to $700,000</td><td>Full concession — <strong>$0 transfer duty</strong></td></tr>
-                <tr><td>$700,001 – $800,000</td><td>Concessional (reduced) rate — sliding scale</td></tr>
-                <tr><td>Above $800,000</td><td>No first home concession applies — standard rates apply</td></tr>
-              </tbody>
-            </table>
-
-            <div class="nsw-section-label" style="margin-top:20px">First Home (New Home) Concession</div>
-            <table class="nsw-table">
-              <thead><tr><th>Property value</th><th>Transfer duty outcome</th></tr></thead>
-              <tbody>
-                <tr><td>Any value (contracts signed on or after 1 May 2025)</td><td>Full concession — <strong>$0 transfer duty</strong> regardless of property value</td></tr>
-              </tbody>
-            </table>
-
-            <div class="nsw-section-label" style="margin-top:20px">First Home Vacant Land Concession</div>
-            <table class="nsw-table">
-              <thead><tr><th>Land value</th><th>Transfer duty outcome</th></tr></thead>
-              <tbody>
-                <tr><td>Any value</td><td>Full concession — <strong>$0 transfer duty</strong> to build a first home on vacant land</td></tr>
-              </tbody>
-            </table>
-
-            <div class="nsw-section-label" style="margin-top:20px">Standard Home Concession (not first home buyers only)</div>
-            <table class="nsw-table">
-              <thead><tr><th>Detail</th><th>Notes</th></tr></thead>
-              <tbody>
-                <tr><td>Who qualifies</td><td>Available to any home buyer — even if you have previously owned property</td></tr>
-                <tr><td>Saving</td><td>Saves up to <strong>$7,175</strong> on transfer duty</td></tr>
-                <tr><td>Requirement</td><td>Must be purchasing a home you intend to occupy (not an investment)</td></tr>
-              </tbody>
-            </table>
-
-            <div class="nsw-section-label" style="margin-top:20px">General eligibility conditions</div>
-            <table class="nsw-table">
-              <thead><tr><th>Criteria</th><th>Details</th></tr></thead>
-              <tbody>
-                <tr><td>Property location</td><td>Must be in Queensland</td></tr>
-                <tr><td>Who can apply</td><td>Individual aged 18+, Australian citizen or permanent resident — not a company or trust</td></tr>
-                <tr><td>Previous ownership</td><td>For First Home concessions: you must never have previously owned residential property in Australia</td></tr>
-                <tr><td>Residence requirement</td><td>Must move in within 1 year of settlement and occupy the home as your principal place of residence</td></tr>
-                <tr><td>How to apply</td><td>Claim the concession on your transfer duty return, lodged through your solicitor or conveyancer at settlement</td></tr>
-              </tbody>
-            </table>
-
-            <div class="nsw-note nsw-note-green" style="margin-top:14px">
-              <span>✓</span>
-              <span>Transfer duty concessions can be combined with the First Home Owner Grant if you are purchasing or building a new home that meets all eligibility requirements.</span>
-            </div>
-            <div class="nsw-note nsw-note-amber" style="margin-top:8px">
-              <span>⚠</span>
-              <span>Transfer duty concession rules changed on 1 May 2025. Always confirm current thresholds and eligibility at the official QLD Government website before signing contracts.</span>
-            </div>
-
           </div>
+
         </div>
+      </div>
 
-        <!-- ── QLD Section 3: FHSS (federal, shown in QLD context) ── -->
-        <div class="nsw-card" id="card-qld-fhss">
-          <div class="nsw-card-header" onclick="toggleCard('card-qld-fhss')">
-            <div class="nsw-header-content">
-              <div class="nsw-grant-amount" style="font-size:28px">Up to $50,000 <span class="nsw-badge nsw-badge-teal">Federal scheme — available to all Australians</span></div>
-              <div class="nsw-card-title">First Home Super Saver Scheme (FHSSS)</div>
-              <div class="nsw-card-summary">Boost your home deposit by saving through your super fund and benefit from lower tax rates. Available to all eligible Australians, including QLD buyers.</div>
-            </div>
-            <div class="nsw-chevron">&#8964;</div>
+      <!-- ── QLD Card 2: First Home Concession (Stamp Duty) ── -->
+      <div class="nsw-card" id="card-qld-duty">
+        <div class="nsw-card-header" onclick="toggleCard('card-qld-duty')">
+          <div class="nsw-header-content">
+            <div class="nsw-card-subtitle">Transfer duty exemption or concession</div>
+            <div class="nsw-card-title">First Home Concession (Stamp Duty)</div>
+            <div class="nsw-card-summary">Eligible first home buyers in QLD may pay zero transfer duty on established homes up to $700,000 — saving up to $15,925 compared to the standard rate.</div>
           </div>
-          <div class="nsw-card-body">
-            <a class="nsw-source-link" href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/withdrawing-and-using-your-super/early-access-to-super/first-home-super-saver-scheme" target="_blank" rel="noopener">Official source — ATO ↗</a>
-            <div class="nsw-note" style="background:#f0fdfa;border:1px solid #5eead4;color:#134e4a">
-              <span>ℹ</span>
-              <span>This is a federal scheme — the same rules apply in QLD as in all other states. See the full details in the NSW tab, or visit the ATO website. It can be combined with QLD-specific grants and duty concessions.</span>
-            </div>
-          </div>
+          <div class="nsw-chevron">&#8964;</div>
         </div>
+        <div class="nsw-card-body">
 
-      </div><!-- /nsw-scheme-grid -->
+          <a class="nsw-source-link" href="https://www.qld.gov.au/housing/buying-owning-home/home-buyers-financial-help/transfer-duty-concessions" target="_blank" rel="noopener">Official source — QLD Government ↗</a>
+
+          <div class="nsw-section-label">Transfer duty thresholds — established homes</div>
+          <table class="nsw-table">
+            <thead><tr><th>Property value</th><th>Transfer duty outcome</th></tr></thead>
+            <tbody>
+              <tr><td>Up to $700,000</td><td>Full concession — $0 transfer duty</td></tr>
+              <tr><td>$700,001 – $800,000</td><td>Concessional (sliding scale) rate applies</td></tr>
+              <tr><td>$800,001 or more</td><td>No concession applies</td></tr>
+            </tbody>
+          </table>
+
+          <div class="nsw-table-subtitle" style="margin-top:18px">New homes &amp; vacant land</div>
+          <table class="nsw-table">
+            <thead><tr><th>Property type</th><th>Transfer duty outcome</th></tr></thead>
+            <tbody>
+              <tr><td>New homes (contracts from 1 May 2025)</td><td>Full concession — $0 transfer duty regardless of price</td></tr>
+              <tr><td>Vacant land (to build a first home)</td><td>Full concession — $0 transfer duty</td></tr>
+            </tbody>
+          </table>
+
+          <div class="nsw-section-label" style="margin-top:24px">Eligibility conditions</div>
+          <table class="nsw-table">
+            <thead><tr><th>Criteria</th><th>Details</th></tr></thead>
+            <tbody>
+              <tr><td>Who can apply</td><td>Individual(s) aged 18+, Australian citizen or permanent resident, buying in personal names (not company or trust)</td></tr>
+              <tr><td>Previous ownership</td><td>You must never have previously owned residential property in Australia</td></tr>
+              <tr><td>Residence requirement</td><td>Must move in within 1 year of settlement and live there for at least 6 continuous months</td></tr>
+              <tr><td>Property location</td><td>Must be in Queensland</td></tr>
+              <tr><td>How to claim</td><td>Claimed via your solicitor or conveyancer on the transfer duty return at settlement — no separate application required</td></tr>
+              <tr><td>Can be combined?</td><td>Unlike the FHOG, the duty concession applies to both new <em>and</em> established homes — you may qualify even if the grant does not</td></tr>
+            </tbody>
+          </table>
+
+          <div class="nsw-note nsw-note-green" style="margin-top:16px">
+            <span>✓</span>
+            <span>A first home buyer purchasing a $650,000 established home in QLD pays <strong>$0 transfer duty</strong> — a saving of approximately $12,850 at standard rates.</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── QLD Card 3: First Home Super Saver Scheme ── -->
+      <div class="nsw-card" id="card-qld-fhsss">
+        <div class="nsw-card-header" onclick="toggleCard('card-qld-fhsss')">
+          <div class="nsw-header-content">
+            <div class="nsw-grant-amount" style="font-size:28px">Up to $50,000 <span class="nsw-badge nsw-badge-teal">Federal scheme — available to all Australians</span></div>
+            <div class="nsw-card-title">First Home Super Saver Scheme (FHSSS)</div>
+            <div class="nsw-card-summary">Boost your home deposit by saving through your super fund and benefit from lower tax rates.</div>
+          </div>
+          <div class="nsw-chevron">&#8964;</div>
+        </div>
+        <div class="nsw-card-body">
+
+          <a class="nsw-source-link" href="https://www.ato.gov.au/individuals-and-families/super-for-individuals-and-families/super/withdrawing-and-using-your-super/early-access-to-super/first-home-super-saver-scheme" target="_blank" rel="noopener">Official source — ATO ↗</a>
+
+          <table class="nsw-table">
+            <thead><tr><th>Key point</th><th>Details</th></tr></thead>
+            <tbody>
+              <tr><td>What it is</td><td>A federal government scheme that lets you make voluntary super contributions to save for your first home deposit, then withdraw them at a lower tax rate</td></tr>
+              <tr><td>Maximum withdrawal</td><td>Up to $15,000 per financial year, and up to $50,000 in total across all years</td></tr>
+              <tr><td>Eligible contributions</td><td>Voluntary contributions only — salary sacrifice (before-tax) or personal after-tax contributions. Employer's compulsory super (SG contributions) are not eligible</td></tr>
+              <tr><td>Tax benefit</td><td>Concessional (before-tax) contributions are taxed at 15% in super, which is lower than most income tax rates. When withdrawn, tax is withheld at your marginal rate minus a 30% tax offset</td></tr>
+              <tr><td>Who can apply</td><td>Australian resident, aged 18 or over, never previously owned real property in Australia (exceptions apply for financial hardship)</td></tr>
+              <tr><td>Never owned property</td><td>You must not have previously owned residential property in Australia — this includes investment properties</td></tr>
+              <tr><td>Residence requirement</td><td>You must intend to live in the purchased property for at least 6 of the first 12 months of ownership</td></tr>
+              <tr><td>Property type</td><td>Must be a residential property — not a houseboat or mobile home. Vacant land is allowed if you intend to build and live there</td></tr>
+              <tr><td>How to access</td><td>Apply for an FHSS determination through myGov linked to the ATO before signing a purchase contract. Then request a release. You must sign a contract within 12 months of the release request</td></tr>
+              <tr><td>If you don't buy in time</td><td>You have 12 months after requesting release to sign a contract. If you don't, you can recontribute the funds to super (less tax withheld) or keep the money and pay a flat 20% FHSS tax</td></tr>
+              <tr><td>Can only use once</td><td>You can only access the scheme once — even if you withdraw less than the maximum</td></tr>
+              <tr><td>Processing time</td><td>Allow up to 25 business days to receive funds from the ATO after a valid release request</td></tr>
+            </tbody>
+          </table>
+
+          <div class="nsw-note nsw-note-amber" style="margin-top:16px">
+            <span>⚠</span>
+            <span>You must receive your FHSS determination from the ATO before signing a contract to purchase your home. Signing a contract first will make you ineligible.</span>
+          </div>
+          <div class="nsw-note" style="margin-top:8px;background:#f0fdfa;border:1px solid #5eead4;color:#134e4a">
+            <span>ℹ</span>
+            <span>This is a federal scheme and applies to all eligible Australians regardless of state. It can be combined with the QLD FHOG and stamp duty concession.</span>
+          </div>
+
+          <div style="margin-top:16px;font-size:12px;color:var(--muted);line-height:1.6;padding:10px 0;border-top:1px solid var(--border)">
+            FHSS information sourced from the Australian Taxation Office (ato.gov.au). Scheme rules effective from 15 September 2024. Always verify current details at <a href="https://www.ato.gov.au" target="_blank" rel="noopener" style="color:var(--muted);font-weight:600;text-decoration:underline">ato.gov.au</a> before making decisions.
+          </div>
+
+        </div>
+      </div>
 
       <!-- ── Australian Government 5% Deposit Scheme ── -->
       <div class="nsw-card" id="card-5pct-qld">
@@ -2466,6 +1054,8 @@
 
         </div>
       </div>
+
+      </div><!-- /nsw-scheme-grid -->
 
       <div class="nsw-page-disclaimer">
         QLD grant and concession information is sourced from the Queensland Government. Amounts, thresholds, and eligibility criteria may change — always verify current details at <a href="https://www.qld.gov.au" target="_blank" rel="noopener" style="color:inherit;font-weight:600;text-decoration:underline">qld.gov.au</a> before making financial decisions.
@@ -3280,751 +1870,6 @@
   This tool is for general information only and does not constitute financial advice. Grant amounts, income thresholds, and property price caps are subject to change — always verify with the relevant government authority. Always consult a licensed mortgage broker or financial adviser before making any financial decisions.
 </div>
 
-<script>
-// ── Tab switching ────────────────────────────────────────────────────────────
-
-function switchTab(tab, btn) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  btn.classList.add('active');
-  if (tab === 'calc') updateCalc();
-  if (tab === 'rental') {
-    if (!rentalInitialised) {
-      initRental();
-      rentalInitialised = true;
-    } else {
-      updateRental();
-    }
-  }
-  updateStatsHighlight(tab);
-}
-
-// ── Stats panel ───────────────────────────────────────────────────────────────
-
-// Map: tab → which widgets to highlight
-const STATS_HIGHLIGHT_MAP = {
-  home:   [],
-  grants: ['sw-median'],
-  borrow: ['sw-rates'],
-  calc:   ['sw-rba'],
-  rental: ['sw-median', 'sw-auction'],
-  faq:    [],
-};
-
-let _statsPanelOpen = false;
-
-function toggleStatsPanel() {
-  _statsPanelOpen = !_statsPanelOpen;
-  document.body.classList.toggle('sp-open', _statsPanelOpen);
-}
-
-function initStats() {
-  // Data is hardcoded — fetched/verified once per session.
-  // Panel starts minimised; body.sp-open class drives all visual state.
-  updateStatsHighlight('home');
-}
-
-function updateStatsHighlight(tab) {
-  const highlighted = STATS_HIGHLIGHT_MAP[tab] || [];
-  document.querySelectorAll('#stats-panel .sp-widget').forEach(w => {
-    const active = highlighted.includes(w.id);
-    w.classList.toggle('sp-highlight', active);
-  });
-}
-
-// ── Google Translate toggle ───────────────────────────────────────────────────
-
-let _translated = false;
-
-function _fireCombo(lang) {
-  const select = document.querySelector('.goog-te-combo');
-  if (!select) return false;
-  select.value = lang;
-  const ev = document.createEvent('HTMLEvents');
-  ev.initEvent('change', true, true);
-  select.dispatchEvent(ev);
-  return true;
-}
-
-function _tryTranslate(lang, attempts) {
-  if (!_fireCombo(lang) && attempts > 0) {
-    setTimeout(() => _tryTranslate(lang, attempts - 1), 250);
-  }
-}
-
-function _clearGoogTransCookie() {
-  const past = 'expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;';
-  document.cookie = 'googtrans=; ' + past;
-  document.cookie = 'googtrans=; domain=' + window.location.hostname + '; ' + past;
-  document.cookie = 'googtrans=; domain=.' + window.location.hostname + '; ' + past;
-}
-
-function _syncTranslateBtns(active, text) {
-  ['translate-btn', 'translate-btn-mobile'].forEach(id => {
-    const btn   = document.getElementById(id);
-    const label = document.getElementById(id + '-label');
-    if (!btn) return;
-    label.textContent = text;
-    active ? btn.classList.add('active') : btn.classList.remove('active');
-  });
-}
-
-function toggleTranslate() {
-  if (!_translated) {
-    // Save active tab so we can restore it if the user later reverts
-    const active = document.querySelector('.tab-panel.active');
-    if (active) sessionStorage.setItem('hp_tab', active.id);
-
-    _tryTranslate('zh-CN', 12);
-    _translated = true;
-    _syncTranslateBtns(true, 'English');
-  } else {
-    // Save current tab, clear Google's cookie, then reload — the only
-    // reliable way to fully revert all DOM text back to English.
-    const active = document.querySelector('.tab-panel.active');
-    if (active) sessionStorage.setItem('hp_tab', active.id);
-    sessionStorage.setItem('hp_restoring', '1');
-    _clearGoogTransCookie();
-    window.location.reload();
-  }
-}
-
-// After an English-restore reload, re-activate whichever tab was open.
-(function () {
-  if (!sessionStorage.getItem('hp_restoring')) return;
-  sessionStorage.removeItem('hp_restoring');
-  const tabId = sessionStorage.getItem('hp_tab') || 'tab-home';
-  sessionStorage.removeItem('hp_tab');
-  const panel = document.getElementById(tabId);
-  if (!panel) return;
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    b.classList.remove('active');
-    if ((b.getAttribute('onclick') || '').includes("'" + tabId.replace('tab-', '') + "'")) {
-      b.classList.add('active');
-    }
-  });
-  panel.classList.add('active');
-})();
-
-function switchHome() {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-home').classList.add('active');
-  updateStatsHighlight('home');
-}
-
-// ── Nav scroll indicator (mobile) ────────────────────────────────────────────
-
-(function () {
-  const nav = document.querySelector('nav');
-  const bar = document.getElementById('nav-scroll-bar');
-  if (!nav || !bar) return;
-  nav.addEventListener('scroll', function () {
-    const scrollable = nav.scrollWidth - nav.clientWidth;
-    const pct = scrollable > 0 ? (nav.scrollLeft / scrollable) * 100 : 0;
-    bar.style.width = pct + '%';
-  }, { passive: true });
-})();
-
-// ── State sub-navigation (Grants tab) ───────────────────────────────────────
-
-function switchState(state, btn) {
-  document.querySelectorAll('.state-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.state-subnav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('state-' + state).classList.add('active');
-  btn.classList.add('active');
-}
-
-// ── Accordion ───────────────────────────────────────────────────────────────
-
-function toggleCard(id) {
-  const card = document.getElementById(id);
-  card.classList.toggle('open');
-}
-
-function toggleSubAcc(id) {
-  const el = document.getElementById(id);
-  el.classList.toggle('open');
-}
-
-// ── Calculator ───────────────────────────────────────────────────────────────
-
-const DEFAULTS = { loan: 500000, rate: 5.84, term: 30, extra: 0 };
-const state = { ...DEFAULTS, freq: 'monthly', ioYears: 0 };
-
-const fmt    = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
-const fmtDec = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-function initCalc() {
-  for (const key of ['loan', 'rate', 'term', 'extra']) {
-    document.getElementById('sl-' + key).value = DEFAULTS[key];
-    document.getElementById('in-' + key).value = DEFAULTS[key];
-  }
-  updateLabels();
-  updateCalc();
-}
-
-function syncInput(key, val) {
-  val = parseFloat(val);
-  state[key] = val;
-  document.getElementById('in-' + key).value = val;
-  updateLabels();
-  updateCalc();
-}
-
-function syncSlider(key, val) {
-  val = parseFloat(val);
-  if (isNaN(val)) return;
-  const sl = document.getElementById('sl-' + key);
-  val = Math.min(Math.max(val, parseFloat(sl.min)), parseFloat(sl.max));
-  state[key] = val;
-  sl.value = val;
-  updateLabels();
-  updateCalc();
-}
-
-function setFreq(freq, btn) {
-  state.freq = freq;
-  document.querySelectorAll('.freq-pill').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  updateLabels();
-  updateCalc();
-}
-
-function setIO(val) {
-  state.ioYears = parseInt(val, 10);
-  updateCalc();
-}
-
-function freqLabel() {
-  return state.freq === 'fortnightly' ? 'fortnightly' : state.freq === 'weekly' ? 'weekly' : 'monthly';
-}
-
-function updateLabels() {
-  const fl = freqLabel();
-  document.getElementById('lv-loan').textContent  = fmt.format(state.loan);
-  document.getElementById('lv-rate').textContent  = state.rate.toFixed(2) + '%';
-  document.getElementById('lv-term').textContent  = state.term + (state.term === 1 ? ' year' : ' years');
-  document.getElementById('lv-extra').textContent = fmt.format(state.extra) + '/' + fl.slice(0,2);
-  document.getElementById('extra-field-label').textContent = 'Extra ' + fl + ' repayment';
-}
-
-// ── Interest helpers ─────────────────────────────────────────────────────────
-
-function daysInMonth(year, month) {
-  return new Date(year, month + 1, 0).getDate();
-}
-
-// Base monthly P&I payment for a given principal/rate/term (annuity formula, avg days).
-function calcBaseMonthly(principal, annualRate, termMonths) {
-  if (termMonths <= 0) return 0;
-  const dailyRate   = annualRate / 100 / 365;
-  const monthlyRate = dailyRate * (365 / 12);
-  if (monthlyRate === 0) return principal / termMonths;
-  return principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -termMonths));
-}
-
-// Base payment per period (fortnightly = monthly/2, weekly = monthly/4).
-function calcBasePeriod(principal, annualRate, termMonths, freq) {
-  const monthly = calcBaseMonthly(principal, annualRate, termMonths);
-  if (freq === 'fortnightly') return monthly / 2;
-  if (freq === 'weekly')      return monthly / 4;
-  return monthly;
-}
-
-/**
- * Full simulation supporting IO period + payment frequency + extra repayments.
- *
- * IO phase  : monthly payments = balance × (r/365) × daysInMonth, no principal reduction.
- * P&I phase : recalculated base payment over remaining term at chosen frequency.
- *             Fortnightly/weekly: balance updated every 14/7 days using actual day counts,
- *             with interest = balance × (r/365) × daysSinceLastPayment.
- *             Extra repayment added each period on top of base.
- *
- * Returns { baseMonthly, basePeriod, ioMonthlyPayment, piBasePeriod,
- *           balances (monthly snapshots), totalInterest, totalMonths,
- *           ioMonths, piMonths }
- */
-function simulateFull(principal, annualRate, termYears, extraPerPeriod, freq, ioYears) {
-  const dailyRate  = annualRate / 100 / 365;
-  const termMonths = termYears * 12;
-  const ioMonths   = ioYears * 12;
-  const piTermMo   = termMonths - ioMonths;
-
-  // Base monthly P&I payment (used for display and for monthly freq simulation)
-  const baseMonthly = calcBaseMonthly(principal, annualRate, termMonths);
-
-  // IO monthly payment (interest only on full balance, avg days)
-  const ioMonthlyPayment = principal * dailyRate * (365 / 12);
-
-  // P&I base payment per period after IO ends (recalculated over remaining term)
-  const piBaseMonthly = calcBaseMonthly(principal, annualRate, piTermMo);
-  const piBasePeriod  = calcBasePeriod(principal, annualRate, piTermMo, freq);
-
-  const now = new Date();
-  let simYear  = now.getFullYear();
-  let simMonth = now.getMonth();
-
-  let balance = principal;
-  const balances = [balance]; // one entry per calendar month for chart
-  let totalInterest = 0;
-  let totalMonths   = 0;
-  let piMonths      = 0;
-
-  // ── Phase 1: Interest only (always monthly regardless of freq) ──────────────
-  for (let m = 0; m < ioMonths && balance > 0.005; m++) {
-    const days     = daysInMonth(simYear, simMonth);
-    const interest = balance * dailyRate * days;
-    totalInterest += interest;
-    // balance stays the same (interest only)
-    totalMonths++;
-    balances.push(balance);
-    simMonth++; if (simMonth > 11) { simMonth = 0; simYear++; }
-  }
-
-  // ── Phase 2: P&I at chosen frequency ────────────────────────────────────────
-  const maxPiPeriods = piTermMo * (freq === 'weekly' ? 52 / 12 : freq === 'fortnightly' ? 26 / 12 : 1);
-
-  // Simulate P&I phase in period steps (monthly=avg 30.4167d, fortnightly=14d, weekly=7d).
-  // Interest per period = balance × (annualRate/365) × daysInPeriod  (simple, no compounding).
-  // For sub-monthly frequencies, we bucket periods into calendar months for the chart.
-  const periodDays  = freq === 'fortnightly' ? 14 : freq === 'weekly' ? 7 : null;
-  const payment     = piBasePeriod + extraPerPeriod;
-  const maxPeriods  = Math.ceil(piTermMo * (freq === 'weekly' ? 52/12 : freq === 'fortnightly' ? 26/12 : 1)) + 2;
-
-  if (freq === 'monthly') {
-    let periods = 0;
-    while (balance > 0.005 && periods < maxPeriods) {
-      const days     = daysInMonth(simYear, simMonth);
-      const interest = balance * dailyRate * days;
-      totalInterest += interest;
-      balance = balance + interest - payment;
-      if (balance < 0) { totalInterest += balance; balance = 0; }
-      periods++;
-      totalMonths++;
-      piMonths++;
-      balances.push(balance);
-      simMonth++; if (simMonth > 11) { simMonth = 0; simYear++; }
-    }
-    if (balance > 0.005) {
-      totalInterest += balance * dailyRate * daysInMonth(simYear, simMonth);
-      balance = 0;
-      balances[balances.length - 1] = 0;
-    }
-  } else {
-    // Fortnightly / weekly — simulate one period at a time, snapshot balance each calendar month.
-    // Interest each period = balance × (dailyRate × periodDays)  — simple, matches monthly method.
-    let daysCounted    = 0; // days elapsed since start of P&I (for calendar month tracking)
-    let daysInCurMonth = daysInMonth(simYear, simMonth);
-    let daysToNextSnap = daysInCurMonth; // days until next calendar-month snapshot
-
-    let periods = 0;
-    while (balance > 0.005 && periods < maxPeriods) {
-      // Simple interest for this period
-      const interest = balance * dailyRate * periodDays;
-      totalInterest += interest;
-      balance = balance + interest - payment;
-      if (balance < 0) { totalInterest += balance; balance = 0; }
-      periods++;
-
-      // Advance day counter and record monthly snapshots
-      daysCounted    += periodDays;
-      daysToNextSnap -= periodDays;
-      while (daysToNextSnap <= 0) {
-        balances.push(balance);
-        totalMonths++;
-        piMonths++;
-        simMonth++; if (simMonth > 11) { simMonth = 0; simYear++; }
-        const nextMonthDays = daysInMonth(simYear, simMonth);
-        daysToNextSnap += nextMonthDays;
-      }
-    }
-    if (balance > 0.005) {
-      totalInterest += balance * dailyRate * periodDays;
-      balance = 0;
-    }
-    // Ensure final balance is zero in chart
-    if (balances.length > 0) balances[balances.length - 1] = 0;
-  }
-
-  return {
-    baseMonthly,
-    basePeriod: freq === 'monthly' ? baseMonthly : (freq === 'fortnightly' ? baseMonthly / 2 : baseMonthly / 4),
-    ioMonthlyPayment,
-    piBasePeriod,
-    balances,
-    totalInterest,
-    totalMonths,
-    ioMonths,
-    piMonths,
-  };
-}
-
-// ── Pure monthly P&I baseline (no IO, no extras, monthly) ────────────────────
-function simulateBaseline(principal, annualRate, termYears) {
-  return simulateFull(principal, annualRate, termYears, 0, 'monthly', 0);
-}
-
-// ── Format months as "X years Y months" ──────────────────────────────────────
-function fmtMonths(m) {
-  const y = Math.floor(m / 12), mo = m % 12;
-  return y + (y === 1 ? ' year' : ' years') + (mo > 0 ? ' ' + mo + (mo === 1 ? ' month' : ' months') : '');
-}
-
-let chart = null;
-
-function updateCalc() {
-  const { loan, rate, term, extra, freq, ioYears } = state;
-
-  const baseline = simulateBaseline(loan, rate, term);
-  const scenario = simulateFull(loan, rate, term, extra, freq, ioYears);
-
-  const fl = freqLabel();
-  const hasIO  = ioYears > 0;
-  const isFreq = freq !== 'monthly';
-
-  // ── IO rows visibility ───────────────────────────────────────────────────
-  document.getElementById('io-row-payment').classList.toggle('visible', hasIO);
-  document.getElementById('io-row-pi').classList.toggle('visible', hasIO);
-  document.getElementById('io-row-cost').classList.toggle('visible', hasIO);
-  document.getElementById('ioWarning').classList.toggle('visible', hasIO);
-  document.getElementById('legend-io-item').classList.toggle('visible', hasIO);
-
-  if (hasIO) {
-    document.getElementById('res-io-payment').textContent = fmtDec.format(scenario.ioMonthlyPayment) + '/mo';
-    const piLabel = 'P&I payment after IO (' + fl + ')';
-    document.getElementById('lbl-pi-after').textContent = piLabel;
-    document.getElementById('res-pi-after').textContent = fmtDec.format(scenario.piBasePeriod + extra) + '/' + fl.slice(0,2);
-    const ioCost = scenario.totalInterest - baseline.totalInterest;
-    document.getElementById('res-io-cost').textContent = (ioCost >= 0 ? '+' : '') + fmt.format(ioCost);
-  }
-
-  // ── Base repayment labels ────────────────────────────────────────────────
-  const periodLabel = 'Base ' + fl + ' repayment';
-  document.getElementById('lbl-monthly').textContent = periodLabel;
-  document.getElementById('res-monthly').textContent = fmtDec.format(scenario.basePeriod);
-
-  const totalLabel = 'Total ' + fl + ' payment (incl. extra)';
-  document.getElementById('lbl-total-monthly').textContent = totalLabel;
-  document.getElementById('res-total-monthly').textContent = fmtDec.format(scenario.basePeriod + extra);
-
-  // ── Payoff & time saved ─────────────────────────────────────────────────
-  document.getElementById('res-payoff').textContent = fmtMonths(scenario.totalMonths);
-
-  const savedMonths = baseline.totalMonths - scenario.totalMonths;
-  if (savedMonths <= 0) {
-    document.getElementById('res-time-saved').textContent = '—';
-  } else {
-    document.getElementById('res-time-saved').textContent = fmtMonths(savedMonths) + ' sooner';
-  }
-
-  // ── Interest ─────────────────────────────────────────────────────────────
-  document.getElementById('res-int-std').textContent   = fmt.format(baseline.totalInterest);
-  document.getElementById('res-int-extra').textContent = fmt.format(scenario.totalInterest);
-
-  const intSaved = baseline.totalInterest - scenario.totalInterest;
-  const isSaving = intSaved > 0;
-  document.getElementById('lbl-int-saved').textContent   = isSaving ? 'Interest saved vs baseline' : 'Extra interest vs baseline';
-  document.getElementById('res-int-saved').textContent   = fmt.format(Math.abs(intSaved));
-  const pct = baseline.totalInterest > 0 ? Math.abs(intSaved / baseline.totalInterest * 100).toFixed(1) : '0.0';
-  document.getElementById('res-saving-tag').textContent  = pct + '% ' + (isSaving ? 'less' : 'more') + ' interest';
-
-  // ── Chart legend label ────────────────────────────────────────────────────
-  let scenLabel = 'Your scenario';
-  if (!hasIO && !isFreq && extra === 0) scenLabel = 'Standard repayments';
-  else if (!hasIO && !isFreq) scenLabel = 'With extra repayments';
-  else if (isFreq && !hasIO) scenLabel = fl.charAt(0).toUpperCase() + fl.slice(1) + ' repayments';
-  document.getElementById('legend-teal-label').textContent = scenLabel;
-
-  drawChart(baseline.balances, scenario.balances, scenario.ioMonths);
-  updateRateScenarios();
-}
-
-function updateRateScenarios() {
-  const { loan, rate, term, freq } = state;
-  const termMonths = term * 12;
-  const fl         = freqLabel(); // 'monthly', 'fortnightly', 'weekly'
-  const flShort    = fl.slice(0, 2); // 'mo', 'fo', 'we'
-
-  const currentPayment = calcBasePeriod(loan, rate, termMonths, freq);
-
-  [0.25, 0.50, 0.75].forEach((bump, i) => {
-    const n          = i + 1;
-    const newRate    = rate + bump;
-    const newPayment = calcBasePeriod(loan, newRate, termMonths, freq);
-    const diff       = newPayment - currentPayment;
-
-    document.getElementById('rs-rate-' + n).textContent    = newRate.toFixed(2) + '%';
-    document.getElementById('rs-label-' + n).textContent   = '+' + bump.toFixed(2) + '% increase';
-    document.getElementById('rs-freq-' + n).textContent    = 'New ' + fl + ' repayment';
-    document.getElementById('rs-payment-' + n).textContent = fmtDec.format(newPayment) + '/' + flShort;
-    document.getElementById('rs-diff-' + n).textContent    = '+' + fmtDec.format(diff) + '/' + fl + ' more';
-  });
-}
-
-function drawChart(stdBalances, extBalances, ioMonths) {
-  const maxPoints = 80;
-  function sample(arr) {
-    if (arr.length <= maxPoints) return arr.map((v, i) => ({ v, i }));
-    const step = arr.length / maxPoints;
-    const out = [];
-    for (let i = 0; i < arr.length; i += step) {
-      const idx = Math.floor(i);
-      out.push({ v: arr[idx], i: idx });
-    }
-    const last = { v: arr[arr.length - 1], i: arr.length - 1 };
-    if (out[out.length - 1].i !== last.i) out.push(last);
-    return out;
-  }
-
-  const stdSampled = sample(stdBalances);
-  const extSampled = sample(extBalances);
-  const totalLen   = Math.max(stdBalances.length, extBalances.length);
-
-  function toLabel(monthIdx) {
-    const y = Math.floor(monthIdx / 12), m = monthIdx % 12;
-    return (m === 0 && y % 5 === 0) ? 'Year ' + y : '';
-  }
-
-  // Build a unified index from the longer series
-  const longer = stdSampled.length >= extSampled.length ? stdSampled : extSampled;
-  const labels  = longer.map(pt => toLabel(pt.i));
-  const stdData = longer.map(pt => {
-    // find closest point in std
-    const match = stdSampled.find(s => s.i >= pt.i);
-    return match ? match.v : 0;
-  });
-  const extData = longer.map(pt => {
-    const match = extSampled.find(s => s.i >= pt.i);
-    return match ? match.v : 0;
-  });
-
-  // IO annotation: x-range in sampled indices where month index < ioMonths
-  const ioEndIdx = longer.findIndex(pt => pt.i >= ioMonths);
-
-  const ctx = document.getElementById('loanChart').getContext('2d');
-
-  if (chart) {
-    chart.data.labels           = labels;
-    chart.data.datasets[0].data = extData;
-    chart.data.datasets[1].data = stdData;
-    // Update IO band dataset
-    chart.data.datasets[2].data = longer.map((pt, i) => (i <= ioEndIdx && ioMonths > 0) ? extData[i] : null);
-    chart.update();
-    return;
-  }
-
-  chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [
-        {
-          label: 'Your scenario',
-          data: extData,
-          borderColor: '#0f766e',
-          backgroundColor: 'rgba(15,118,110,.08)',
-          borderWidth: 2.5,
-          pointRadius: 0,
-          fill: true,
-          tension: 0.3,
-          order: 2,
-        },
-        {
-          label: 'Monthly P&I baseline',
-          data: stdData,
-          borderColor: '#cbd5e1',
-          backgroundColor: 'rgba(203,213,225,.06)',
-          borderWidth: 2,
-          pointRadius: 0,
-          fill: true,
-          tension: 0.3,
-          borderDash: [6, 3],
-          order: 3,
-        },
-        {
-          // IO period overlay — filled band, no border
-          label: 'Interest only period',
-          data: longer.map((pt, i) => (i <= ioEndIdx && ioMonths > 0) ? extData[i] : null),
-          borderColor: 'transparent',
-          backgroundColor: 'rgba(13,148,136,.18)',
-          borderWidth: 0,
-          pointRadius: 0,
-          fill: 'origin',
-          tension: 0.3,
-          spanGaps: false,
-          order: 1,
-        },
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          filter: item => item.dataset.label !== 'Interest only period',
-          callbacks: {
-            label(ctx) {
-              return ' ' + ctx.dataset.label + ': ' + fmt.format(ctx.parsed.y);
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          ticks: { font: { size: 12 }, color: '#94a3b8', autoSkip: false, maxRotation: 0 },
-          grid: { display: false },
-        },
-        y: {
-          ticks: {
-            callback: v => '$' + (v >= 1e6 ? (v / 1e6).toFixed(1) + 'M' : (v / 1e3).toFixed(0) + 'k'),
-            font: { size: 12 },
-            color: '#94a3b8',
-          },
-          grid: { color: '#f1f5f9' },
-        }
-      }
-    }
-  });
-}
-
-// ── Rental yield ─────────────────────────────────────────────────────────────
-
-function initRental() {
-  // Pre-fill property value from calculator loan amount
-  const propVal = state.loan;
-  document.getElementById('ry-prop-value').value = propVal;
-
-  // Show pre-fill note if calculator has been used
-  if (propVal) {
-    document.getElementById('ry-prefill-note').style.display = 'flex';
-  }
-
-  updateRental();
-}
-
-// Read an expense field and annualise it based on its frequency selector.
-// Returns { annual, hint } where hint is the display string for the hint row.
-function readExpense(id) {
-  const val  = parseFloat(document.getElementById(id).value) || 0;
-  const mult = parseInt(document.getElementById(id + '-freq').value, 10);
-  const annual = val * mult;
-  const hint = (mult !== 1 && val > 0) ? '= ' + fmt.format(Math.round(annual)) + '/yr' : '';
-  return { annual, hint };
-}
-
-function getRentalInputs() {
-  const propValue  = parseFloat(document.getElementById('ry-prop-value').value)  || 0;
-  const weeklyRent = parseFloat(document.getElementById('ry-weekly-rent').value) || 0;
-  const mgmtPct    = parseFloat(document.getElementById('ry-mgmt-pct').value)    || 0;
-
-  const councilE   = readExpense('ry-council');
-  const waterE     = readExpense('ry-water');
-  const strataE    = readExpense('ry-strata');
-  const insuranceE = readExpense('ry-insurance');
-
-  // Update hint labels
-  document.getElementById('ry-council-hint').textContent   = councilE.hint;
-  document.getElementById('ry-water-hint').textContent     = waterE.hint;
-  document.getElementById('ry-strata-hint').textContent    = strataE.hint;
-  document.getElementById('ry-insurance-hint').textContent = insuranceE.hint;
-
-  return {
-    propValue, weeklyRent, mgmtPct,
-    council:   councilE.annual,
-    water:     waterE.annual,
-    strata:    strataE.annual,
-    insurance: insuranceE.annual,
-  };
-}
-
-function updateRental() {
-  const { propValue, weeklyRent, mgmtPct,
-          council, water, strata, insurance } = getRentalInputs();
-
-  // ── Income ────────────────────────────────────────────────────────────────
-  const annIncome = weeklyRent * 52;
-
-  // ── Expenses ──────────────────────────────────────────────────────────────
-  const mgmtFee  = annIncome * (mgmtPct / 100);
-  const totalExp = council + water + strata + insurance + mgmtFee;
-
-  // ── Mortgage (pull base monthly from calculator, annualise) ───────────────
-  const baseMonthly = calcBaseMonthly(state.loan, state.rate, state.term * 12);
-  const annMortgage = baseMonthly * 12;
-
-  // Update read-only mortgage display field
-  document.getElementById('ry-mortgage-display').value = Math.round(baseMonthly);
-
-  // ── Yields ────────────────────────────────────────────────────────────────
-  // Gross yield: before any expenses
-  const grossYield = propValue > 0 ? (annIncome / propValue) * 100 : 0;
-  // Net yield: after expenses (mortgage NOT included in yield)
-  const netYield   = propValue > 0 ? ((annIncome - totalExp) / propValue) * 100 : 0;
-
-  // ── Cashflow ──────────────────────────────────────────────────────────────
-  // Mortgage IS included in cashflow
-  const netAnnCf = annIncome - totalExp - annMortgage;
-  const weekCf   = netAnnCf / 52;
-
-  // ── Break-even rent ───────────────────────────────────────────────────────
-  // Solve: weeklyRent × 52 × (1 − mgmtPct/100) − fixedExp − annMortgage = 0
-  const fixedExp    = council + water + strata + insurance;
-  const mgmtFactor  = 1 - mgmtPct / 100;
-  const breakEvenWeekly = (52 * mgmtFactor) > 0
-    ? (annMortgage + fixedExp) / (52 * mgmtFactor)
-    : 0;
-
-  // ── Update DOM ────────────────────────────────────────────────────────────
-
-  // Gross yield colour
-  const grossEl = document.getElementById('ry-gross-yield');
-  grossEl.textContent = grossYield.toFixed(2) + '%';
-  grossEl.className = 'ry-metric-value ' + (grossYield >= 4 ? 'green' : grossYield >= 2 ? 'amber' : 'red');
-
-  document.getElementById('ry-net-yield').textContent = netYield.toFixed(2) + '%';
-
-  // Weekly cashflow summary metric
-  const wkCfEl  = document.getElementById('ry-weekly-cf');
-  const cfBadge = document.getElementById('ry-cf-badge');
-  wkCfEl.textContent = fmtDec.format(Math.abs(weekCf)) + '/wk';
-  wkCfEl.className   = 'ry-metric-value ' + (weekCf >= 0 ? 'green' : 'red');
-  if (weekCf >= 0) {
-    cfBadge.textContent = 'Cash flow positive';
-    cfBadge.className   = 'ry-badge positive';
-  } else {
-    cfBadge.textContent = 'Top-up required: ' + fmtDec.format(Math.abs(weekCf)) + '/wk';
-    cfBadge.className   = 'ry-badge negative';
-  }
-
-  document.getElementById('ry-breakeven').textContent = fmt.format(Math.ceil(breakEvenWeekly)) + '/wk';
-
-  // Income & cashflow panel
-  document.getElementById('ry-ann-income').textContent   = fmt.format(annIncome);
-  document.getElementById('ry-total-exp').textContent    = '−' + fmt.format(Math.round(totalExp));
-  document.getElementById('ry-ann-mortgage').textContent = '−' + fmt.format(Math.round(annMortgage));
-
-  const annCfEl = document.getElementById('ry-ann-cf');
-  annCfEl.textContent = (netAnnCf >= 0 ? '' : '−') + fmt.format(Math.abs(Math.round(netAnnCf)));
-  annCfEl.className   = 'ry-result-value highlight ' + (netAnnCf >= 0 ? 'pos' : 'neg');
-
-  const wkCfDetEl = document.getElementById('ry-wk-cf-detail');
-  wkCfDetEl.textContent = (weekCf >= 0 ? '' : '−') + fmtDec.format(Math.abs(weekCf)) + '/week';
-  wkCfDetEl.className   = 'ry-result-value highlight ' + (weekCf >= 0 ? 'pos' : 'neg');
-}
-
-// ── Tab switching (updated to init rental on first visit) ────────────────────
-let rentalInitialised = false;
-
-// ── Init ─────────────────────────────────────────────────────────────────────
-initCalc();
-initStats();
-</script>
-
 <!-- ══ Stats panel (right sidebar — persistent across all tabs) ══ -->
 <aside id="stats-panel" aria-label="Market snapshot">
 
@@ -4090,6 +1935,32 @@ initStats();
     </div>
   </div>
 </aside>
+
+<!-- Scripts — Chart.js first, then app logic, then tab-specific, then data files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/grants.js"></script>
+<script src="js/rental.js"></script>
+<script src="js/faq.js"></script>
+<script src="data/grants-data.js"></script>
+<script src="data/faq-data.js"></script>
+<script src="js/deposit.js"></script>
+<script src="js/simulator.js"></script>
+
+<!-- ══ Deposit detail modal ══ -->
+<div id="deposit-modal" class="dm-overlay" onclick="closeDepositModal(event)" role="dialog" aria-modal="true" aria-labelledby="dm-title">
+  <div class="dm-container">
+    <div class="dm-header">
+      <div>
+        <div id="dm-badge" class="dm-badge"></div>
+        <h2 id="dm-title" class="dm-title"></h2>
+      </div>
+      <button class="dm-close" onclick="closeDepositModal()" aria-label="Close modal">&#x2715;</button>
+    </div>
+    <div id="dm-body" class="dm-body"></div>
+  </div>
+</div>
 
 </body>
 </html>

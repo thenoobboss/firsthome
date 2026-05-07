@@ -1,0 +1,333 @@
+/*
+==============================================
+  faq.css — FAQ accordion tab styles, including
+  highlight grid, phase steps, fee groups,
+  sub-accordions, callout box, offset
+  before/after visualisation, and summary tables.
+==============================================
+*/
+
+/* ── FAQ section ── */
+
+.faq-body-content { font-size: 14px; line-height: 1.7; color: #374151; }
+
+.faq-highlight-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 18px 0;
+}
+
+@media (max-width: 560px) { .faq-highlight-grid { grid-template-columns: 1fr; } }
+
+.faq-highlight-block {
+  background: var(--teal-light);
+  border-left: 3px solid var(--teal);
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+
+.faq-highlight-block strong {
+  display: block;
+  color: var(--teal-dark);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+
+.faq-phase {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal-dark);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+.faq-phase-num {
+  background: var(--teal);
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.faq-steps { list-style: none; padding: 0; margin: 0; }
+
+.faq-steps li {
+  padding: 9px 12px 9px 14px;
+  border-left: 3px solid var(--border);
+  margin-bottom: 8px;
+  border-radius: 0 6px 6px 0;
+  background: var(--bg);
+  line-height: 1.6;
+}
+
+.faq-steps li strong { color: var(--text); }
+
+.faq-steps li .faq-sub {
+  margin-top: 6px;
+  padding-left: 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.faq-offset-summary {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin: 14px 0;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+/* ── Fee groups (Q3) ── */
+
+.faq-fee-group { margin-top: 26px; }
+.faq-fee-group:first-child { margin-top: 4px; }
+
+.faq-fee-group-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--teal-dark);
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid var(--teal-light);
+}
+
+/* Sub-accordion (duty rates inside Q3) */
+.faq-sub-acc {
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.faq-sub-acc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  cursor: pointer;
+  background: var(--bg);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  user-select: none;
+  gap: 8px;
+  transition: background .12s;
+}
+
+.faq-sub-acc-header:hover { background: #f1f5f9; }
+
+.faq-sub-chevron {
+  font-size: 14px;
+  color: var(--muted);
+  transition: transform .2s;
+  flex-shrink: 0;
+}
+
+.faq-sub-acc.open .faq-sub-chevron { transform: rotate(180deg); }
+
+.faq-sub-acc-body {
+  display: none;
+  padding: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.faq-sub-acc.open .faq-sub-acc-body { display: block; }
+
+.faq-sub-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--muted);
+  margin: 16px 0 8px;
+}
+
+.faq-sub-section-label:first-child { margin-top: 0; }
+
+/* Summary callout */
+.faq-callout {
+  margin-top: 26px;
+  background: var(--teal-light);
+  border-left: 4px solid var(--teal);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 18px 20px;
+}
+
+.faq-callout-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--teal-dark);
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.faq-callout-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+
+.faq-callout-list li {
+  padding: 6px 0;
+  font-size: 13.5px;
+  color: var(--teal-dark);
+  border-bottom: 1px solid rgba(13,148,136,.18);
+  line-height: 1.5;
+}
+
+.faq-callout-list li:last-child { border-bottom: none; }
+
+.faq-callout-footer {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal-dark);
+}
+
+/* ── Offset before/after visual ── */
+.faq-viz {
+  margin: 20px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.faq-viz-header {
+  background: var(--bg);
+  padding: 9px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.faq-viz-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.faq-viz-col { padding: 18px 20px; }
+
+.faq-viz-col + .faq-viz-col {
+  border-left: 1px solid var(--border);
+  background: #f0fdfa;
+}
+
+.faq-viz-col-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+.faq-viz-col-label.before { color: #b45309; }
+.faq-viz-col-label.after  { color: var(--teal-dark); }
+
+.faq-viz-balance-text {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.faq-viz-balance-text strong { color: var(--text); font-size: 13px; }
+
+.faq-viz-bar {
+  height: 34px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 14px;
+  background: #e2e8f0;
+}
+
+.faq-viz-bar-seg {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.faq-viz-bar-seg.interest  { background: #f97316; }
+.faq-viz-bar-seg.principal { background: var(--teal); }
+
+.faq-viz-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 13px;
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-viz-stat:last-of-type { border-bottom: none; }
+
+.faq-viz-stat-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+}
+
+.faq-viz-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.faq-viz-dot.interest  { background: #f97316; }
+.faq-viz-dot.principal { background: var(--teal); }
+
+.faq-viz-stat-val { font-weight: 700; color: var(--text); }
+
+.faq-viz-total {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 2px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.faq-viz-footer {
+  background: linear-gradient(135deg, #f0fdfa, #ccfbf1);
+  border-top: 1px solid #99f6e4;
+  padding: 13px 20px;
+  font-size: 13.5px;
+  color: var(--teal-dark);
+  text-align: center;
+  line-height: 1.6;
+}
+
+@media (max-width: 580px) {
+  .faq-viz-cols { grid-template-columns: 1fr; }
+  .faq-viz-col + .faq-viz-col { border-left: none; border-top: 1px solid var(--border); }
+}

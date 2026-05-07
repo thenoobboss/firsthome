@@ -1,0 +1,668 @@
+/*
+==============================================
+  simulator.css — Full-screen Savings
+  Simulator: two-column layout, calc card,
+  input fields, results, and pro-tip bubble.
+==============================================
+*/
+
+/* ── Top navigation bar ── */
+.sim-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sim-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+  cursor: pointer;
+  transition: all .15s;
+}
+.sim-back-btn:hover { background: var(--bg); border-color: var(--teal); }
+
+.sim-path-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+.sim-badge-low  { background: #dcfce7; color: #15803d; }
+.sim-badge-med  { background: #fef3c7; color: #92400e; }
+.sim-badge-high { background: #fee2e2; color: #b91c1c; }
+
+/* ── Single-column content wrapper ── */
+.sim-content-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ── Left: educational content ── */
+.sim-edu-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 22px;
+}
+
+.sim-edu-section {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.sim-edu-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+.sim-edu-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 9px;
+}
+
+.sim-edu-section p {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.72;
+  margin: 0 0 9px;
+}
+.sim-edu-section p:last-child { margin-bottom: 0; }
+.sim-edu-section p.sim-edu-fine {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.sim-edu-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  border-radius: var(--radius);
+  padding: 11px 13px;
+  font-size: 13px;
+  line-height: 1.65;
+  margin-top: 10px;
+}
+.sim-edu-note svg { flex-shrink: 0; margin-top: 1px; }
+.sim-edu-note-green { background: #f0fdf4; border: 1px solid #86efac; color: #15803d; }
+.sim-edu-note-amber { background: #fffbeb; border: 1px solid #fde047; color: #92400e; }
+.sim-edu-note-red   { background: #fef2f2; border: 1px solid #fca5a5; color: #b91c1c; }
+
+/* ── Simulator section — below educational content ── */
+.sim-calc-section {
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 2px solid var(--border);
+}
+
+/* Intro bridge between edu content and calc card */
+.sim-calc-intro {
+  margin-bottom: 28px;
+}
+.sim-calc-intro-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.sim-calc-intro-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+.sim-calc-intro-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin: 0 0 8px;
+  padding: 0;
+  line-height: 1.6;
+}
+
+.sim-calc-intro-disclaimer {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Calc card — full width, integrated section (no floating card) */
+.sim-calc-card {
+  background: var(--bg);
+  border-radius: 12px;
+  /* No max-width, no margin: auto, no shadow, no border */
+}
+
+/* ── Rate text input (synced with slider) ── */
+.sim-rate-input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.sim-rate-input-wrap:focus-within { border-color: var(--teal); }
+
+.sim-rate-input-wrap input {
+  width: 36px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--teal);
+  padding: 4px 2px 4px 8px;
+  outline: none;
+  text-align: right;
+  -moz-appearance: textfield;
+}
+.sim-rate-input-wrap input::-webkit-inner-spin-button,
+.sim-rate-input-wrap input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.sim-rate-input-suffix {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--teal);
+  padding: 0 7px 0 2px;
+}
+
+/* ── Mode tab toggle ── */
+.sim-mode-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 20px 0 14px;
+  border-bottom: 1px solid var(--border);
+}
+.sim-mode-btn {
+  flex: none;
+  padding: 8px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.sim-mode-btn.active   { background: var(--teal); color: #fff; border-color: var(--teal); }
+.sim-mode-btn:not(.active):hover { border-color: var(--teal); color: var(--teal); }
+
+/* ── Input fields ── */
+.sim-fields {
+  padding: 20px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sim-field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.sim-field { display: flex; flex-direction: column; gap: 4px; }
+
+.sim-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── Goal field — visually prominent ── */
+.sim-field-goal { margin-bottom: 4px; }
+
+.sim-label-goal {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.sim-input-wrap-goal {
+  border-color: var(--teal);
+  border-width: 2px;
+  background: #f0fdf9;
+}
+
+.sim-input-wrap-goal:focus-within {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+
+.sim-input-pre-goal {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--teal);
+  padding: 0 10px;
+}
+
+.sim-input-wrap-goal input {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  padding: 12px 8px 12px 0 !important;
+  color: var(--text);
+}
+
+/* Prefix / suffix input wrappers */
+.sim-input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  overflow: hidden;
+  transition: border-color .15s;
+}
+.sim-input-wrap:focus-within { border-color: var(--teal); }
+
+.sim-input-pre {
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.sim-input-post {
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.sim-input-wrap input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 8px 8px 8px 0;
+  outline: none;
+  -moz-appearance: textfield;
+}
+.sim-input-wrap input::-webkit-inner-spin-button,
+.sim-input-wrap input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+/* Contribution row: amount + frequency pills */
+.sim-contrib-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+.sim-contrib-row .sim-input-wrap { flex: 1; min-width: 90px; }
+
+.sim-freq-group { display: flex; gap: 4px; }
+.sim-freq-btn {
+  padding: 0 9px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+  height: 100%;
+  min-height: 36px;
+}
+.sim-freq-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+.sim-freq-btn:not(.active):hover { border-color: var(--teal); color: var(--teal); }
+
+/* Buying date row */
+.sim-buydate-row { display: flex; gap: 8px; }
+.sim-buydate-row .sim-input-wrap { flex: 1; }
+
+/* Interest rate slider */
+.sim-rate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.sim-rate-disp {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--teal);
+}
+.sim-rate-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.sim-rate-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+.sim-rate-slider::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: pointer;
+  border: 2px solid #fff;
+}
+/* Rate hints — positioned to match actual slider stop positions
+   Slider range 0–8: 0%→0%, 2%→25%, 5%→62.5%, 8%→100% */
+.sim-rate-hints {
+  position: relative;
+  height: 14px;
+  margin-top: 5px;
+}
+.sim-rate-hints span {
+  position: absolute;
+  font-size: 9px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.sim-rate-hints span:nth-child(1) { left: 0; }
+.sim-rate-hints span:nth-child(2) { left: 25%;   transform: translateX(-50%); }
+.sim-rate-hints span:nth-child(3) { left: 62.5%; transform: translateX(-50%); }
+.sim-rate-hints span:nth-child(4) { right: 0; }
+
+/* ── Outputs ── */
+.sim-outputs {
+  padding: 0 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Primary "The When" result */
+.sim-result-primary {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark, #0f5850) 100%);
+  border-radius: 12px;
+  padding: 16px 18px;
+  color: #fff;
+}
+.sim-result-primary .sim-rl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  opacity: .8;
+  margin-bottom: 3px;
+}
+.sim-result-primary .sim-rv {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 2px;
+}
+.sim-result-primary .sim-rs {
+  font-size: 12px;
+  opacity: .75;
+}
+
+/* Secondary "In X years" result */
+.sim-result-secondary {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 14px;
+}
+.sim-result-secondary .sim-rl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.sim-result-secondary .sim-rv {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+}
+.sim-result-secondary .sim-rs {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Horizon slider inside secondary */
+.sim-hz-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.sim-hz-label { font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.sim-hz-amount { font-size: 20px; font-weight: 700; color: var(--text); }
+.sim-hz-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  margin: 8px 0 3px;
+}
+.sim-hz-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px; height: 15px;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.sim-hz-slider::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--teal); cursor: pointer; border: 2px solid #fff;
+}
+/* Horizon track — positioned to match actual slider stop positions
+   Slider range 1–15: 1yr→0%, 5yrs→28.57%, 10yrs→64.29%, 15yrs→100% */
+.sim-hz-track {
+  position: relative;
+  height: 14px;
+}
+.sim-hz-track span {
+  position: absolute;
+  font-size: 9px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.sim-hz-track span:nth-child(1) { left: 0; }
+.sim-hz-track span:nth-child(2) { left: 28.57%; transform: translateX(-50%); }
+.sim-hz-track span:nth-child(3) { left: 64.29%; transform: translateX(-50%); }
+.sim-hz-track span:nth-child(4) { right: 0; }
+
+/* Reverse mode: equivalent frequencies */
+.sim-equiv-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-top: 6px;
+}
+.sim-equiv-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 11px;
+}
+.sim-equiv-label { font-size: 9px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.sim-equiv-val { font-size: 15px; font-weight: 700; color: var(--text); }
+
+/* Pro-tip bubble */
+.sim-protip {
+  background: #fffbeb;
+  border: 1px solid #fde047;
+  border-radius: 10px;
+  padding: 11px 13px;
+  font-size: 12px;
+  color: #713f12;
+  line-height: 1.65;
+}
+
+/* ── Principal / Interest split bar (inside primary result card) ── */
+.sim-split {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,.22);
+}
+
+.sim-split-bar {
+  height: 6px;
+  border-radius: 3px;
+  display: flex;
+  overflow: hidden;   /* clips segments to bar shape — no background needed */
+  margin-bottom: 8px;
+  width: 100%;
+  background: rgba(255,255,255,.15); /* fallback if both segs have gap */
+}
+
+/* Bar segments — flex-basis set inline by JS */
+.sim-split-seg-principal {
+  flex-shrink: 0;
+  background: rgba(255,255,255,.50);
+  transition: flex-basis .35s ease;
+}
+
+.sim-split-seg-interest {
+  flex-shrink: 0;
+  background: #fff;
+  transition: flex-basis .35s ease;
+}
+
+/* Label row — mirrors the bar's percentage layout exactly */
+.sim-split-labels {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* Each label block — flex-basis set inline by JS to match its bar segment */
+.sim-split-item {
+  flex-shrink: 0;
+  overflow: visible;   /* amounts can overflow their column if narrow */
+  white-space: nowrap;
+}
+
+.sim-split-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 3px;
+}
+.sim-split-dot-principal { background: rgba(255,255,255,.50); }
+.sim-split-dot-interest  { background: #fff; }
+
+.sim-split-lbl {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.70);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.sim-split-amount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+}
+
+/* Already there / impossible states */
+.sim-result-success {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 12px;
+  padding: 16px 18px;
+  color: #15803d;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+.sim-result-impossible {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: #b91c1c;
+  text-align: center;
+}
+
+/* ── Assumptions & Limitations ── */
+.sim-assumptions {
+  margin-top: 20px;
+  padding: 14px 16px 16px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 10px;
+}
+
+.sim-assumptions-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #991B1B;
+  margin-bottom: 10px;
+}
+
+.sim-assumptions-list {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sim-assumptions-list li {
+  font-size: 12px;
+  color: #7F1D1D;
+  line-height: 1.65;
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .sim-field-row  { grid-template-columns: 1fr; }
+  .sim-mode-btn   { font-size: 10px; padding: 7px 4px; }
+  .sim-contrib-row { flex-direction: column; }
+  .sim-freq-group  { justify-content: flex-start; }
+  .sim-calc-section { margin-top: 36px; padding-top: 28px; }
+}

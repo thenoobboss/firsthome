@@ -1,0 +1,165 @@
+/*
+==============================================
+  hero.css — Home tab hero section, feature
+  cards, and home page disclaimer styles.
+==============================================
+*/
+
+/* ── Home page ── */
+
+.home-hero {
+  background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 60%, #0d9488 100%);
+  border-radius: 16px;
+  padding: 48px 40px;
+  color: #fff;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 260px; height: 260px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+  pointer-events: none;
+}
+
+.home-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -20px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.04);
+  pointer-events: none;
+}
+
+.home-hero-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: .75;
+  margin-bottom: 12px;
+}
+
+.home-hero-title {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 18px;
+}
+
+.home-hero-title span { opacity: .6; font-weight: 400; }
+
+.home-hero-desc {
+  font-size: 16px;
+  line-height: 1.7;
+  opacity: .9;
+  max-width: 620px;
+  margin-bottom: 28px;
+}
+
+.home-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: var(--teal-dark);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 22px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all .15s;
+  text-decoration: none;
+}
+
+.home-hero-cta:hover { background: var(--teal-light); }
+
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 640px) {
+  .home-features { grid-template-columns: 1fr; }
+  .home-hero { padding: 32px 24px; }
+  .home-hero-title { font-size: 24px; }
+}
+
+.home-feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: box-shadow .15s, border-color .15s;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-feature-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--teal);
+}
+
+.home-feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--teal-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.home-feature-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.home-feature-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  margin-bottom: 2px;
+}
+
+.home-feature-desc {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.home-feature-arrow {
+  margin-top: auto;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--teal);
+}
+
+.home-disclaimer {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.65;
+  text-align: center;
+}
