@@ -448,12 +448,12 @@ function _renderForward(pv, target, annualRate, out) {
           <div class="sim-split-seg sim-split-seg-interest"  style="flex-basis:${interestPct}%"></div>
         </div>
         <div class="sim-split-labels">
-          <div class="sim-split-item" style="flex-basis:${principalPct}%">
+          <div class="sim-split-item">
             <div class="sim-split-dot sim-split-dot-principal"></div>
             <div class="sim-split-lbl">You save</div>
             <div class="sim-split-amount">${_fmt(totalPrincipal)}</div>
           </div>
-          <div class="sim-split-item" style="flex-basis:${interestPct}%">
+          <div class="sim-split-item">
             <div class="sim-split-dot sim-split-dot-interest"></div>
             <div class="sim-split-lbl">Interest ✨</div>
             <div class="sim-split-amount">${_fmt(totalInterest)}</div>

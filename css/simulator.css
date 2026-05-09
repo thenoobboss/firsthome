@@ -407,8 +407,10 @@
 .sim-result-primary {
   background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark, #0f5850) 100%);
   border-radius: 12px;
-  padding: 16px 18px;
+  padding: 20px 20px 18px;
   color: #fff;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .sim-result-primary .sim-rl {
   font-size: 9px;
@@ -419,14 +421,18 @@
   margin-bottom: 3px;
 }
 .sim-result-primary .sim-rv {
-  font-size: 26px;
+  font-size: clamp(18px, 4.5vw, 28px);
   font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 2px;
+  line-height: 1.15;
+  margin-bottom: 3px;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .sim-result-primary .sim-rs {
   font-size: 12px;
   opacity: .75;
+  line-height: 1.45;
+  word-break: break-word;
 }
 
 /* Secondary "In X years" result */
@@ -434,7 +440,9 @@
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 13px 14px;
+  padding: 14px 16px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 .sim-result-secondary .sim-rl {
   font-size: 9px;
@@ -458,12 +466,29 @@
 /* Horizon slider inside secondary */
 .sim-hz-row {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+  gap: 8px 14px;
+  flex-wrap: wrap;
   margin-bottom: 5px;
 }
-.sim-hz-label { font-size: 9px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
-.sim-hz-amount { font-size: 20px; font-weight: 700; color: var(--text); }
+.sim-hz-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.sim-hz-amount {
+  font-size: clamp(15px, 3.5vw, 20px);
+  font-weight: 700;
+  color: var(--text);
+  flex-shrink: 0;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
 .sim-hz-slider {
   width: 100%;
   -webkit-appearance: none;
@@ -562,18 +587,25 @@
   transition: flex-basis .35s ease;
 }
 
-/* Label row — mirrors the bar's percentage layout exactly */
+/* Label row — two items spaced to opposite ends of the bar */
 .sim-split-labels {
   display: flex;
   width: 100%;
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
 }
 
-/* Each label block — flex-basis set inline by JS to match its bar segment */
+/* Each label block — flex-basis removed; space-between handles placement */
 .sim-split-item {
-  flex-shrink: 0;
-  overflow: visible;   /* amounts can overflow their column if narrow */
-  white-space: nowrap;
+  min-width: 0;
+  max-width: 52%;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.sim-split-item:last-child {
+  text-align: right;
 }
 
 .sim-split-dot {
@@ -596,10 +628,12 @@
 }
 
 .sim-split-amount {
-  font-size: 14px;
+  font-size: clamp(12px, 2.8vw, 14px);
   font-weight: 700;
   color: #fff;
   line-height: 1.2;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 /* Already there / impossible states */
