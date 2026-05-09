@@ -6,15 +6,16 @@
 <title>HomePocket</title>
 
 <!-- Styles — main first, then tab-specific files -->
-<link rel="stylesheet" href="css/main.css">
-<link rel="stylesheet" href="css/navbar.css">
-<link rel="stylesheet" href="css/hero.css">
-<link rel="stylesheet" href="css/calculator.css">
-<link rel="stylesheet" href="css/grants.css">
-<link rel="stylesheet" href="css/rental.css">
-<link rel="stylesheet" href="css/faq.css">
-<link rel="stylesheet" href="css/deposit.css">
-<link rel="stylesheet" href="css/simulator.css">
+<link rel="stylesheet" href="css/main.css?v=3">
+<link rel="stylesheet" href="css/navbar.css?v=3">
+<link rel="stylesheet" href="css/hero.css?v=2">
+<link rel="stylesheet" href="css/calculator.css?v=2">
+<link rel="stylesheet" href="css/grants.css?v=2">
+<link rel="stylesheet" href="css/rental.css?v=2">
+<link rel="stylesheet" href="css/faq.css?v=2">
+<link rel="stylesheet" href="css/deposit.css?v=2">
+<link rel="stylesheet" href="css/simulator.css?v=2">
+<link rel="stylesheet" href="css/dt.css?v=1">
 </head>
 
 <!-- Google Translate widget initialisation -->
@@ -30,6 +31,112 @@
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
 
 <body>
+
+<!-- ══ Splash Screen ══ -->
+<div id="splash-screen" role="dialog" aria-modal="true" aria-label="Welcome screen">
+  <div class="splash-content">
+    <svg class="splash-logo" width="80" height="80" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <polyline points="6,42 44,8 82,42" stroke="rgba(255,255,255,0.9)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="14" y1="37" x2="14" y2="78" stroke="rgba(255,255,255,0.9)" stroke-width="5" stroke-linecap="round"/>
+      <line x1="74" y1="37" x2="74" y2="78" stroke="rgba(255,255,255,0.9)" stroke-width="5" stroke-linecap="round"/>
+      <path d="M18,52 L18,72 Q18,78 24,78 L64,78 Q70,78 70,72 L70,52 Z" stroke="rgba(255,255,255,0.9)" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
+      <line x1="18" y1="52" x2="28" y2="52" stroke="rgba(255,255,255,0.9)" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="60" y1="52" x2="70" y2="52" stroke="rgba(255,255,255,0.9)" stroke-width="4.5" stroke-linecap="round"/>
+      <rect x="28" y="33" width="18" height="26" rx="2" transform="rotate(-12,37,46)" stroke="rgba(255,255,255,0.9)" stroke-width="3" fill="none"/>
+      <rect x="32" y="30" width="18" height="27" rx="2" transform="rotate(-4,41,43)" stroke="rgba(255,255,255,0.9)" stroke-width="3" fill="none"/>
+      <rect x="38" y="29" width="18" height="27" rx="2" transform="rotate(6,47,42)" stroke="rgba(255,255,255,0.9)" stroke-width="3" fill="none"/>
+      <circle cx="30" cy="62" r="9" stroke="rgba(255,255,255,0.9)" stroke-width="3.5" fill="none"/>
+    </svg>
+    <h1 class="splash-title">Welcome to HomePocket</h1>
+    <p class="splash-sub">Your Australian property toolkit</p>
+  </div>
+  <button id="splash-cta" class="splash-btn">Continue to main webpage →</button>
+</div>
+
+<!-- ══ Decision Tree Overlay ══ -->
+<div id="dt-overlay" role="dialog" aria-modal="true" aria-label="Getting started guide">
+  <div class="dt-card">
+
+    <!-- ─ Step 1: Journey stage ─ -->
+    <div class="dt-step active" id="dt-s1">
+      <div class="dt-meta">
+        <span class="dt-pill">Getting started</span>
+        <div class="dt-dots">
+          <span class="dt-dot on"></span>
+          <span class="dt-dot"></span>
+        </div>
+      </div>
+      <h2 class="dt-question">Where are you at in your home-buying journey?</h2>
+      <div class="dt-options">
+        <button class="dt-option" onclick="dtGoStep2()">
+          <span class="dt-opt-emoji">🤔</span>
+          <span class="dt-opt-label">I really have no clue where to start.</span>
+          <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dt-option" onclick="dtResult('faq')">
+          <span class="dt-opt-emoji">📚</span>
+          <span class="dt-opt-label">I'm just exploring and want to learn the basics.</span>
+          <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dt-option" onclick="dtResult('rental')">
+          <span class="dt-opt-emoji">🏘️</span>
+          <span class="dt-opt-label">I'm looking for an investment property.</span>
+          <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <button class="dt-skip" onclick="dtSkip()">Go away I know what I want!</button>
+    </div>
+
+    <!-- ─ Step 2: Financial priority ─ -->
+    <div class="dt-step" id="dt-s2">
+      <div class="dt-meta">
+        <button class="dt-back-btn" onclick="dtBack()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="dt-dots">
+          <span class="dt-dot"></span>
+          <span class="dt-dot on"></span>
+        </div>
+      </div>
+      <h2 class="dt-question">What is your main financial priority right now?</h2>
+      <div class="dt-options">
+        <button class="dt-option" onclick="dtResult('deposit')">
+          <span class="dt-opt-emoji">💰</span>
+          <span class="dt-opt-label">Trying to save for my first deposit.</span>
+          <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dt-option" onclick="dtResult('borrow')">
+          <span class="dt-opt-emoji">🏦</span>
+          <span class="dt-opt-label">Knowing the absolute max I can borrow.</span>
+          <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dt-option" onclick="dtResult('grants')">
+          <span class="dt-opt-emoji">🎁</span>
+          <span class="dt-opt-label">Checking my eligibility for government help.</span>
+          <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="dt-option" onclick="dtResult('calc')">
+          <span class="dt-opt-emoji">🧮</span>
+          <span class="dt-opt-label">Calculating my future monthly repayments.</span>
+          <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <button class="dt-skip" onclick="dtSkip()">Go away I know what I want!</button>
+    </div>
+
+    <!-- ─ Result summary card ─ -->
+    <div class="dt-step" id="dt-result">
+      <div class="dt-res-emoji"  id="dt-res-icon"></div>
+      <span class="dt-res-pill"  id="dt-res-badge"></span>
+      <h2  class="dt-res-title"  id="dt-res-title"></h2>
+      <p   class="dt-res-desc"   id="dt-res-desc"></p>
+      <button class="dt-res-cta" id="dt-res-cta"></button>
+      <button class="dt-skip"    onclick="dtSkip()">Explore everything else →</button>
+    </div>
+
+  </div>
+</div>
 
 <!-- ══ Sidebar navigation ══ -->
 <div id="sidebar">
@@ -108,81 +215,81 @@
     </div>
 
     <!-- 3-pathway card grid -->
-    <div class="deposit-pathway-grid">
+    <div class="deposit-pathways-wrapper">
 
       <!-- ── Pathway 1: The 'Sleep Easy' Path ── -->
-      <div class="deposit-pathway-card deposit-pathway-low">
-        <div class="deposit-pathway-top"></div>
-        <div class="deposit-pathway-inner">
-          <div class="deposit-pathway-badge">Low Risk</div>
-          <div class="deposit-pathway-icon">😴</div>
-          <div class="deposit-pathway-title">The 'Sleep Easy' Path</div>
+      <div class="pathway-card deposit-pathway-low">
+        <div class="pathway-card-accent"></div>
+        <div class="pathway-card-inner">
+          <div class="pathway-card-header">
+            <span class="pathway-badge pathway-badge-low">Low Risk</span>
+            <span class="pathway-icon">😴</span>
+          </div>
+          <h3 class="pathway-title">The 'Sleep Easy' Path</h3>
 
-          <div class="deposit-section">
-            <div class="deposit-section-label">The Vibe</div>
+          <div class="pathway-section">
+            <div class="pathway-section-label">The Vibe</div>
             <p>You want your money exactly where you left it, plus a little extra. Peace of mind over max returns.</p>
           </div>
 
-          <div class="deposit-whatif">
-            <div class="deposit-section-label">The 'What If?'</div>
+          <div class="pathway-whatif pathway-whatif-low">
+            <div class="pathway-section-label">The 'What If?'</div>
             <p>It's the safest way to save, but it's slow. You won't lose money in a crash, but house prices might climb faster than your interest rate can keep up.</p>
           </div>
 
-          <button class="deposit-explore-btn" onclick="openDepositSim('low')">
-            <span>See how it works →</span>
-          </button>
+          <button class="pathway-cta" onclick="openDepositSim('low')">See how it works →</button>
         </div>
       </div>
 
       <!-- ── Pathway 2: The 'Slow & Steady' Path ── -->
-      <div class="deposit-pathway-card deposit-pathway-med">
-        <div class="deposit-pathway-top"></div>
-        <div class="deposit-pathway-inner">
-          <div class="deposit-pathway-badge">Medium Risk</div>
-          <div class="deposit-pathway-icon">📈</div>
-          <div class="deposit-pathway-title">The 'Slow &amp; Steady' Path</div>
+      <div class="pathway-card deposit-pathway-med">
+        <div class="pathway-card-accent"></div>
+        <div class="pathway-card-inner">
+          <div class="pathway-card-header">
+            <span class="pathway-badge pathway-badge-med">Medium Risk</span>
+            <span class="pathway-icon">📈</span>
+          </div>
+          <h3 class="pathway-title">The 'Slow &amp; Steady' Path</h3>
 
-          <div class="deposit-section">
-            <div class="deposit-section-label">The Vibe</div>
+          <div class="pathway-section">
+            <div class="pathway-section-label">The Vibe</div>
             <p>You're okay with some bumps along the way if it means potentially beating what the bank offers you.</p>
           </div>
 
-          <div class="deposit-whatif">
-            <div class="deposit-section-label">The 'What If?'</div>
+          <div class="pathway-whatif pathway-whatif-med">
+            <div class="pathway-section-label">The 'What If?'</div>
             <p>You need a <strong>3–5 year runway</strong>. If the market dips right when you're ready to buy, you might have to wait for it to bounce back — or sell at a loss to hit your timeline.</p>
           </div>
 
-          <button class="deposit-explore-btn" onclick="openDepositSim('med')">
-            <span>See how it works →</span>
-          </button>
+          <button class="pathway-cta" onclick="openDepositSim('med')">See how it works →</button>
         </div>
       </div>
 
       <!-- ── Pathway 3: The 'Wildcard' Path ── -->
-      <div class="deposit-pathway-card deposit-pathway-high">
-        <div class="deposit-pathway-top"></div>
-        <div class="deposit-pathway-inner">
-          <div class="deposit-pathway-badge">High Risk</div>
-          <div class="deposit-pathway-icon">🎲</div>
-          <div class="deposit-pathway-title">The 'Wildcard' Path</div>
+      <div class="pathway-card deposit-pathway-high">
+        <div class="pathway-card-accent"></div>
+        <div class="pathway-card-inner">
+          <div class="pathway-card-header">
+            <span class="pathway-badge pathway-badge-high">High Risk</span>
+            <span class="pathway-icon">🎲</span>
+          </div>
+          <h3 class="pathway-title">The 'Wildcard' Path</h3>
 
-          <div class="deposit-section">
-            <div class="deposit-section-label">The Vibe</div>
+          <div class="pathway-section">
+            <div class="pathway-section-label">The Vibe</div>
             <p>You're trying to speedrun your way to a deposit. High conviction, high stakes — not for the faint-hearted.</p>
           </div>
 
-          <div class="deposit-whatif">
-            <div class="deposit-section-label">The 'What If?'</div>
+          <div class="pathway-whatif pathway-whatif-high">
+            <div class="pathway-section-label">The 'What If?'</div>
             <p>This is high-octane. You could double your money — or lose half of it in a weekend. <strong>Only for money you're genuinely prepared to lose.</strong></p>
           </div>
 
-          <button class="deposit-explore-btn" onclick="openDepositSim('high')">
-            <span>See how it works →</span>
-          </button>
+          <button class="pathway-cta" onclick="openDepositSim('high')">See how it works →</button>
         </div>
       </div>
 
-    </div><!-- /deposit-pathway-grid -->
+    </div><!-- /deposit-pathways-wrapper -->
 
   </div><!-- /tab-deposit -->
 
@@ -1785,15 +1892,15 @@
 
 <!-- Scripts — Chart.js first, then app logic, then tab-specific, then data files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="js/app.js"></script>
-<script src="js/calculator.js"></script>
-<script src="js/grants.js"></script>
-<script src="js/rental.js"></script>
-<script src="js/faq.js"></script>
-<script src="data/grants-data.js"></script>
-<script src="data/faq-data.js"></script>
-<script src="js/deposit.js"></script>
-<script src="js/simulator.js"></script>
+<script src="js/app.js?v=3"></script>
+<script src="js/calculator.js?v=2"></script>
+<script src="js/grants.js?v=2"></script>
+<script src="js/rental.js?v=2"></script>
+<script src="js/faq.js?v=2"></script>
+<script src="data/grants-data.js?v=2"></script>
+<script src="data/faq-data.js?v=2"></script>
+<script src="js/deposit.js?v=2"></script>
+<script src="js/simulator.js?v=2"></script>
 
 <!-- ══ Deposit detail modal ══ -->
 <div id="deposit-modal" class="dm-overlay" onclick="closeDepositModal(event)" role="dialog" aria-modal="true" aria-labelledby="dm-title">

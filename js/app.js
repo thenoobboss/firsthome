@@ -18,6 +18,11 @@ function switchTab(tab, btn) {
   document.getElementById('tab-' + tab).classList.add('active');
   btn.classList.add('active');
   if (tab === 'calc') updateCalc();
+  if (tab === 'deposit') {
+    // Trigger pathway card entrance animations on first visit to this tab
+    const wrapper = document.querySelector('.deposit-pathways-wrapper');
+    if (wrapper) wrapper.classList.add('cards-animate');
+  }
   if (tab === 'rental') {
     if (!rentalInitialised) {
       initRental();
@@ -192,6 +197,151 @@ function toggleSubAcc(id) {
   const el = document.getElementById(id);
   el.classList.toggle('open');
 }
+
+// ---- SPLASH SCREEN ----
+
+(function () {
+  const splash = document.getElementById('splash-screen');
+  const btn    = document.getElementById('splash-cta');
+  if (!splash || !btn) return;
+
+  btn.addEventListener('click', function () {
+    // Fade out the splash overlay
+    splash.classList.add('splash-hiding');
+
+    splash.addEventListener('transitionend', function onEnd() {
+      splash.removeEventListener('transitionend', onEnd);
+      splash.style.display = 'none';
+
+      // Hand off to Phase 2: Decision Tree
+      if (window._dtShow) window._dtShow();
+    });
+  });
+})();
+
+// ---- DECISION TREE ----
+
+(function () {
+  const overlay = document.getElementById('dt-overlay');
+  if (!overlay) return;
+
+  const s1     = document.getElementById('dt-s1');
+  const s2     = document.getElementById('dt-s2');
+  const sRes   = document.getElementById('dt-result');
+  const allSteps = [s1, s2, sRes];
+
+  // Result data for each destination tab
+  const RESULTS = {
+    faq: {
+      icon:  '📚',
+      badge: 'Common Questions',
+      title: 'Start with the Basics',
+      desc:  'A complete guide to the home-buying process — from pre-approval to settlement, plus every hidden fee you need to know about.',
+      tab:   'faq',
+      cta:   'Open Common Questions →'
+    },
+    rental: {
+      icon:  '🏘️',
+      badge: 'Rental Yield',
+      title: 'Investor Cashflow Analyser',
+      desc:  'Calculate gross and net rental yields, annual cashflow, and the exact weekly rent needed to break even on any NSW property.',
+      tab:   'rental',
+      cta:   'Open Rental Yield Analyser →'
+    },
+    deposit: {
+      icon:  '💰',
+      badge: 'Deposit Growth',
+      title: 'Deposit Growth Pathways',
+      desc:  'Explore savings strategies tailored to your risk appetite — from HYSA to ETFs — and see exactly when you\'ll hit your deposit goal.',
+      tab:   'deposit',
+      cta:   'Open Deposit Growth →'
+    },
+    borrow: {
+      icon:  '🏦',
+      badge: 'Borrowing Power',
+      title: 'Maximum Borrowing Power',
+      desc:  'Compare borrowing capacities from Australia\'s Big Four banks and see how lenders assess your income and expenses.',
+      tab:   'borrow',
+      cta:   'Check My Borrowing Power →'
+    },
+    grants: {
+      icon:  '🎁',
+      badge: 'Grants & Schemes',
+      title: 'NSW Grants & Stamp Duty Relief',
+      desc:  'Find out what government grants you\'re eligible for — FHBAS, the $10,000 New Home Grant, and the federal FHSS scheme.',
+      tab:   'grants',
+      cta:   'Check Grant Eligibility →'
+    },
+    calc: {
+      icon:  '🧮',
+      badge: 'Mortgage Calculator',
+      title: 'High-Precision Mortgage Modelling',
+      desc:  'Model P&I and Interest-Only repayments with daily interest and see the full impact of an offset account on your loan term.',
+      tab:   'calc',
+      cta:   'Open Mortgage Calculator →'
+    }
+  };
+
+  // ── Helpers ──────────────────────────────────
+
+  function showStep(step) {
+    allSteps.forEach(s => s.classList.remove('active'));
+    step.classList.add('active');
+  }
+
+  function hide(callback) {
+    overlay.classList.remove('dt-visible');
+    let done = false;
+    function onDone() {
+      if (done) return;
+      done = true;
+      overlay.style.display = 'none';
+      if (callback) callback();
+    }
+    overlay.addEventListener('transitionend', function onEnd(e) {
+      if (e.target !== overlay) return;
+      overlay.removeEventListener('transitionend', onEnd);
+      onDone();
+    });
+    setTimeout(onDone, 400); // safety fallback
+  }
+
+  function goToTab(tabKey) {
+    const btn = Array.from(document.querySelectorAll('.tab-btn'))
+      .find(b => (b.getAttribute('onclick') || '').includes("'" + tabKey + "'"));
+    if (btn) switchTab(tabKey, btn);
+  }
+
+  // ── Public API (called from HTML onclick + splash IIFE) ──
+
+  window.dtGoStep2 = () => showStep(s2);
+  window.dtBack    = () => showStep(s1);
+
+  window.dtResult  = function (tabKey) {
+    const r = RESULTS[tabKey];
+    document.getElementById('dt-res-icon').textContent  = r.icon;
+    document.getElementById('dt-res-badge').textContent = r.badge;
+    document.getElementById('dt-res-title').textContent = r.title;
+    document.getElementById('dt-res-desc').textContent  = r.desc;
+    const cta = document.getElementById('dt-res-cta');
+    cta.textContent = r.cta;
+    cta.onclick = () => hide(() => goToTab(r.tab));
+    showStep(sRes);
+  };
+
+  window.dtSkip = () => hide(null);
+
+  // Called by splash IIFE after its fade-out completes
+  window._dtShow = function () {
+    showStep(s1);                       // always reset to step 1
+    overlay.style.display = 'flex';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        overlay.classList.add('dt-visible');
+      });
+    });
+  };
+})();
 
 // ---- INIT ----
 

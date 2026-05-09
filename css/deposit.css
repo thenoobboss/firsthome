@@ -44,155 +44,227 @@
   margin-top: 1px;
 }
 
-/* ── 3-column pathway grid ── */
-.deposit-pathway-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  align-items: stretch;
-}
+/* ══════════════════════════════════════════
+   DEPOSIT GROWTH — Pathway Cards
+   Scoped to .deposit-pathways-wrapper so
+   nothing bleeds into other page sections.
+   ══════════════════════════════════════════ */
 
-@media (max-width: 1000px) {
-  .deposit-pathway-grid {
-    grid-template-columns: 1fr;
-    max-width: 480px;
+/* ── Entrance animation ── */
+@keyframes pathway-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-/* ── Individual pathway card ── */
-.deposit-pathway-card {
+/* ── Grid container ── */
+.deposit-pathways-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  /* Clip mid-animation slide so no horizontal scrollbar appears */
+  overflow: hidden;
+}
+
+/* ── Individual card ── */
+.pathway-card {
+  flex: 1;
+  min-width: 280px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+
+  /* Entrance animation — paused until splash is dismissed */
+  opacity: 0;
+  animation: pathway-slide-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-play-state: paused;
 }
 
-/* Coloured top accent strip */
-.deposit-pathway-top {
+/* Cards animate once wrapper gets .cards-animate (added by JS after splash fades) */
+.deposit-pathways-wrapper.cards-animate .pathway-card {
+  animation-play-state: running;
+}
+
+/* Staggered delays */
+.pathway-card:nth-child(1) { animation-delay: 0.1s; }
+.pathway-card:nth-child(2) { animation-delay: 0.3s; }
+.pathway-card:nth-child(3) { animation-delay: 0.5s; }
+
+/* Lift on hover */
+.pathway-card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  transform: translateY(-2px);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* ── Coloured top accent strip ── */
+.pathway-card-accent {
   height: 6px;
   width: 100%;
   flex-shrink: 0;
 }
 
-.deposit-pathway-low  .deposit-pathway-top { background: #22c55e; }
-.deposit-pathway-med  .deposit-pathway-top { background: #f59e0b; }
-.deposit-pathway-high .deposit-pathway-top { background: #ef4444; }
+.deposit-pathway-low  .pathway-card-accent { background: #22c55e; }
+.deposit-pathway-med  .pathway-card-accent { background: #f59e0b; }
+.deposit-pathway-high .pathway-card-accent { background: #ef4444; }
 
-/* Inner padding wrapper — flex column so footer tags anchor to bottom */
-.deposit-pathway-inner {
-  padding: 20px 20px 16px;
+/* ── Inner content area ── */
+.pathway-card-inner {
+  padding: 24px 24px 20px;
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-/* Risk badge pill */
-.deposit-pathway-badge {
+/* ── Card header: badge + icon side by side ── */
+.pathway-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* ── Risk badge pill ── */
+.pathway-badge {
   display: inline-flex;
   align-items: center;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 100px;
-  margin-bottom: 12px;
-  width: fit-content;
 }
 
-.deposit-pathway-low  .deposit-pathway-badge { background: #dcfce7; color: #15803d; }
-.deposit-pathway-med  .deposit-pathway-badge { background: #fef3c7; color: #92400e; }
-.deposit-pathway-high .deposit-pathway-badge { background: #fee2e2; color: #b91c1c; }
+.pathway-badge-low  { background: #dcfce7; color: #15803d; }
+.pathway-badge-med  { background: #fef3c7; color: #92400e; }
+.pathway-badge-high { background: #fee2e2; color: #b91c1c; }
 
-/* Emoji icon */
-.deposit-pathway-icon {
-  font-size: 36px;
+/* ── Emoji icon ── */
+.pathway-icon {
+  font-size: 32px;
   line-height: 1;
-  margin-bottom: 8px;
 }
 
-/* Card title */
-.deposit-pathway-title {
-  font-size: 17px;
+/* ── Card title ── */
+.pathway-title {
+  font-size: 18px;
   font-weight: 700;
   color: var(--text);
-  margin: 0 0 16px;
+  margin: 0 0 18px;
   line-height: 1.3;
 }
 
-/* Content sections (Vibe only now) */
-.deposit-section {
-  margin-bottom: 0;
-}
-
-.deposit-section-label {
+/* ── Section label (THE VIBE / THE WHAT IF?) ── */
+.pathway-section-label {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--muted);
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
-.deposit-section p {
+/* ── Vibe section ── */
+.pathway-section p {
   font-size: 14px;
   color: var(--text);
-  line-height: 1.65;
+  line-height: 1.7;
   margin: 0;
 }
 
-/* 'What If?' — flows after vibe with a divider, colour-coded by risk */
-.deposit-whatif {
-  margin-top: 14px;
-  padding-top: 14px;
+/* ── What If? section — divider + colour-coded text ── */
+.pathway-whatif {
+  margin-top: 16px;
+  padding-top: 16px;
   border-top: 1px solid var(--border);
 }
 
-.deposit-whatif .deposit-section-label {
-  color: var(--text);
-}
-
-.deposit-whatif p {
+.pathway-whatif p {
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.7;
   margin: 0;
 }
 
-.deposit-pathway-low  .deposit-whatif p { color: #15803d; }
-.deposit-pathway-med  .deposit-whatif p { color: #92400e; }
-.deposit-pathway-high .deposit-whatif p { color: #b91c1c; }
+.pathway-whatif-low p  { color: #15803d; }
+.pathway-whatif-med p  { color: #92400e; }
+.pathway-whatif-high p { color: #b91c1c; }
 
-/* "Explore Options" CTA button — anchored to card bottom */
-.deposit-explore-btn {
+/* ── CTA button — pinned to card bottom via margin-top: auto ── */
+.pathway-cta {
+  display: block;
   width: 100%;
   margin-top: auto;
-  padding-top: 14px; /* space above, not inside button */
-  padding-bottom: 0;
+  padding: 11px 16px;
+  padding-top: calc(11px + 16px); /* 16px gap above the button */
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
+  margin-top: auto;
+  padding-top: 20px;
 }
 
-.deposit-explore-btn span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+.pathway-cta {
+  /* Re-declare cleanly */
+  display: block;
   width: 100%;
-  padding: 10px 16px;
-  background: var(--teal);
-  color: #fff;
-  border-radius: 8px;
+  margin-top: auto;
+  padding-top: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: center;
   font-size: 14px;
   font-weight: 600;
-  transition: background .15s;
+  color: #fff;
+
+  /* The visible button */
+  background: var(--teal);
+  border-radius: 10px;
+  padding: 11px 16px;
+  transition: background 0.15s ease, transform 0.15s ease;
+  letter-spacing: 0.01em;
 }
 
-.deposit-explore-btn:hover span {
+.pathway-cta:hover {
   background: var(--teal-dark);
+  transform: translateY(-1px);
+}
+
+/* ── Mobile — stack vertically ── */
+@media (max-width: 1024px) {
+  .deposit-pathways-wrapper {
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden; /* still clip on mobile */
+  }
+
+  .pathway-card {
+    width: 100%;
+    max-width: 450px;
+    /* Shorter slide distance on mobile to prevent scrollbar flash */
+    animation-name: pathway-slide-in-mobile;
+  }
+
+  @keyframes pathway-slide-in-mobile {
+    from { opacity: 0; transform: translateX(24px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
 }
 
 /* ══ Deposit detail modal ══ */

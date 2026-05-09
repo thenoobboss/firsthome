@@ -183,26 +183,6 @@ nav {
 #translate-btn-mobile.active { background: var(--teal); color: #fff; }
 
 /* Friendly Advice tab — stands out from the standard nav buttons */
-.tab-btn[data-tab="advice"] {
-  color: var(--teal);
-  font-weight: 600;
-}
-
-.tab-btn[data-tab="advice"].active {
-  background: var(--teal);
-  color: #fff;
-}
-
-/* Deposit Growth tab — matches the advice button treatment */
-.tab-btn[data-tab="deposit"] {
-  color: var(--teal);
-  font-weight: 600;
-}
-
-.tab-btn[data-tab="deposit"].active {
-  background: var(--teal);
-  color: #fff;
-}
 
 @media (max-width: 768px) {
   /* Horizontal mobile nav flex layout */

@@ -1,0 +1,262 @@
+/*
+==============================================
+  dt.css — Decision Tree overlay:
+  the guided entry experience that runs after
+  the splash screen fades out.
+==============================================
+*/
+
+/* ── Overlay backdrop ── */
+#dt-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;           /* JS sets display:flex to show */
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+#dt-overlay.dt-visible  { opacity: 1; }
+
+/* ── Card shell ── */
+.dt-card {
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.20),
+    0 4px 20px rgba(0, 0, 0, 0.06);
+  width: 100%;
+  max-width: 560px;
+  overflow: hidden;
+}
+
+/* ── Step panels ── */
+.dt-step {
+  display: none;
+  flex-direction: column;
+  padding: 36px 36px 32px;
+}
+
+.dt-step.active {
+  display: flex;
+  animation: dt-step-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes dt-step-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Top meta row ── */
+.dt-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+/* ── Phase label pill ── */
+.dt-pill {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: var(--teal-light);
+  padding: 4px 12px;
+  border-radius: 100px;
+}
+
+/* ── Dot step indicators ── */
+.dt-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dt-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.2s;
+}
+
+.dt-dot.on { background: var(--teal); }
+
+/* ── Back button ── */
+.dt-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s;
+}
+
+.dt-back-btn:hover { color: var(--text); }
+
+/* ── Question heading ── */
+.dt-question {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+  margin: 0 0 22px;
+}
+
+/* ── Options list ── */
+.dt-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+/* ── Individual option button ── */
+.dt-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  transition:
+    border-color 0.15s,
+    background   0.15s,
+    transform    0.15s,
+    box-shadow   0.15s;
+}
+
+.dt-option:hover {
+  border-color: var(--teal);
+  background: #f0fdf4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(15, 118, 110, 0.10);
+}
+
+.dt-opt-emoji {
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.dt-opt-label {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+/* Right-pointing chevron via SVG */
+.dt-opt-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: color 0.15s, transform 0.15s;
+}
+
+.dt-option:hover .dt-opt-chevron {
+  color: var(--teal);
+  transform: translateX(3px);
+}
+
+/* ── Skip link ── */
+.dt-skip {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+  transition: color 0.15s;
+}
+
+.dt-skip:hover { color: var(--text); }
+
+/* ══ Result step ══ */
+
+.dt-res-emoji {
+  font-size: 52px;
+  text-align: center;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+
+.dt-res-pill {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+  background: var(--teal-light);
+  padding: 4px 14px;
+  border-radius: 100px;
+  text-align: center;
+  width: fit-content;
+  margin: 0 auto 16px;
+}
+
+.dt-res-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.3;
+  margin: 0 0 10px;
+}
+
+.dt-res-desc {
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+
+.dt-res-cta {
+  display: block;
+  width: 100%;
+  padding: 14px 24px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+.dt-res-cta:hover {
+  background: var(--teal-dark);
+  transform: translateY(-1px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .dt-step     { padding: 28px 22px 24px; }
+  .dt-question { font-size: 17px; }
+  .dt-res-title { font-size: 19px; }
+}
