@@ -200,22 +200,26 @@ function toggleSubAcc(id) {
 
 // ---- SPLASH SCREEN ----
 
+// Auto-show the splash screen on first load; dismiss on CTA click, then launch DT.
 (function () {
   const splash = document.getElementById('splash-screen');
-  const btn    = document.getElementById('splash-cta');
-  if (!splash || !btn) return;
+  const cta    = document.getElementById('splash-cta');
+  if (!splash || !cta) return;
 
-  btn.addEventListener('click', function () {
-    // Fade out the splash overlay
+  // Fade out and then show the decision tree
+  cta.addEventListener('click', function () {
     splash.classList.add('splash-hiding');
-
-    splash.addEventListener('transitionend', function onEnd() {
+    splash.addEventListener('transitionend', function onEnd(e) {
+      if (e.target !== splash) return;
       splash.removeEventListener('transitionend', onEnd);
       splash.style.display = 'none';
-
-      // Hand off to Phase 2: Decision Tree
       if (window._dtShow) window._dtShow();
     });
+    // Safety fallback in case transitionend doesn't fire
+    setTimeout(function () {
+      splash.style.display = 'none';
+      if (window._dtShow) window._dtShow();
+    }, 500);
   });
 })();
 
