@@ -7,7 +7,7 @@
 
 <!-- Styles — main first, then tab-specific files -->
 <link rel="stylesheet" href="css/main.css?v=5">
-<link rel="stylesheet" href="css/navbar.css?v=5">
+<link rel="stylesheet" href="css/navbar.css?v=6">
 <link rel="stylesheet" href="css/hero.css?v=2">
 <link rel="stylesheet" href="css/calculator.css?v=2">
 <link rel="stylesheet" href="css/grants.css?v=2">
@@ -185,6 +185,18 @@
       <button class="tab-btn" onclick="switchTab('test', this)">Test</button>
     </nav>
     <div class="scroll-track"><div id="nav-scroll-bar"></div></div>
+    <!-- ── Help button ── -->
+    <div id="help-wrap">
+      <button id="help-btn" onclick="openHelpGuide()" aria-label="Open guided help">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="10" cy="10" r="8.5" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M7.8 7.6C7.8 6.3 8.8 5.5 10 5.5c1.3 0 2.2.9 2.2 2 0 1.6-2.2 2-2.2 3.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          <circle cx="10" cy="14.2" r=".9" fill="currentColor"/>
+        </svg>
+        Help
+      </button>
+    </div>
+
     <div id="translate-wrap">
       <div id="google_translate_element" style="display:none"></div>
       <button id="translate-btn" onclick="toggleTranslate()" aria-label="Translate page">
@@ -192,6 +204,13 @@
         <span id="translate-btn-label">翻译 / Translate</span>
       </button>
     </div>
+</div>
+
+<!-- ── Coach mark speech bubble (one-time first-visit hint) ── -->
+<div id="help-coach" role="tooltip" aria-label="Help tip">
+  <p class="coach-text">Click here if you need help.</p>
+  <button id="help-coach-close" aria-label="Dismiss tip">✕</button>
+  <span class="coach-arrow" aria-hidden="true"></span>
 </div>
 
 <main>
@@ -1892,7 +1911,7 @@
 
 <!-- Scripts — Chart.js first, then app logic, then tab-specific, then data files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="js/app.js?v=5"></script>
+<script src="js/app.js?v=6"></script>
 <script src="js/calculator.js?v=2"></script>
 <script src="js/grants.js?v=2"></script>
 <script src="js/rental.js?v=2"></script>

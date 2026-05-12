@@ -198,6 +198,53 @@ function toggleSubAcc(id) {
   el.classList.toggle('open');
 }
 
+// ---- HELP BUTTON & COACH MARK ----
+
+// Open the decision-tree guide from the Help button.
+function openHelpGuide() {
+  dismissCoach();
+  if (window._dtShow) window._dtShow();
+}
+
+// Dismiss the coach mark and record it permanently in localStorage.
+function dismissCoach() {
+  localStorage.setItem('hp_help_seen', '1');
+  const coach = document.getElementById('help-coach');
+  if (!coach) return;
+  coach.classList.remove('visible');
+  coach.addEventListener('transitionend', function onEnd() {
+    coach.removeEventListener('transitionend', onEnd);
+    coach.style.display = 'none';
+  }, { once: true });
+}
+
+// One-time coach mark — shown only on the first visit.
+(function () {
+  if (localStorage.getItem('hp_help_seen')) return;
+
+  const coach    = document.getElementById('help-coach');
+  const helpBtn  = document.getElementById('help-btn');
+  const closeBtn = document.getElementById('help-coach-close');
+  if (!coach || !helpBtn || !closeBtn) return;
+
+  function positionCoach() {
+    const rect = helpBtn.getBoundingClientRect();
+    coach.style.left   = rect.left + 'px';
+    coach.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
+  }
+
+  positionCoach();
+  window.addEventListener('resize', positionCoach);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      coach.classList.add('visible');
+    });
+  });
+
+  closeBtn.addEventListener('click', dismissCoach);
+})();
+
 // ---- SPLASH SCREEN ----
 
 // Auto-show the splash screen on first load; dismiss on CTA click, then launch DT.
