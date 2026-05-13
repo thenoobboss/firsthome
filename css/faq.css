@@ -92,6 +92,259 @@
 }
 
 /* ══════════════════════════════════════════
+   01. GETTING STARTED SECTION
+   ══════════════════════════════════════════ */
+
+.kb-section {
+  margin-bottom: 32px;
+}
+
+.kb-section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.kb-section-num {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--teal);
+  letter-spacing: .5px;
+  flex-shrink: 0;
+}
+
+.kb-section-rule {
+  flex: 1;
+  max-width: 32px;
+  height: 2px;
+  background: var(--teal-light);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.kb-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--muted);
+}
+
+/* Getting Started 2-card grid */
+.kb-gs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 700px) {
+  .kb-gs-grid { grid-template-columns: 1fr; }
+}
+
+.kb-gs-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.kb-gs-card-top {
+  padding: 22px 22px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.kb-gs-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--teal-dark);
+  background: var(--teal-light);
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-bottom: 8px;
+}
+
+.kb-gs-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.kb-gs-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── House vs Apartment toggle ── */
+
+.hva-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.hva-tab {
+  flex: 1;
+  padding: 11px 8px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all .15s;
+  font-family: inherit;
+}
+
+.hva-tab.active {
+  color: var(--teal-dark);
+  border-bottom-color: var(--teal);
+  background: #f0fdfa;
+}
+
+.hva-tab:hover:not(.active) { background: var(--bg); color: var(--text); }
+
+.hva-panel {
+  padding: 16px 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hva-group { display: flex; flex-direction: column; gap: 10px; }
+
+.hva-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+  margin-bottom: 2px;
+}
+
+.hva-pro  { background: #f0fdf4; color: var(--success); }
+.hva-con  { background: #fffbeb; color: #92400e; }
+
+.hva-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #374151;
+}
+
+.hva-emoji {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.hva-row strong { color: var(--text); display: block; margin-bottom: 1px; font-size: 12.5px; }
+
+/* ── Are You Ready checklist ── */
+
+.ready-progress-wrap {
+  padding: 14px 18px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ready-track {
+  height: 8px;
+  background: var(--bg);
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+}
+
+.ready-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 99px;
+  background: var(--border);
+  transition: width .4s ease, background .4s ease;
+}
+
+.ready-fill.r-low    { background: #f87171; }
+.ready-fill.r-mid    { background: #fb923c; }
+.ready-fill.r-good   { background: #34d399; }
+.ready-fill.r-ready  { background: var(--teal); }
+
+.ready-score-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ready-score {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.ready-verdict {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  transition: color .3s;
+}
+
+.ready-list {
+  padding: 14px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ready-group { display: flex; flex-direction: column; gap: 8px; }
+
+.ready-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--teal-dark);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--teal-light);
+}
+
+.ready-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.ready-item input[type="checkbox"] {
+  margin-top: 2px;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  accent-color: var(--teal);
+  cursor: pointer;
+}
+
+/* ══════════════════════════════════════════
    FEATURED STEPPER CARD
    ══════════════════════════════════════════ */
 
@@ -109,8 +362,6 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 14px;
-  flex-wrap: wrap;
-  gap: 8px;
 }
 
 .kb-feat-badge {
@@ -123,7 +374,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .8px;
-  padding: 5px 12px;
+  padding: 4px 12px;
   border-radius: 20px;
 }
 
@@ -131,25 +382,26 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .6px;
 }
 
 .kb-feat-title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--text);
-  margin-bottom: 4px;
+  margin: 0 0 6px;
   line-height: 1.3;
 }
 
 .kb-feat-sub {
   font-size: 14px;
   color: var(--muted);
-  margin-bottom: 28px;
-  line-height: 1.5;
+  margin: 0 0 28px;
+  line-height: 1.55;
 }
 
-/* ── Vertical Stepper ── */
-
+/* Stepper */
 .kb-stepper {
   display: flex;
   flex-direction: column;
@@ -182,8 +434,8 @@
 }
 
 .kb-step-num-final {
-  background: linear-gradient(135deg, var(--teal), #0a5c54);
-  box-shadow: 0 0 0 4px rgba(15,118,110,.15);
+  background: var(--teal-dark);
+  box-shadow: 0 0 0 4px var(--teal-light);
 }
 
 .kb-step-line {
@@ -201,7 +453,9 @@
   min-width: 0;
 }
 
-.kb-step-last .kb-step-body { padding-bottom: 0; }
+.kb-step-last .kb-step-body {
+  padding-bottom: 4px;
+}
 
 .kb-step-title {
   font-size: 15px;
@@ -212,44 +466,48 @@
 }
 
 .kb-step-list {
-  list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .kb-step-list li {
   font-size: 13.5px;
-  line-height: 1.65;
-  color: #374151;
+  color: var(--text);
+  line-height: 1.5;
   padding: 10px 14px;
   background: var(--bg);
   border-radius: 8px;
   border-left: 3px solid var(--border);
 }
 
-.kb-step-list li strong {
-  color: var(--text);
-  display: block;
-  margin-bottom: 2px;
-  font-size: 13px;
+@media (max-width: 560px) {
+  .kb-featured { padding: 20px 18px 24px; }
+  .kb-feat-start { display: none; }
+  .kb-feat-title { font-size: 17px; }
 }
 
 /* ══════════════════════════════════════════
-   CATEGORY GRID
+   CATEGORY GRID — 3-COLUMN
    ══════════════════════════════════════════ */
 
 .kb-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 20px;
   align-items: start;
 }
 
-@media (max-width: 768px) {
-  .kb-grid { grid-template-columns: 1fr; }
+.kb-grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 900px) {
+  .kb-grid-3 { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .kb-grid-3 { grid-template-columns: 1fr; }
 }
 
 .kb-cat {
@@ -260,6 +518,12 @@
   box-shadow: var(--shadow);
 }
 
+/* Priority category — Category A */
+.kb-cat-priority {
+  border-color: #fbbf24;
+  box-shadow: 0 0 0 1px #fbbf2420, var(--shadow-md);
+}
+
 .kb-cat-hd {
   display: flex;
   align-items: center;
@@ -267,6 +531,11 @@
   padding: 18px 20px;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
+}
+
+.kb-cat-priority .kb-cat-hd {
+  background: #fffbeb;
+  border-bottom-color: #fde68a;
 }
 
 .kb-cat-icon {
@@ -279,15 +548,9 @@
   flex-shrink: 0;
 }
 
-.kb-cat-icon-financial {
-  background: var(--teal-light);
-  color: var(--teal-dark);
-}
-
-.kb-cat-icon-costs {
-  background: #eff6ff;
-  color: #1d4ed8;
-}
+.kb-cat-icon-incentives { background: #fef3c7; color: #b45309; }
+.kb-cat-icon-financial  { background: var(--teal-light); color: var(--teal-dark); }
+.kb-cat-icon-costs      { background: #eff6ff; color: #1d4ed8; }
 
 .kb-cat-tag {
   font-size: 10px;
@@ -298,11 +561,14 @@
   margin-bottom: 2px;
 }
 
+.kb-cat-tag-priority { color: #92400e; }
+
 .kb-cat-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--text);
   margin: 0;
+  line-height: 1.3;
 }
 
 /* Flatten nsw-card accordions inside category boxes */
@@ -315,14 +581,23 @@
 
 .kb-acc-item:last-child .nsw-card { border-bottom: none; }
 
-/* Mobile stepper tweaks */
-@media (max-width: 640px) {
-  .kb-featured { padding: 20px 18px 24px; }
-  .kb-feat-title { font-size: 19px; }
-  .kb-step-num { width: 30px; height: 30px; font-size: 12px; }
-  .kb-step { gap: 12px; }
-  .kb-step-list li { font-size: 13px; padding: 9px 12px; }
+/* Link-style CTA button inside accordion bodies */
+.kb-link-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background .15s, color .15s;
 }
+
+.kb-link-btn:hover { background: var(--teal); color: #fff; }
 
 /* ══════════════════════════════════════════
    FAQ ACCORDION BODY STYLES (unchanged)

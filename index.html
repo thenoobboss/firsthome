@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="css/calculator.css?v=2">
 <link rel="stylesheet" href="css/grants.css?v=2">
 <link rel="stylesheet" href="css/rental.css?v=2">
-<link rel="stylesheet" href="css/faq.css?v=3">
+<link rel="stylesheet" href="css/faq.css?v=6">
 <link rel="stylesheet" href="css/deposit.css?v=2">
 <link rel="stylesheet" href="css/simulator.css?v=3">
 <link rel="stylesheet" href="css/dt.css?v=1">
@@ -1476,10 +1476,10 @@
   <!-- ══════════════ FAQ TAB ══════════════ -->
   <div id="tab-faq" class="tab-panel">
 
-    <!-- ── Knowledge Base Header ── -->
+    <!-- ── Knowledge Hub Header ── -->
     <div class="kb-header">
-      <h1 class="kb-title">Common Questions</h1>
-      <p class="kb-subtitle">Your knowledge base for buying a first home in Australia.</p>
+      <h1 class="kb-title">Knowledge Hub</h1>
+      <p class="kb-subtitle">Everything you need to navigate buying your first home in Australia.</p>
       <div class="kb-search-wrap">
         <svg class="kb-search-icon" width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
           <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.75"/>
@@ -1493,20 +1493,101 @@
       </div>
     </div>
 
-    <!-- ── Featured: Step-by-Step Process ── -->
-    <div class="kb-featured" id="kb-feat-process" data-kb-searchable="process step buying home financial foundation pre-approval search inspection offer auction contract settlement conveyancer solicitor offset keys cooling-off exchange">
+    <!-- ── 01. Getting Started ── -->
+    <div class="kb-section" id="kb-section-gs">
+      <div class="kb-section-eyebrow">
+        <span class="kb-section-num">01</span>
+        <span class="kb-section-rule"></span>
+        <span class="kb-section-label">Getting Started</span>
+      </div>
+      <div class="kb-gs-grid">
+
+        <!-- House vs Apartment -->
+        <div class="kb-gs-card">
+          <div class="kb-gs-card-top">
+            <span class="kb-gs-badge">Decision Guide</span>
+            <h3 class="kb-gs-title">House or Apartment?</h3>
+            <p class="kb-gs-sub">Key factors to decide what fits your goals and lifestyle.</p>
+          </div>
+          <div class="hva-tabs" role="tablist">
+            <button class="hva-tab active" onclick="hvaSwitch('house', this)" role="tab">🏡 House</button>
+            <button class="hva-tab" onclick="hvaSwitch('apt', this)" role="tab">🏢 Apartment</button>
+          </div>
+          <div class="hva-panel" id="hva-house" role="tabpanel">
+            <div class="hva-group">
+              <div class="hva-group-label hva-pro">✓ Advantages</div>
+              <div class="hva-row"><span class="hva-emoji">📈</span><div><strong>Land value growth</strong><br>Land appreciates; buildings depreciate. Houses historically deliver stronger long-term capital gains.</div></div>
+              <div class="hva-row"><span class="hva-emoji">🔨</span><div><strong>Full control</strong><br>No strata approval needed. Renovate, extend, or landscape however you like.</div></div>
+              <div class="hva-row"><span class="hva-emoji">🌿</span><div><strong>Space &amp; privacy</strong><br>Ideal for families — backyard, more rooms, distance from neighbours.</div></div>
+            </div>
+            <div class="hva-group">
+              <div class="hva-group-label hva-con">⚠ Watch out for</div>
+              <div class="hva-row"><span class="hva-emoji">💸</span><div><strong>Higher entry cost</strong><br>Metro houses typically cost $200k–$500k+ more than comparable apartments.</div></div>
+              <div class="hva-row"><span class="hva-emoji">🔧</span><div><strong>Maintenance is yours</strong><br>Roof, plumbing, garden — all costs and labour fall on you as the owner.</div></div>
+            </div>
+          </div>
+          <div class="hva-panel" id="hva-apt" role="tabpanel" style="display:none">
+            <div class="hva-group">
+              <div class="hva-group-label hva-pro">✓ Advantages</div>
+              <div class="hva-row"><span class="hva-emoji">💰</span><div><strong>Lower entry price</strong><br>More affordable entry point — helps first-home buyers get into the market sooner.</div></div>
+              <div class="hva-row"><span class="hva-emoji">📍</span><div><strong>Prime locations</strong><br>Often walkable to transport and cafes — lifestyle convenience that houses at the same price can't match.</div></div>
+              <div class="hva-row"><span class="hva-emoji">🛠️</span><div><strong>Low maintenance</strong><br>Strata handles common areas. Ideal for busy professionals or frequent travellers.</div></div>
+            </div>
+            <div class="hva-group">
+              <div class="hva-group-label hva-con">⚠ Watch out for</div>
+              <div class="hva-row"><span class="hva-emoji">📋</span><div><strong>Strata fees</strong><br>Ongoing levies cover building insurance and upkeep. Can be $500–$3,000 per quarter.</div></div>
+              <div class="hva-row"><span class="hva-emoji">📉</span><div><strong>Slower capital growth</strong><br>Apartments historically appreciate more slowly than houses, particularly in oversupplied markets.</div></div>
+            </div>
+          </div>
+        </div><!-- /hva card -->
+
+        <!-- Are You Ready? -->
+        <div class="kb-gs-card">
+          <div class="kb-gs-card-top">
+            <span class="kb-gs-badge">Self-Assessment</span>
+            <h3 class="kb-gs-title">Are you ready?</h3>
+            <p class="kb-gs-sub">Check off what applies. Be honest — this is just for you.</p>
+          </div>
+          <div class="ready-progress-wrap">
+            <div class="ready-track"><div class="ready-fill" id="ready-fill"></div></div>
+            <div class="ready-score-line">
+              <span class="ready-score" id="ready-score">0 / 9</span>
+              <span class="ready-verdict" id="ready-verdict">Not started</span>
+            </div>
+          </div>
+          <div class="ready-list">
+            <div class="ready-group">
+              <div class="ready-group-label">💰 Financial Stability</div>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Stable income for 6+ months</span></label>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>3-month emergency fund separate from deposit savings</span></label>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>High-interest debt (credit cards, personal loans) paid down</span></label>
+            </div>
+            <div class="ready-group">
+              <div class="ready-group-label">🏦 Savings Habits</div>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Consistent monthly saving habit (at least 3 months running)</span></label>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Deposit goal calculated including stamp duty, LMI, and legal fees</span></label>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Checked government grants and schemes for your state</span></label>
+            </div>
+            <div class="ready-group">
+              <div class="ready-group-label">🧠 Emotional Readiness</div>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Comfortable staying in one location for 5+ years</span></label>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Understand that rate rises can significantly increase repayments</span></label>
+              <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Ready to prioritise the mortgage over discretionary spending for a while</span></label>
+            </div>
+          </div>
+        </div><!-- /ready card -->
+
+      </div>
+    </div><!-- /kb-section-gs -->
+
+    <!-- ── Step-by-Step Process Featured Card ── -->
+    <div class="kb-featured" id="kb-feat-process" data-kb-searchable="process step buying conveyancer settlement exchange finance approval pre-approval inspection auction offer">
       <div class="kb-feat-top">
-        <div class="kb-feat-badge">
-          <svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <polyline points="2,10 10,2 18,10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-            <path d="M5,9.5V17a1,1 0 0,0 1,1h8a1,1 0 0,0 1,-1V9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          </svg>
-          Step-by-Step Process
-        </div>
+        <div class="kb-feat-badge">🏠 Step-by-Step Process</div>
         <span class="kb-feat-start">Essential reading</span>
       </div>
       <h2 class="kb-feat-title">What is the process of buying a home?</h2>
-      <p class="kb-feat-sub">From saving your deposit to collecting the keys — the complete roadmap.</p>
+      <p class="kb-feat-sub">From saving your deposit to collecting the keys — here's every stage of the home-buying journey in order.</p>
 
       <div class="kb-stepper">
 
@@ -1517,12 +1598,12 @@
             <div class="kb-step-line"></div>
           </div>
           <div class="kb-step-body">
-            <div class="kb-step-title">The Financial Foundation</div>
+            <div class="kb-step-title">Get financially ready</div>
             <ul class="kb-step-list">
-              <li><strong>Determine "Comfortable" Repayments</strong> — Use the HomePocket calculator to define a monthly payment that fits your actual lifestyle, not just the maximum the bank will allow.</li>
-              <li><strong>Check Incentives &amp; Maximise Savings</strong> — Research schemes like the First Home Guarantee (FHBG) and consider the First Home Super Saver Scheme (FHSSS) for tax-advantaged saving.</li>
-              <li><strong>Audit Upfront Costs</strong> — Calculate Stamp Duty and check for state-based exemptions or concessions — see the Grants &amp; schemes tab.</li>
-              <li><strong>Secure Pre-approval</strong> — Obtain a formal "Approval in Principle" from a lender so you can bid with confidence and prove to agents you're a qualified buyer.</li>
+              <li>Build your deposit (typically 10–20% of purchase price)</li>
+              <li>Check your credit score and clear high-interest debt</li>
+              <li>Save for stamp duty, legal fees, and inspections</li>
+              <li>Understand your borrowing capacity</li>
             </ul>
           </div>
         </div>
@@ -1534,11 +1615,12 @@
             <div class="kb-step-line"></div>
           </div>
           <div class="kb-step-body">
-            <div class="kb-step-title">The Search &amp; Due Diligence</div>
+            <div class="kb-step-title">Get pre-approved for a home loan</div>
             <ul class="kb-step-list">
-              <li><strong>Inspect Properties</strong> — Attend open homes; look for red flags like dampness, drainage issues, or visible cracks.</li>
-              <li><strong>Build Your "A-Team"</strong> — Engage a solicitor or conveyancer early so they're ready to review contracts the moment you find a property.</li>
-              <li><strong>Order Professional Reports</strong> — A Building Report and Strata Report (for apartments) are strongly recommended. A Pest Inspection is optional but worth considering for older properties.</li>
+              <li>Compare lenders and loan types (variable, fixed, split)</li>
+              <li>Submit income proof, bank statements, and ID</li>
+              <li>Pre-approval is typically valid for 3 months</li>
+              <li>Use our Borrow tab to estimate your capacity</li>
             </ul>
           </div>
         </div>
@@ -1550,11 +1632,12 @@
             <div class="kb-step-line"></div>
           </div>
           <div class="kb-step-body">
-            <div class="kb-step-title">The Offer &amp; Contract</div>
+            <div class="kb-step-title">Search and inspect properties</div>
             <ul class="kb-step-list">
-              <li><strong>Review the Contract of Sale</strong> — Have your solicitor check for easements, historical caveats, or restrictive zoning before signing anything.</li>
-              <li><strong>Make the Offer</strong> — <em>Private Treaty:</em> Negotiate price and terms; include a "Subject to Finance" clause for protection. <em>Auction:</em> Highest bidder above reserve means an unconditional sale — 10% deposit due on the spot.</li>
-              <li><strong>Exchange &amp; Cooling-off</strong> — Once both parties sign, you've "Exchanged." Cooling-off periods (typically 3–5 days) vary by state and don't apply to auction purchases.</li>
+              <li>Define your must-haves vs nice-to-haves</li>
+              <li>Attend open homes — bring a checklist</li>
+              <li>Research suburb median prices and rental yields</li>
+              <li>Get a building &amp; pest inspection before committing</li>
             </ul>
           </div>
         </div>
@@ -1566,36 +1649,129 @@
             <div class="kb-step-line"></div>
           </div>
           <div class="kb-step-body">
-            <div class="kb-step-title">Settlement</div>
+            <div class="kb-step-title">Make an offer or bid at auction</div>
             <ul class="kb-step-list">
-              <li><strong>Pre-Settlement Inspection</strong> — Visit the property 1–3 days before the final date to confirm it's in agreed condition and all inclusions (e.g. appliances) remain.</li>
-              <li><strong>Settlement Day</strong> — Your bank and solicitor coordinate to transfer the remainder amount to the seller's account.</li>
-              <li><strong>Collect the Keys 🎉</strong> — Once legal teams confirm the funds have landed, the agent releases the keys to your new home.</li>
+              <li>Private treaty: negotiate price with the agent</li>
+              <li>Auction: register to bid — unconditional on the fall of the hammer</li>
+              <li>Always have a conveyancer review the contract first</li>
+              <li>Cooling-off period: 5 business days in NSW (does not apply at auction)</li>
             </ul>
           </div>
         </div>
 
-        <!-- Step 5 -->
+        <!-- Step 5 (final) -->
         <div class="kb-step kb-step-last">
           <div class="kb-step-left">
             <div class="kb-step-num kb-step-num-final">5</div>
           </div>
           <div class="kb-step-body">
-            <div class="kb-step-title">The Long Game</div>
+            <div class="kb-step-title">Exchange, settle, and collect keys 🎉</div>
             <ul class="kb-step-list">
-              <li><strong>Activate the Offset</strong> — Move your remaining savings into your Offset Account immediately to shield your loan from interest — paying off the debt years earlier while keeping your cash fully accessible.</li>
+              <li>Exchange contracts: pay the 10% deposit (or negotiated amount)</li>
+              <li>Settlement period: typically 42 days in NSW</li>
+              <li>Final inspection the day before settlement</li>
+              <li>Settlement day: funds transfer, title transfers — you're a homeowner!</li>
             </ul>
           </div>
         </div>
 
       </div><!-- /kb-stepper -->
-    </div><!-- /kb-featured -->
+    </div><!-- /kb-feat-process -->
 
-    <!-- ── Category Grid ── -->
-    <div class="kb-grid">
+    <!-- ── Category Grid (3-column) ── -->
+    <div class="kb-grid kb-grid-3">
 
-      <!-- Financial Basics -->
-      <div class="kb-cat" id="kb-cat-financial">
+      <!-- ─ Category A: Incentives & Maximising Savings ─ -->
+      <div class="kb-cat kb-cat-priority" id="kb-cat-incentives">
+        <div class="kb-cat-hd">
+          <div class="kb-cat-icon kb-cat-icon-incentives">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M10 2l2.4 5.3 5.6.9-4 4 .9 5.5L10 14.8l-4.9 2.9.9-5.5-4-4 5.6-.9L10 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="kb-cat-tag kb-cat-tag-priority">Category A · High Priority</div>
+            <h3 class="kb-cat-title">Incentives &amp; Maximising Savings</h3>
+          </div>
+        </div>
+
+        <div class="kb-acc-item" data-kb-keywords="grants fhog fhss fhbas first home guarantee stamp duty schemes government incentives savings deposit help to buy">
+          <div class="nsw-card" id="card-faq-grants">
+            <div class="nsw-card-header" onclick="toggleCard('card-faq-grants')">
+              <div class="nsw-header-content">
+                <div class="nsw-card-title" style="font-size:15px">What government grants and schemes can first home buyers access?</div>
+              </div>
+              <div class="nsw-chevron">&#8964;</div>
+            </div>
+            <div class="nsw-card-body">
+              <div class="faq-body-content">
+                <div class="faq-highlight-grid">
+                  <div class="faq-highlight-block">
+                    <strong>FHBAS (NSW)</strong>
+                    $0 stamp duty on properties up to $800,000. Concessional rate $800k–$999k. Can save up to ~$31,000.
+                  </div>
+                  <div class="faq-highlight-block">
+                    <strong>FHOG (NSW)</strong>
+                    $10,000 grant for new builds or off-the-plan purchases up to $600,000. Must be your principal place of residence.
+                  </div>
+                  <div class="faq-highlight-block">
+                    <strong>First Home Guarantee</strong>
+                    Federal scheme: buy with just 5% deposit, no LMI. 35,000 places/year. Income caps apply.
+                  </div>
+                  <div class="faq-highlight-block">
+                    <strong>FHSS Scheme</strong>
+                    Save inside super taxed at 15% instead of your marginal rate. Up to $50,000 releasable at purchase.
+                  </div>
+                </div>
+                <div class="faq-offset-summary">
+                  Used strategically, these schemes can save first-home buyers <strong>tens of thousands of dollars</strong>. Eligibility depends on income, property price, and prior ownership history. See the full breakdown in the Grants &amp; schemes tab.
+                </div>
+                <div style="margin-top:14px">
+                  <button class="kb-link-btn" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[1])">View full Grants &amp; Schemes breakdown →</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="kb-acc-item" data-kb-keywords="fhss first home super saver scheme superannuation voluntary contributions tax savings release ato salary sacrifice">
+          <div class="nsw-card" id="card-faq-fhss">
+            <div class="nsw-card-header" onclick="toggleCard('card-faq-fhss')">
+              <div class="nsw-header-content">
+                <div class="nsw-card-title" style="font-size:15px">How does the First Home Super Saver Scheme (FHSS) work?</div>
+              </div>
+              <div class="nsw-chevron">&#8964;</div>
+            </div>
+            <div class="nsw-card-body">
+              <div class="faq-body-content">
+                <div class="faq-phase" style="margin-top:0"><span class="faq-phase-num">1</span>Make Voluntary Contributions</div>
+                <ul class="faq-steps">
+                  <li>Contribute up to <strong>$15,000 per financial year</strong> into your super via salary sacrifice or after-tax contributions.</li>
+                  <li>Total amount you can ever release is capped at <strong>$50,000 across all years</strong> (as of 1 July 2022).</li>
+                </ul>
+                <div class="faq-phase"><span class="faq-phase-num">2</span>Benefit from Lower Tax</div>
+                <ul class="faq-steps">
+                  <li>Salary sacrifice contributions are taxed at <strong>15%</strong> instead of your marginal rate (which may be 32.5%+). This difference is your real saving.</li>
+                  <li>Earnings inside super are also capped at 15%, compounding the benefit over time.</li>
+                </ul>
+                <div class="faq-phase"><span class="faq-phase-num">3</span>Release Funds When Ready to Buy</div>
+                <ul class="faq-steps">
+                  <li>Apply to the ATO to release your FHSS funds once you've found a property.</li>
+                  <li>You must sign a purchase contract within <strong>12 months</strong> of your FHSS determination date (extensions available).</li>
+                </ul>
+                <div class="nsw-note nsw-note-amber" style="margin-top:14px">
+                  <span>⚠</span>
+                  <span>FHSS is most effective for higher-income earners with a longer savings timeline. For lower incomes, a High-Interest Savings Account may be simpler and more flexible. Always consult a financial adviser.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /kb-cat-incentives -->
+
+      <!-- ─ Category B: Comfortable Repayments ─ -->
+      <div class="kb-cat" id="kb-cat-repayments">
         <div class="kb-cat-hd">
           <div class="kb-cat-icon kb-cat-icon-financial">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -1605,23 +1781,21 @@
             </svg>
           </div>
           <div>
-            <div class="kb-cat-tag">Category</div>
-            <h3 class="kb-cat-title">Financial Basics</h3>
+            <div class="kb-cat-tag">Category B</div>
+            <h3 class="kb-cat-title">Determine Comfortable Repayments</h3>
           </div>
         </div>
 
-        <!-- Offset account accordion -->
-        <div class="kb-acc-item" data-kb-keywords="offset account interest mortgage savings balance shorten loan life repayment principal">
+        <div class="kb-acc-item" data-kb-keywords="offset account interest mortgage savings balance shorten loan life repayment principal comfortable borrowing power">
           <div class="nsw-card" id="card-faq1">
             <div class="nsw-card-header" onclick="toggleCard('card-faq1')">
               <div class="nsw-header-content">
-                <div class="nsw-card-title" style="font-size:16px">In what way does maintaining a balance in an offset account shorten the effective life of a mortgage?</div>
+                <div class="nsw-card-title" style="font-size:15px">In what way does maintaining a balance in an offset account shorten the effective life of a mortgage?</div>
               </div>
               <div class="nsw-chevron">&#8964;</div>
             </div>
             <div class="nsw-card-body">
               <div class="faq-body-content">
-
                 <div class="faq-highlight-grid">
                   <div class="faq-highlight-block">
                     <strong>The Trick</strong>
@@ -1640,7 +1814,6 @@
                     It's like making "extra payments" using the interest you saved — while keeping your cash available to spend if you need it.
                   </div>
                 </div>
-
                 <div class="faq-viz">
                   <div class="faq-viz-header">How your $3,043 monthly repayment is split — $500,000 loan at 6.14%</div>
                   <div class="faq-viz-cols">
@@ -1651,18 +1824,9 @@
                         <div class="faq-viz-bar-seg interest" style="width:84.1%">Interest 84%</div>
                         <div class="faq-viz-bar-seg principal" style="width:15.9%">16%</div>
                       </div>
-                      <div class="faq-viz-stat">
-                        <span class="faq-viz-stat-label"><span class="faq-viz-dot interest"></span>Interest</span>
-                        <span class="faq-viz-stat-val">$2,560 / mo</span>
-                      </div>
-                      <div class="faq-viz-stat">
-                        <span class="faq-viz-stat-label"><span class="faq-viz-dot principal"></span>Principal</span>
-                        <span class="faq-viz-stat-val">$483 / mo</span>
-                      </div>
-                      <div class="faq-viz-total">
-                        <span>Total repayment</span>
-                        <span>$3,043 / mo</span>
-                      </div>
+                      <div class="faq-viz-stat"><span class="faq-viz-stat-label"><span class="faq-viz-dot interest"></span>Interest</span><span class="faq-viz-stat-val">$2,560 / mo</span></div>
+                      <div class="faq-viz-stat"><span class="faq-viz-stat-label"><span class="faq-viz-dot principal"></span>Principal</span><span class="faq-viz-stat-val">$483 / mo</span></div>
+                      <div class="faq-viz-total"><span>Total repayment</span><span>$3,043 / mo</span></div>
                     </div>
                     <div class="faq-viz-col">
                       <div class="faq-viz-col-label after">✓ With $50,000 offset</div>
@@ -1671,38 +1835,27 @@
                         <div class="faq-viz-bar-seg interest" style="width:75.7%">Interest 76%</div>
                         <div class="faq-viz-bar-seg principal" style="width:24.3%">24%</div>
                       </div>
-                      <div class="faq-viz-stat">
-                        <span class="faq-viz-stat-label"><span class="faq-viz-dot interest"></span>Interest</span>
-                        <span class="faq-viz-stat-val">$2,304 / mo</span>
-                      </div>
-                      <div class="faq-viz-stat">
-                        <span class="faq-viz-stat-label"><span class="faq-viz-dot principal"></span>Principal</span>
-                        <span class="faq-viz-stat-val" style="color:var(--teal-dark)">$739 / mo ↑</span>
-                      </div>
-                      <div class="faq-viz-total">
-                        <span>Total repayment</span>
-                        <span>$3,043 / mo</span>
-                      </div>
+                      <div class="faq-viz-stat"><span class="faq-viz-stat-label"><span class="faq-viz-dot interest"></span>Interest</span><span class="faq-viz-stat-val">$2,304 / mo</span></div>
+                      <div class="faq-viz-stat"><span class="faq-viz-stat-label"><span class="faq-viz-dot principal"></span>Principal</span><span class="faq-viz-stat-val" style="color:var(--teal-dark)">$739 / mo ↑</span></div>
+                      <div class="faq-viz-total"><span>Total repayment</span><span>$3,043 / mo</span></div>
                     </div>
                   </div>
                   <div class="faq-viz-footer">
                     Same repayment. By keeping $50,000 in an offset account, <strong>53% more of every repayment reduces your loan balance</strong> — an extra $256 off your principal each month, at zero extra cost.
                   </div>
                 </div>
-
                 <div class="faq-offset-summary">
                   An offset account is a savings or transaction account linked to your home loan. Your bank calculates interest on the difference between your loan balance and whatever is sitting in your offset account. The more you keep in it, the less interest you accrue each month. Since your repayment amount stays fixed but more of it chips away at principal, the loan pays off years ahead of schedule — without locking away your money.
                 </div>
-
               </div>
             </div>
           </div>
-        </div><!-- /kb-acc-item -->
+        </div>
 
-      </div><!-- /kb-cat-financial -->
+      </div><!-- /kb-cat-repayments -->
 
-      <!-- Costs & Legal -->
-      <div class="kb-cat" id="kb-cat-costs">
+      <!-- ─ Category C: Process & Legal ─ -->
+      <div class="kb-cat" id="kb-cat-process">
         <div class="kb-cat-hd">
           <div class="kb-cat-icon kb-cat-icon-costs">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -1711,125 +1864,120 @@
             </svg>
           </div>
           <div>
-            <div class="kb-cat-tag">Category</div>
-            <h3 class="kb-cat-title">Costs &amp; Legal</h3>
+            <div class="kb-cat-tag">Category C</div>
+            <h3 class="kb-cat-title">Process &amp; Legal</h3>
           </div>
         </div>
 
-        <!-- Other fees accordion -->
-        <div class="kb-acc-item" data-kb-keywords="fees stamp duty lmi lenders mortgage insurance solicitor conveyancer costs budget transfer title registration government professional legal">
-          <div class="nsw-card" id="card-faq3">
-            <div class="nsw-card-header" onclick="toggleCard('card-faq3')">
+        <div class="kb-acc-item" data-kb-keywords="process step buying home financial foundation pre-approval inspection offer auction contract settlement conveyancer solicitor offset keys cooling-off exchange due diligence">
+          <div class="nsw-card" id="card-faq-process">
+            <div class="nsw-card-header" onclick="toggleCard('card-faq-process')">
               <div class="nsw-header-content">
-                <div class="nsw-card-title" style="font-size:16px">What other fees do I need to budget for?</div>
+                <div class="nsw-card-title" style="font-size:15px">What is the step-by-step process of buying a home?</div>
               </div>
               <div class="nsw-chevron">&#8964;</div>
             </div>
             <div class="nsw-card-body">
               <div class="faq-body-content">
+                <div class="faq-phase" style="margin-top:0"><span class="faq-phase-num">1</span>The Financial Foundation</div>
+                <ul class="faq-steps">
+                  <li><strong>Determine Comfortable Repayments</strong> — Use the HomePocket calculator. Aim for what fits your lifestyle, not the bank's maximum.</li>
+                  <li><strong>Check Incentives &amp; Grants</strong> — FHBG, FHBAS, FHSS — see the Grants tab for your state.</li>
+                  <li><strong>Audit Upfront Costs</strong> — Stamp duty, LMI, conveyancer, building report. Budget all of these on top of your deposit.</li>
+                  <li><strong>Secure Pre-approval</strong> — Get a formal "Approval in Principle" so you can bid with confidence.</li>
+                </ul>
+                <div class="faq-phase"><span class="faq-phase-num">2</span>Search &amp; Due Diligence</div>
+                <ul class="faq-steps">
+                  <li><strong>Inspect Properties</strong> — Look for red flags: dampness, drainage issues, visible cracks.</li>
+                  <li><strong>Build Your A-Team</strong> — Engage a solicitor or conveyancer before you need them.</li>
+                  <li><strong>Order Professional Reports</strong> — Building report (and strata report for apartments) before committing.</li>
+                </ul>
+                <div class="faq-phase"><span class="faq-phase-num">3</span>Offer &amp; Contract</div>
+                <ul class="faq-steps">
+                  <li><strong>Review the Contract</strong> — Solicitor checks easements, caveats, zoning.</li>
+                  <li><strong>Make the Offer</strong> — Private Treaty: negotiate with "Subject to Finance." Auction: unconditional, 10% deposit on the day.</li>
+                  <li><strong>Exchange &amp; Cooling-off</strong> — 3–5 days in most states. Does not apply to auction purchases.</li>
+                </ul>
+                <div class="faq-phase"><span class="faq-phase-num">4</span>Settlement</div>
+                <ul class="faq-steps">
+                  <li><strong>Pre-Settlement Inspection</strong> — Confirm the property is in agreed condition 1–3 days before.</li>
+                  <li><strong>Settlement Day</strong> — Bank and solicitor transfer the balance to the seller.</li>
+                  <li><strong>Collect the Keys 🎉</strong> — Funds confirmed, agent releases keys.</li>
+                </ul>
+                <div class="faq-phase"><span class="faq-phase-num">5</span>The Long Game</div>
+                <ul class="faq-steps">
+                  <li><strong>Activate the Offset</strong> — Move remaining savings into your Offset Account immediately to shield your loan from interest and pay it off years earlier.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="kb-acc-item" data-kb-keywords="fees stamp duty lmi lenders mortgage insurance solicitor conveyancer costs budget transfer title registration government professional legal hidden">
+          <div class="nsw-card" id="card-faq3">
+            <div class="nsw-card-header" onclick="toggleCard('card-faq3')">
+              <div class="nsw-header-content">
+                <div class="nsw-card-title" style="font-size:15px">What other fees do I need to budget for?</div>
+              </div>
+              <div class="nsw-chevron">&#8964;</div>
+            </div>
+            <div class="nsw-card-body">
+              <div class="faq-body-content">
                 <div class="faq-fee-group">
                   <div class="faq-fee-group-title">Professional fees</div>
                   <table class="nsw-table">
                     <thead><tr><th>Fee</th><th>Estimated cost</th><th>Notes</th></tr></thead>
                     <tbody>
-                      <tr>
-                        <td>Solicitor / conveyancer</td>
-                        <td>$1,000 – $2,500</td>
-                        <td>Handles the legal transfer of property in NSW. Cost depends on complexity and time spent. Recommended to get 2–3 quotes.</td>
-                      </tr>
-                      <tr>
-                        <td>Strata report</td>
-                        <td>$0 – $200</td>
-                        <td>Required if buying an apartment or townhouse in a strata scheme. Reviews the building's financials, maintenance history, and any disputes. Free if obtained by the vendor; you pay if you order your own.</td>
-                      </tr>
+                      <tr><td>Solicitor / conveyancer</td><td>$1,000 – $2,500</td><td>Handles the legal transfer of property. Get 2–3 quotes.</td></tr>
+                      <tr><td>Strata report</td><td>$0 – $200</td><td>Required for apartments. Reviews building financials, maintenance history, and disputes.</td></tr>
                     </tbody>
                   </table>
                 </div>
-
                 <div class="faq-fee-group">
                   <div class="faq-fee-group-title">Bank &amp; lender fees</div>
                   <table class="nsw-table">
                     <thead><tr><th>Fee</th><th>Estimated cost</th><th>Notes</th></tr></thead>
                     <tbody>
-                      <tr>
-                        <td>Lenders Mortgage Insurance (LMI)</td>
-                        <td>$5,000 – $30,000+</td>
-                        <td>Payable if your deposit is less than 20% of the property value and you are not using a government guarantee scheme (such as the First Home Guarantee). LMI protects the lender — not you — and is usually added to your loan amount. The exact cost depends on your loan-to-value ratio and loan size.</td>
-                      </tr>
+                      <tr><td>Lenders Mortgage Insurance (LMI)</td><td>$5,000 – $30,000+</td><td>Payable if deposit &lt;20% and not using a government guarantee. Protects the lender, not you.</td></tr>
                     </tbody>
                   </table>
                   <div class="faq-sub-acc" id="lmi-waiver-acc">
                     <div class="faq-sub-acc-header" onclick="toggleSubAcc('lmi-waiver-acc')">
-                      <span>When can LMI be waived?</span>
-                      <span class="faq-sub-chevron">&#8964;</span>
+                      <span>When can LMI be waived?</span><span class="faq-sub-chevron">&#8964;</span>
                     </div>
                     <div class="faq-sub-acc-body">
                       <div style="font-size:13.5px;color:var(--muted);margin-bottom:16px">LMI can be waived in several situations:</div>
                       <div class="faq-phase" style="margin-top:0"><span class="faq-phase-num">1</span>Government guarantee schemes</div>
-                      <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:16px">If you qualify for the First Home Guarantee (5% deposit) or another eligible government scheme, LMI is waived entirely — the government guarantees the remaining portion of the deposit with the lender. See the <strong>Grants &amp; schemes</strong> tab for eligibility details.</p>
+                      <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:16px">If you qualify for the First Home Guarantee (5% deposit), LMI is waived entirely — the government guarantees the remaining portion with the lender.</p>
                       <div class="faq-phase"><span class="faq-phase-num">2</span>Family guarantee (guarantor loan)</div>
-                      <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:16px">A family member (typically a parent) can use equity in their own property to guarantee part of your loan, allowing you to borrow without LMI. At Westpac, this is called the <strong>Family Security Guarantee</strong> and is available for owner-occupied and investment purchases. Independent legal advice is required for all guarantors before proceeding.</p>
-                      <div class="faq-phase"><span class="faq-phase-num">3</span>Eligible professions — lender LMI waivers</div>
-                      <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:12px">Some lenders waive LMI for borrowers in approved professions, even without a 20% deposit. Using Westpac as an example:</p>
+                      <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:16px">A family member uses equity in their own property to guarantee part of your loan, eliminating LMI. Independent legal advice required for all guarantors.</p>
+                      <div class="faq-phase"><span class="faq-phase-num">3</span>Eligible professions</div>
+                      <p style="font-size:13.5px;line-height:1.65;color:#374151;margin-bottom:12px">Some lenders waive LMI for approved professions. Using Westpac as an example:</p>
                       <table class="nsw-table">
-                        <thead>
-                          <tr>
-                            <th>LVR allowed without LMI</th>
-                            <th>Eligible professions (Westpac example)</th>
-                          </tr>
-                        </thead>
+                        <thead><tr><th>LVR without LMI</th><th>Eligible professions (Westpac example)</th></tr></thead>
                         <tbody>
-                          <tr>
-                            <td>Up to 95% LVR (5% deposit) — no minimum income required</td>
-                            <td>Dentists, General Practitioners, Hospital-employed Doctors (Intern, Resident, Registrar, Staff Specialist), Medical Specialists</td>
-                          </tr>
-                          <tr>
-                            <td>Up to 90% LVR (10% deposit) — minimum income $90,000/yr</td>
-                            <td>Audiologists, Chiropractors, Midwives, Occupational Therapists, Osteopaths, Physiotherapists, Podiatrists, Psychologists, Radiographers, Registered Nurses, Sonographers, Speech Pathologists, Optometrists, Pharmacists, Veterinary Practitioners</td>
-                          </tr>
-                          <tr>
-                            <td>Up to 90% LVR (10% deposit) — income requirements apply</td>
-                            <td>Accountants, Legal professionals</td>
-                          </tr>
+                          <tr><td>Up to 95% LVR — no min. income</td><td>Dentists, GPs, Hospital Doctors, Medical Specialists</td></tr>
+                          <tr><td>Up to 90% LVR — min. $90k/yr</td><td>Audiologists, Nurses, Physiotherapists, Psychologists, Pharmacists, Optometrists, Vets and more</td></tr>
+                          <tr><td>Up to 90% LVR — income req. apply</td><td>Accountants, Legal professionals</td></tr>
                         </tbody>
                       </table>
-                      <p style="margin-top:10px;font-size:12px;color:var(--muted);line-height:1.6">Maximum loan amount for Westpac's medico 95% LMI waiver is $5 million ($7.5 million total lending). Eligibility is subject to Westpac's credit criteria and professional qualification verification.</p>
-                      <div class="nsw-note nsw-note-amber" style="margin-top:12px">
-                        <span>⚠</span>
-                        <span>LMI waiver policies vary by lender. Not all lenders offer profession-based waivers, and conditions change. Always confirm current eligibility directly with your lender or mortgage broker.</span>
-                      </div>
-                      <p style="margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6">Westpac LMI waiver details sourced from <a href="https://www.westpac.com.au/brokers/policy" target="_blank" rel="noopener" style="color:var(--muted);font-weight:600;text-decoration:underline">westpac.com.au/brokers/policy</a> — for broker and professional reference only. Subject to Westpac credit criteria, fees and charges.</p>
+                      <div class="nsw-note nsw-note-amber" style="margin-top:12px"><span>⚠</span><span>LMI waiver policies vary by lender. Always confirm eligibility directly with your lender or broker.</span></div>
                     </div>
                   </div>
                 </div>
-
                 <div class="faq-fee-group">
                   <div class="faq-fee-group-title">Government fees</div>
                   <table class="nsw-table">
                     <thead><tr><th>Fee</th><th>Estimated cost</th><th>Notes</th></tr></thead>
                     <tbody>
-                      <tr>
-                        <td>Transfer duty (stamp duty)</td>
-                        <td>See table below</td>
-                        <td>A state government tax payable when ownership of a property is transferred to you. May be waived or reduced if you qualify for the First Home Buyers Assistance Scheme.</td>
-                      </tr>
-                      <tr>
-                        <td>Mortgage registration fee</td>
-                        <td>~$150</td>
-                        <td>A NSW government fee to register your mortgage on the title of the property.</td>
-                      </tr>
-                      <tr>
-                        <td>Title transfer fee (name transfer)</td>
-                        <td>~$175</td>
-                        <td>A NSW government fee to transfer the property title into your name.</td>
-                      </tr>
+                      <tr><td>Transfer duty (stamp duty)</td><td>See table below</td><td>State government tax on property transfer. May be $0 if FHBAS eligible.</td></tr>
+                      <tr><td>Mortgage registration fee</td><td>~$150</td><td>NSW fee to register your mortgage on the property title.</td></tr>
+                      <tr><td>Title transfer fee</td><td>~$175</td><td>NSW fee to transfer the property title into your name.</td></tr>
                     </tbody>
                   </table>
                   <div class="faq-sub-acc" id="duty-rates-acc">
                     <div class="faq-sub-acc-header" onclick="toggleSubAcc('duty-rates-acc')">
-                      <span>NSW standard transfer duty rates (from 1 July 2025)</span>
-                      <span class="faq-sub-chevron">&#8964;</span>
+                      <span>NSW transfer duty rates (from 1 July 2025)</span><span class="faq-sub-chevron">&#8964;</span>
                     </div>
                     <div class="faq-sub-acc-body">
                       <div class="faq-sub-section-label">Rate schedule</div>
@@ -1837,43 +1985,32 @@
                         <thead><tr><th>Property value</th><th>Rate</th></tr></thead>
                         <tbody>
                           <tr><td>$0 – $16,000</td><td>$0</td></tr>
-                          <tr><td>$16,001 – $35,000</td><td>$1.25 per $100 (or part)</td></tr>
-                          <tr><td>$35,001 – $93,000</td><td>$1.50 per $100 (or part)</td></tr>
-                          <tr><td>$93,001 – $351,000</td><td>$1.75 per $100 (or part)</td></tr>
-                          <tr><td>$351,001 – $1,161,000</td><td>$4.50 per $100 (or part)</td></tr>
-                          <tr><td>$1,161,001 – $3,721,000</td><td>$5.50 per $100 (or part)</td></tr>
-                          <tr><td>Above $3,721,000</td><td>$7.00 per $100 on the excess (premium residential rate)</td></tr>
+                          <tr><td>$16,001 – $35,000</td><td>$1.25 per $100</td></tr>
+                          <tr><td>$35,001 – $93,000</td><td>$1.50 per $100</td></tr>
+                          <tr><td>$93,001 – $351,000</td><td>$1.75 per $100</td></tr>
+                          <tr><td>$351,001 – $1,161,000</td><td>$4.50 per $100</td></tr>
+                          <tr><td>$1,161,001 – $3,721,000</td><td>$5.50 per $100</td></tr>
+                          <tr><td>Above $3,721,000</td><td>$7.00 per $100 (premium rate)</td></tr>
                         </tbody>
                       </table>
-                      <div class="faq-sub-section-label">Rough estimates at common price points (standard rate, no exemptions)</div>
+                      <div class="faq-sub-section-label">Common price point estimates</div>
                       <table class="nsw-table">
-                        <thead><tr><th>Purchase price</th><th>Estimated transfer duty</th></tr></thead>
+                        <thead><tr><th>Purchase price</th><th>Estimated duty</th></tr></thead>
                         <tbody>
                           <tr><td>$500,000</td><td>~$17,990</td></tr>
-                          <tr><td>$600,000</td><td>~$22,490</td></tr>
                           <tr><td>$700,000</td><td>~$26,990</td></tr>
-                          <tr><td>$800,000</td><td>~$31,335</td></tr>
                           <tr><td>$900,000</td><td>~$35,835</td></tr>
                           <tr><td>$1,000,000</td><td>~$40,335</td></tr>
                         </tbody>
                       </table>
-                      <div class="nsw-note nsw-note-green" style="margin-top:12px">
-                        <span>✓</span>
-                        <span>First home buyers purchasing a property valued up to $800,000 pay $0 transfer duty under the First Home Buyers Assistance Scheme. A concessional (reduced) rate applies for properties valued between $800,001 and $999,999.</span>
-                      </div>
-                      <div class="nsw-note nsw-note-amber" style="margin-top:8px">
-                        <span>⚠</span>
-                        <span>Transfer duty is due within 3 months of signing contracts, or at settlement if that occurs sooner. It must be paid from your savings — it cannot be added to your home loan.</span>
-                      </div>
-                      <div style="margin-top:12px;font-size:12px;color:var(--muted);line-height:1.6">
-                        Rates sourced from Revenue NSW, effective 1 July 2025. Always verify at <a href="https://www.revenue.nsw.gov.au" target="_blank" rel="noopener" style="color:var(--muted);font-weight:600;text-decoration:underline">revenue.nsw.gov.au</a> before making financial decisions.
-                      </div>
+                      <div class="nsw-note nsw-note-green" style="margin-top:12px"><span>✓</span><span>First home buyers up to $800,000 pay $0 transfer duty under FHBAS. Concessional rate applies $800k–$999k.</span></div>
+                      <div class="nsw-note nsw-note-amber" style="margin-top:8px"><span>⚠</span><span>Transfer duty is due within 3 months of signing contracts. Cannot be added to your home loan — must come from savings.</span></div>
+                      <p style="margin-top:12px;font-size:12px;color:var(--muted)">Rates from Revenue NSW, effective 1 July 2025. Verify at <a href="https://www.revenue.nsw.gov.au" target="_blank" rel="noopener" style="color:var(--muted);font-weight:600">revenue.nsw.gov.au</a>.</p>
                     </div>
                   </div>
                 </div>
-
                 <div class="faq-callout">
-                  <div class="faq-callout-title">On a typical $750,000 NSW first home purchase, non-government-scheme buyers could face upfront costs of approximately:</div>
+                  <div class="faq-callout-title">On a typical $750,000 NSW first home purchase, non-scheme buyers face approx.:</div>
                   <ul class="faq-callout-list">
                     <li><strong>Transfer duty:</strong> ~$28,800 (or $0 if FHBAS eligible)</li>
                     <li><strong>Solicitor:</strong> ~$1,500</li>
@@ -1881,15 +2018,14 @@
                     <li><strong>Strata report (if applicable):</strong> ~$200</li>
                     <li><strong>LMI (if &lt;20% deposit):</strong> $5,000 – $30,000+</li>
                   </ul>
-                  <div class="faq-callout-footer">Always budget for these costs on top of your deposit.</div>
+                  <div class="faq-callout-footer">Always budget these on top of your deposit.</div>
                 </div>
-
               </div>
             </div>
           </div>
-        </div><!-- /kb-acc-item -->
+        </div>
 
-      </div><!-- /kb-cat-costs -->
+      </div><!-- /kb-cat-process -->
 
     </div><!-- /kb-grid -->
 
@@ -1978,7 +2114,7 @@
 <script src="js/calculator.js?v=2"></script>
 <script src="js/grants.js?v=2"></script>
 <script src="js/rental.js?v=2"></script>
-<script src="js/faq.js?v=3"></script>
+<script src="js/faq.js?v=4"></script>
 <script src="data/grants-data.js?v=2"></script>
 <script src="data/faq-data.js?v=2"></script>
 <script src="js/deposit.js?v=2"></script>
