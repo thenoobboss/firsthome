@@ -401,3 +401,10 @@ let rentalInitialised = false;
 
 // Boot the stats panel. (initCalc is called at the end of calculator.js)
 initStats();
+
+// Auto-open the decision tree on every page load.
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    if (window._dtShow) window._dtShow();
+  });
+});

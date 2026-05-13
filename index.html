@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="css/grants.css?v=2">
 <link rel="stylesheet" href="css/rental.css?v=3">
 <link rel="stylesheet" href="css/faq.css?v=8">
-<link rel="stylesheet" href="css/deposit.css?v=2">
+<link rel="stylesheet" href="css/deposit.css?v=3">
 <link rel="stylesheet" href="css/simulator.css?v=3">
 <link rel="stylesheet" href="css/dt.css?v=1">
 </head>
@@ -51,7 +51,7 @@
       <div class="dt-options">
         <button class="dt-option" onclick="dtGoStep2()">
           <span class="dt-opt-emoji">🤔</span>
-          <span class="dt-opt-label">I really have no clue where to start.</span>
+          <span class="dt-opt-label">I'd like some guidance on where to start.</span>
           <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <button class="dt-option" onclick="dtResult('faq')">
@@ -65,7 +65,7 @@
           <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
-      <button class="dt-skip" onclick="dtSkip()">Go away I know what I want!</button>
+      <button class="dt-skip" onclick="dtSkip()">I know what I need, take me in.</button>
     </div>
 
     <!-- ─ Step 2: Financial priority ─ -->
@@ -89,21 +89,21 @@
         </button>
         <button class="dt-option" onclick="dtResult('borrow')">
           <span class="dt-opt-emoji">🏦</span>
-          <span class="dt-opt-label">Knowing the absolute max I can borrow.</span>
+          <span class="dt-opt-label">Knowing how much I can borrow.</span>
           <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <button class="dt-option" onclick="dtResult('grants')">
-          <span class="dt-opt-emoji">🎁</span>
-          <span class="dt-opt-label">Checking my eligibility for government help.</span>
+          <span class="dt-opt-emoji">🤝</span>
+          <span class="dt-opt-label">Checking what government grants are available.</span>
           <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <button class="dt-option" onclick="dtResult('calc')">
           <span class="dt-opt-emoji">🧮</span>
-          <span class="dt-opt-label">Calculating my future monthly repayments.</span>
+          <span class="dt-opt-label">Knowing how much my loan repayments will be.</span>
           <svg class="dt-opt-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
-      <button class="dt-skip" onclick="dtSkip()">Go away I know what I want!</button>
+      <button class="dt-skip" onclick="dtSkip()">I know what I need, take me in.</button>
     </div>
 
     <!-- ─ Result summary card ─ -->
@@ -224,16 +224,16 @@
             <span class="pathway-badge pathway-badge-low">Low Risk</span>
             <span class="pathway-icon">😴</span>
           </div>
-          <h3 class="pathway-title">The 'Sleep Easy' Path</h3>
+          <h3 class="pathway-title">The Safest Option</h3>
 
           <div class="pathway-section">
             <div class="pathway-section-label">The Vibe</div>
-            <p>You want your money exactly where you left it, plus a little extra. Peace of mind over max returns.</p>
+            <p>Capital preservation is the priority. Steady, predictable growth with no exposure to market swings — your balance only ever goes up.</p>
           </div>
 
           <div class="pathway-whatif pathway-whatif-low">
             <div class="pathway-section-label">The 'What If?'</div>
-            <p>It's the safest way to save, but it's slow. You won't lose money in a crash, but house prices might climb faster than your interest rate can keep up.</p>
+            <p>The trade-off is pace. Your money is fully protected, but savings rates rarely keep up with rising property prices — so your deposit goal can quietly drift further away over time.</p>
           </div>
 
           <button class="pathway-cta" onclick="openDepositSim('low')">See how it works →</button>
@@ -248,16 +248,16 @@
             <span class="pathway-badge pathway-badge-med">Medium Risk</span>
             <span class="pathway-icon">📈</span>
           </div>
-          <h3 class="pathway-title">The 'Slow &amp; Steady' Path</h3>
+          <h3 class="pathway-title">The Balanced Approach</h3>
 
           <div class="pathway-section">
             <div class="pathway-section-label">The Vibe</div>
-            <p>You're okay with some bumps along the way if it means potentially beating what the bank offers you.</p>
+            <p>You're comfortable with some market movement in exchange for the potential to outperform a standard savings account over time.</p>
           </div>
 
           <div class="pathway-whatif pathway-whatif-med">
             <div class="pathway-section-label">The 'What If?'</div>
-            <p>You need a <strong>3–5 year runway</strong>. If the market dips right when you're ready to buy, you might have to wait for it to bounce back — or sell at a loss to hit your timeline.</p>
+            <p>A <strong>3–5 year horizon</strong> is recommended. If markets pull back close to your target date, you may need to wait for a recovery — or accept a lower return to stay on schedule.</p>
           </div>
 
           <button class="pathway-cta" onclick="openDepositSim('med')">See how it works →</button>
@@ -272,16 +272,16 @@
             <span class="pathway-badge pathway-badge-high">High Risk</span>
             <span class="pathway-icon">🎲</span>
           </div>
-          <h3 class="pathway-title">The 'Wildcard' Path</h3>
+          <h3 class="pathway-title">The High Growth Option</h3>
 
           <div class="pathway-section">
             <div class="pathway-section-label">The Vibe</div>
-            <p>You're trying to speedrun your way to a deposit. High conviction, high stakes — not for the faint-hearted.</p>
+            <p>You're targeting accelerated growth and willing to accept meaningful risk to get there. Best suited for those with an existing financial buffer.</p>
           </div>
 
           <div class="pathway-whatif pathway-whatif-high">
             <div class="pathway-section-label">The 'What If?'</div>
-            <p>This is high-octane. You could double your money — or lose half of it in a weekend. <strong>Only for money you're genuinely prepared to lose.</strong></p>
+            <p>Returns can be significant — but so can losses. This approach requires a high tolerance for volatility. <strong>Only allocate capital you could afford to lose without derailing your plans.</strong></p>
           </div>
 
           <button class="pathway-cta" onclick="openDepositSim('high')">See how it works →</button>
@@ -2134,7 +2134,7 @@
 
 <!-- Scripts — Chart.js first, then app logic, then tab-specific, then data files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="js/app.js?v=9"></script>
+<script src="js/app.js?v=10"></script>
 <script src="js/calculator.js?v=5"></script>
 <script src="js/grants.js?v=2"></script>
 <script src="js/rental.js?v=2"></script>

@@ -204,41 +204,24 @@
 .pathway-whatif-med p  { color: #92400e; }
 .pathway-whatif-high p { color: #b91c1c; }
 
-/* ── CTA button — pinned to card bottom via margin-top: auto ── */
+/* ── CTA button — pushed to card bottom with breathing room above ── */
 .pathway-cta {
   display: block;
   width: 100%;
   margin-top: auto;
   padding: 11px 16px;
-  padding-top: calc(11px + 16px); /* 16px gap above the button */
-  background: none;
+  padding-top: 11px;
+  margin-top: 24px;   /* clear gap above the button */
+  background: var(--teal);
   border: none;
-  cursor: pointer;
-  padding: 0;
-  margin-top: auto;
-  padding-top: 20px;
-}
-
-.pathway-cta {
-  /* Re-declare cleanly */
-  display: block;
-  width: 100%;
-  margin-top: auto;
-  padding-top: 20px;
-  background: none;
-  border: none;
+  border-radius: 10px;
   cursor: pointer;
   text-align: center;
   font-size: 14px;
   font-weight: 600;
   color: #fff;
-
-  /* The visible button */
-  background: var(--teal);
-  border-radius: 10px;
-  padding: 11px 16px;
-  transition: background 0.15s ease, transform 0.15s ease;
   letter-spacing: 0.01em;
+  transition: background 0.15s ease, transform 0.15s ease;
 }
 
 .pathway-cta:hover {
