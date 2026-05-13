@@ -290,4 +290,19 @@ nav {
   #translate-wrap { display: none !important; }
   /* Show the below-hero button */
   #translate-mobile-wrap { display: block; }
+
+  /* Give Help button side breathing room on mobile */
+  #help-wrap {
+    margin-top: 0;
+    border-top: none;
+    padding: 8px 16px 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  #help-wrap {
+    padding: 8px 20px 10px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
 }
