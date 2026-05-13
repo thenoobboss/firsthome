@@ -700,3 +700,30 @@
   .sim-freq-group  { justify-content: flex-start; }
   .sim-calc-section { margin-top: 36px; padding-top: 28px; }
 }
+
+/* ── Work in Progress banner ── */
+.sim-wip {
+  margin-top: 40px;
+  padding: 28px 24px;
+  border-top: 2px dashed #fca5a5;
+  border-radius: 12px;
+  background: #fff5f5;
+  text-align: center;
+}
+
+.sim-wip-text {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  color: #dc2626;
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+}
+
+.sim-wip-sub {
+  font-size: 14px;
+  color: #b91c1c;
+  margin: 0;
+  line-height: 1.6;
+  opacity: 0.85;
+}

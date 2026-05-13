@@ -35,100 +35,110 @@ let _simHz   = 3;           // horizon years for the "In X years" secondary card
 
 // ── Config per path ───────────────────────────────────────────────────────────
 const SIM_CFG = {
-  low:  { rate: 5,  badgeClass: 'sim-badge-low',  badge: 'Low Risk — Sleep Easy'       },
-  med:  { rate: 8,  badgeClass: 'sim-badge-med',  badge: 'Medium Risk — Slow & Steady' },
-  high: { rate: 15, badgeClass: 'sim-badge-high', badge: 'High Risk — Wildcard'        },
+  low:  { rate: 5,  badgeClass: 'sim-badge-low',  badge: 'Low Risk — The Safest Option'      },
+  med:  { rate: 8,  badgeClass: 'sim-badge-med',  badge: 'Medium Risk — The Balanced Approach' },
+  high: { rate: 15, badgeClass: 'sim-badge-high', badge: 'High Risk — The High Growth Option'  },
 };
 
 // ── Educational content per path ──────────────────────────────────────────────
 const SIM_EDU = {
 
   low: `
-    <h2 class="sim-edu-title">How the Sleep Easy Path Works</h2>
+    <h2 class="sim-edu-title">How the Safest Option Works</h2>
 
     <div class="sim-edu-section">
       <div class="sim-edu-section-title">💰 High-Interest Savings Account (HISA)</div>
-      <p>A HISA pays significantly more than a standard everyday account — typically <strong>4–5.5% p.a.</strong> at a big bank or online lender. The catch? Some accounts require a minimum monthly deposit or restrict withdrawals to earn the bonus rate, so read the fine print.</p>
-      <p>The Australian Government guarantees deposits up to <strong>$250,000 per person, per institution</strong> under the Financial Claims Scheme. Even if the bank collapses, your money is protected.</p>
-      <p class="sim-edu-fine">Where to compare: RateCity, Canstar, or Finder. Look for no monthly fees and a consistently high <em>base</em> rate — not just a teaser rate that expires.</p>
+      <p>A HISA pays significantly more than a standard everyday account — typically <strong>4–5.5% p.a.</strong> at a major bank or online lender. Some accounts require a minimum monthly deposit or restrict withdrawals to earn the bonus rate, so it's worth reading the conditions carefully before committing.</p>
+      <p>The Australian Government guarantees deposits up to <strong>$250,000 per person, per institution</strong> under the Financial Claims Scheme. Your balance is fully protected regardless of what happens to the bank.</p>
+      <p class="sim-edu-fine">Where to compare: RateCity, Canstar, or Finder. Look for accounts with no monthly fees and a consistently high <em>base</em> rate — not just a promotional rate that expires after a few months.</p>
       <div class="sim-edu-note sim-edu-note-green">
         ${_SC}
-        <span><strong>The simulator is pre-filled at 5% p.a.</strong> — a reasonable HISA estimate. Adjust the slider to match your actual account's rate.</span>
+        <span><strong>The simulator is pre-filled at 5% p.a.</strong> — a reasonable HISA benchmark. Adjust the slider to reflect your actual account's current rate.</span>
       </div>
     </div>
 
     <div class="sim-edu-section">
       <div class="sim-edu-section-title">🏛️ First Home Super Saver Scheme (FHSSS)</div>
-      <p>The FHSSS lets you save inside your super fund, where voluntary contributions are taxed at just <strong>15%</strong> — well below most people's income tax rate. You can contribute up to <strong>$15,000/year</strong> and withdraw up to <strong>$50,000 total</strong> when you're ready to buy.</p>
-      <p>The tax saving alone can add thousands to your effective deposit — for example, a person on a 32.5% marginal rate saves <strong>~$1,750 in tax</strong> for every $10,000 they contribute via salary sacrifice.</p>
+      <p>The FHSSS allows you to save inside your superannuation fund, where voluntary contributions are taxed at just <strong>15%</strong> — significantly lower than most people's marginal income tax rate. You can contribute up to <strong>$15,000 per financial year</strong> and withdraw up to <strong>$50,000 total</strong> when you're ready to purchase.</p>
+      <p>The tax advantage alone can meaningfully increase your effective deposit — a person on a 32.5% marginal rate saves approximately <strong>$1,750 in tax</strong> for every $10,000 contributed via salary sacrifice.</p>
       <div class="sim-edu-note sim-edu-note-amber">
         ${_SW}
-        <span><strong>Key rule:</strong> You must apply for an FHSS determination from the ATO <em>before</em> signing a purchase contract. Allow up to 25 business days for release — build this into your buying timeline.</span>
+        <span><strong>Important:</strong> You must apply for an FHSS determination from the ATO <em>before</em> signing a purchase contract. Allow up to 25 business days for the release — factor this into your buying timeline.</span>
       </div>
     </div>
 
     <div class="sim-edu-section">
-      <div class="sim-edu-section-title">✅ Pro Tip — Automate Everything</div>
-      <p>The single most effective savings habit is moving money to your HISA on the same day your salary hits your account — before you can spend it. Set it up once, then forget it exists.</p>
+      <div class="sim-edu-section-title">✅ Make It Automatic</div>
+      <p>The most effective savings habit is transferring money to your HISA on the same day your salary arrives — before everyday spending has a chance to erode it. Configure it once and let it run in the background.</p>
       <div class="sim-edu-note sim-edu-note-green">
         ${_SC}
-        <span>Even <strong>$200/week</strong> automated adds up to <strong>$10,400/year</strong> before interest. Use the simulator to see exactly how that compounds over your timeline.</span>
+        <span>Even <strong>$200 per week</strong> adds up to <strong>$10,400 per year</strong> before interest. Use the simulator below to see exactly how consistent deposits compound over your target timeline.</span>
       </div>
     </div>`,
 
   med: `
-    <h2 class="sim-edu-title">How the Slow &amp; Steady Path Works</h2>
+    <h2 class="sim-edu-title">How the Balanced Approach Works</h2>
 
     <div class="sim-edu-section">
       <div class="sim-edu-section-title">📊 Exchange-Traded Funds (ETFs)</div>
-      <p>An ETF lets you buy a tiny slice of hundreds of companies in a single transaction. An <strong>ASX 200 ETF</strong> gives you exposure to Australia's 200 largest companies. An <strong>S&amp;P 500 ETF</strong> does the same for the US market.</p>
-      <p>Instead of betting on one company, you're betting on the whole economy growing over time. Historically, broad market indexes have delivered <strong>~7–10% annually</strong> over long periods — well above savings account rates.</p>
-      <p class="sim-edu-fine">Popular Aussie ETFs: VAS, IOZ (ASX 200) · IVV, NDQ, BGBL (international). Management fees (MER) are typically 0.03–0.20% p.a.</p>
+      <p>An ETF allows you to purchase exposure to hundreds of companies in a single transaction. An <strong>ASX 200 ETF</strong> tracks Australia's 200 largest listed companies. An <strong>S&amp;P 500 ETF</strong> does the same for the US market.</p>
+      <p>Rather than concentrating risk on a single company, you're participating in the broader economy's long-term growth. Historically, diversified market indexes have delivered <strong>approximately 7–10% annually</strong> over extended periods — meaningfully above standard savings rates.</p>
+      <p class="sim-edu-fine">Commonly used Aussie ETFs: VAS, IOZ (ASX 200) · IVV, NDQ, BGBL (international markets). Annual management fees (MER) typically range from 0.03–0.20%.</p>
       <div class="sim-edu-note sim-edu-note-amber">
         ${_SW}
-        <span><strong>The 8% rate in the simulator is a long-run historical average — it is not guaranteed.</strong> Real returns vary year to year. Some years are +25%, some are −20%.</span>
+        <span><strong>The 8% rate in the simulator reflects a long-run historical average — it is not a guarantee.</strong> Annual returns fluctuate. Some years deliver +25%, others −20%. Plan accordingly.</span>
       </div>
     </div>
 
     <div class="sim-edu-section">
-      <div class="sim-edu-section-title">📈 The Power of Compounding</div>
-      <p>When your investments earn returns, those returns start earning returns too. Reinvesting dividends (the cash companies pay shareholders) supercharges this effect over time.</p>
-      <p><strong>Example:</strong> $20,000 invested at 8% p.a. with dividends reinvested grows to roughly <strong>$29,400 after 5 years</strong> — without adding a single extra dollar. Start earlier and the numbers get significantly bigger.</p>
+      <div class="sim-edu-section-title">📈 The Effect of Compounding</div>
+      <p>When your investments generate returns, those returns begin generating returns of their own. Reinvesting dividends — the periodic cash payments companies distribute to shareholders — accelerates this effect considerably over time.</p>
+      <p><strong>Example:</strong> $20,000 invested at 8% p.a. with dividends reinvested grows to approximately <strong>$29,400 after 5 years</strong> without contributing an additional dollar. The longer the investment horizon, the more pronounced this effect becomes.</p>
     </div>
 
     <div class="sim-edu-section">
-      <div class="sim-edu-section-title">⏱️ Timeline Is Everything</div>
-      <p>ETFs are not suitable for short-term saving. If the market drops 25% the month before you want to buy, you may have to sell at a loss or wait years for a recovery.</p>
+      <div class="sim-edu-section-title">⏱️ Your Timeline Matters</div>
+      <p>ETFs are not appropriate for short-term savings. If markets decline significantly close to your intended purchase date, you may need to wait for a recovery — or accept a lower return to meet your timeline.</p>
       <div class="sim-edu-note sim-edu-note-amber">
         ${_SW}
-        <span><strong>Only invest money you won't need for at least 3 years.</strong> If you're buying in the next 12 months, a HISA is safer. ETFs shine over a 3–7 year horizon.</span>
+        <span><strong>Only allocate funds you won't need for at least 3 years.</strong> If your purchase is within the next 12 months, a HISA is the more appropriate option. ETFs are best suited to a 3–7 year horizon.</span>
       </div>
+    </div>
+
+    <div class="sim-wip">
+      <span class="sim-wip-text">⚠ Work in Progress</span>
+      <p class="sim-wip-sub">ETF and share-specific tools — including real fund data and visual growth projections — are coming soon to this section.</p>
     </div>`,
 
   high: `
-    <h2 class="sim-edu-title">How the Wildcard Path Works</h2>
+    <h2 class="sim-edu-title">How the High Growth Option Works</h2>
 
     <div class="sim-edu-section">
       <div class="sim-edu-section-title">🎯 Individual Stocks</div>
-      <p>Buying shares in a single company (one tech stock, one mining play) is a concentrated bet. If the company performs, gains can far outpace anything an index fund delivers. If it doesn't, there is no diversification to cushion the fall.</p>
-      <p>Individual stocks can drop <strong>50–80% or more</strong> in a short period without warning — and some never recover. The company you pick might be the next big thing, or it might be next year's cautionary tale.</p>
+      <p>Investing in individual company shares is a concentrated position. When a company performs strongly, the gains can significantly outpace what a diversified index fund or savings account delivers. However, there is no diversification to absorb the impact if things go the other way.</p>
+      <p>Individual stocks can fall <strong>50–80% or more</strong> in a short period without warning — and some never recover their previous value. The upside is real, but so is the downside.</p>
     </div>
 
     <div class="sim-edu-section">
       <div class="sim-edu-section-title">🪙 Crypto-Assets</div>
-      <p>Cryptocurrencies (Bitcoin, Ethereum, etc.) are highly volatile digital assets with no government guarantee, no earnings to anchor valuation, and price swings of <strong>±20% in a single week</strong> that are not unusual.</p>
-      <p>The appeal is real — early holders made life-changing returns. But for every winner, many more people lost significant money, often right when they needed it most.</p>
+      <p>Cryptocurrencies (Bitcoin, Ethereum, and others) are highly volatile digital assets. There is no government guarantee, no underlying earnings to anchor their value, and price movements of <strong>±20% in a single week</strong> are not uncommon.</p>
+      <p>Some early participants generated significant returns. Many others experienced substantial losses — often at the worst possible moment for their property plans. Both outcomes are well-documented.</p>
     </div>
 
     <div class="sim-edu-section">
-      <div class="sim-edu-section-title">⚠️ The Non-Negotiable Rules</div>
+      <div class="sim-edu-section-title">⚠️ Important Considerations</div>
       <div class="sim-edu-note sim-edu-note-red">
         ${_SW}
         <span>
-          <strong>You are trading security for speed.</strong> This money could disappear overnight — a stock can go to zero, an exchange can collapse.<br><br>
-          If you still want to use this path: <strong>(1)</strong> limit it to a small portion of your total savings — no more than 10–15%. <strong>(2)</strong> Never put your full deposit here. <strong>(3)</strong> Only use money you're genuinely prepared to lose entirely. The 15% rate in the simulator is optimistic — treat it as a best-case scenario, not a plan.
+          <strong>This approach trades security for the potential of faster growth.</strong> Values can fall sharply and without warning — a stock can go to zero, and platforms can fail.<br><br>
+          If you choose this path: <strong>(1)</strong> Limit exposure to a small portion of your total savings — many advisers suggest no more than 10–15%. <strong>(2)</strong> Do not put your full deposit at risk here. <strong>(3)</strong> Only commit capital you could lose entirely without affecting your plans. The 15% rate in the simulator represents an optimistic scenario — not a projection.
         </span>
       </div>
+    </div>
+
+    <div class="sim-wip">
+      <span class="sim-wip-text">⚠ Work in Progress</span>
+      <p class="sim-wip-sub">Individual stock and crypto-specific tools — including real market data and scenario modelling — are coming soon to this section.</p>
     </div>`,
 };
 
