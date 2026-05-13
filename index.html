@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="css/hero.css?v=2">
 <link rel="stylesheet" href="css/calculator.css?v=2">
 <link rel="stylesheet" href="css/grants.css?v=2">
-<link rel="stylesheet" href="css/rental.css?v=2">
-<link rel="stylesheet" href="css/faq.css?v=6">
+<link rel="stylesheet" href="css/rental.css?v=3">
+<link rel="stylesheet" href="css/faq.css?v=8">
 <link rel="stylesheet" href="css/deposit.css?v=2">
 <link rel="stylesheet" href="css/simulator.css?v=3">
 <link rel="stylesheet" href="css/dt.css?v=1">
@@ -33,25 +33,6 @@
 <body>
 
 <!-- ══ Splash Screen ══ -->
-<div id="splash-screen" role="dialog" aria-modal="true" aria-label="Welcome screen">
-  <div class="splash-content">
-    <svg class="splash-logo" width="80" height="80" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <polyline points="6,42 44,8 82,42" stroke="rgba(255,255,255,0.9)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      <line x1="14" y1="37" x2="14" y2="78" stroke="rgba(255,255,255,0.9)" stroke-width="5" stroke-linecap="round"/>
-      <line x1="74" y1="37" x2="74" y2="78" stroke="rgba(255,255,255,0.9)" stroke-width="5" stroke-linecap="round"/>
-      <path d="M18,52 L18,72 Q18,78 24,78 L64,78 Q70,78 70,72 L70,52 Z" stroke="rgba(255,255,255,0.9)" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
-      <line x1="18" y1="52" x2="28" y2="52" stroke="rgba(255,255,255,0.9)" stroke-width="4.5" stroke-linecap="round"/>
-      <line x1="60" y1="52" x2="70" y2="52" stroke="rgba(255,255,255,0.9)" stroke-width="4.5" stroke-linecap="round"/>
-      <rect x="28" y="33" width="18" height="26" rx="2" transform="rotate(-12,37,46)" stroke="rgba(255,255,255,0.9)" stroke-width="3" fill="none"/>
-      <rect x="32" y="30" width="18" height="27" rx="2" transform="rotate(-4,41,43)" stroke="rgba(255,255,255,0.9)" stroke-width="3" fill="none"/>
-      <rect x="38" y="29" width="18" height="27" rx="2" transform="rotate(6,47,42)" stroke="rgba(255,255,255,0.9)" stroke-width="3" fill="none"/>
-      <circle cx="30" cy="62" r="9" stroke="rgba(255,255,255,0.9)" stroke-width="3.5" fill="none"/>
-    </svg>
-    <h1 class="splash-title">Welcome to HomePocket</h1>
-    <p class="splash-sub">Your Australian property toolkit</p>
-  </div>
-  <button id="splash-cta" class="splash-btn">Continue to main webpage →</button>
-</div>
 
 <!-- ══ Decision Tree Overlay ══ -->
 <div id="dt-overlay" role="dialog" aria-modal="true" aria-label="Getting started guide">
@@ -176,13 +157,12 @@
       </svg>
     </div>
     <nav>
+      <button class="tab-btn" onclick="switchTab('faq', this)">Knowledge Hub</button>
       <button class="tab-btn" data-tab="deposit" onclick="switchTab('deposit', this)">Deposit Growth</button>
       <button class="tab-btn" onclick="switchTab('grants', this)">Grants &amp; schemes</button>
       <button class="tab-btn" onclick="switchTab('borrow', this)">Borrowing power</button>
       <button class="tab-btn" onclick="switchTab('calc', this)">Mortgage calculator</button>
       <button class="tab-btn" onclick="switchTab('rental', this)">Rental yield (For investors)</button>
-      <button class="tab-btn" onclick="switchTab('faq', this)">Knowledge Hub</button>
-      <button class="tab-btn" onclick="switchTab('test', this)">Test</button>
     </nav>
     <div class="scroll-track"><div id="nav-scroll-bar"></div></div>
     <!-- ── Help button ── -->
@@ -456,7 +436,7 @@
       <div class="home-hero-eyebrow">NSW First Home Buyer Toolkit</div>
       <div class="home-hero-title">Home<span>Pocket</span></div>
       <div class="home-hero-desc">HomePocket is your essential toolkit for navigating the NSW property market. We simplify complex government grants, mortgage math, and investment analysis into clear, actionable data.</div>
-      <button class="home-hero-cta" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[2])">Get started →</button>
+      <button class="home-hero-cta" onclick="if(window._dtShow) window._dtShow()">Get started →</button>
     </div>
 
     <!-- Mobile translate button (hidden on desktop via CSS) -->
@@ -569,7 +549,7 @@
           </svg>
         </div>
         <div>
-          <div class="home-feature-tag">Common Questions</div>
+          <div class="home-feature-tag">Knowledge Hub</div>
           <div class="home-feature-title">Buying process &amp; hidden costs</div>
         </div>
         <div class="home-feature-desc">A knowledge base covering the end-to-end buying process — from pre-approval to settlement — plus a breakdown of hidden fees including LMI, solicitor costs, transfer duty, and mortgage registration.</div>
@@ -1121,33 +1101,33 @@
 
         <div class="field">
           <label>Loan amount <span class="val" id="lv-loan"></span></label>
-          <input type="range" id="sl-loan" min="100000" max="5000000" step="5000" oninput="syncInput('loan', this.value)">
+          <input type="range" id="sl-loan" min="100000" max="5000000" step="5000" value="600000" oninput="syncInput('loan', this.value)">
           <div class="field-row">
-            <input type="number" id="in-loan" min="100000" max="5000000" step="5000" oninput="syncSlider('loan', this.value)">
+            <input type="number" id="in-loan" min="100000" max="5000000" step="5000" value="600000" onfocus="calcFocus('loan', this)" onblur="calcBlur('loan', this)" oninput="syncSlider('loan', this.value)">
           </div>
         </div>
 
         <div class="field">
           <label>Annual interest rate <span class="val" id="lv-rate"></span></label>
-          <input type="range" id="sl-rate" min="1" max="15" step="0.01" oninput="syncInput('rate', this.value)">
+          <input type="range" id="sl-rate" min="1" max="15" step="0.01" value="6.04" oninput="syncInput('rate', this.value)">
           <div class="field-row">
-            <input type="number" id="in-rate" min="1" max="15" step="0.01" oninput="syncSlider('rate', this.value)">
+            <input type="number" id="in-rate" min="1" max="15" step="0.01" value="6.04" onfocus="calcFocus('rate', this)" onblur="calcBlur('rate', this)" oninput="syncSlider('rate', this.value)">
           </div>
         </div>
 
         <div class="field">
           <label>Loan term <span class="val" id="lv-term"></span></label>
-          <input type="range" id="sl-term" min="5" max="30" step="1" oninput="syncInput('term', this.value)">
+          <input type="range" id="sl-term" min="5" max="30" step="1" value="30" oninput="syncInput('term', this.value)">
           <div class="field-row">
-            <input type="number" id="in-term" min="5" max="30" step="1" oninput="syncSlider('term', this.value)">
+            <input type="number" id="in-term" min="5" max="30" step="1" value="30" onfocus="calcFocus('term', this)" onblur="calcBlur('term', this)" oninput="syncSlider('term', this.value)">
           </div>
         </div>
 
         <div class="field">
           <label><span id="extra-field-label">Extra monthly repayment</span> <span class="val" id="lv-extra"></span></label>
-          <input type="range" id="sl-extra" min="0" max="5000" step="50" oninput="syncInput('extra', this.value)">
+          <input type="range" id="sl-extra" min="0" max="5000" step="50" value="0" oninput="syncInput('extra', this.value)">
           <div class="field-row">
-            <input type="number" id="in-extra" min="0" max="5000" step="50" oninput="syncSlider('extra', this.value)">
+            <input type="number" id="in-extra" min="0" max="5000" step="50" value="0" onfocus="calcFocus('extra', this)" onblur="calcBlur('extra', this)" oninput="syncSlider('extra', this.value)">
           </div>
         </div>
 
@@ -1310,6 +1290,27 @@
     <div class="section-header">
       <h1>Rental yield analyser</h1>
       <p>Pre-filled from your mortgage calculator inputs. Adjust any value to reflect your investment scenario.</p>
+    </div>
+
+    <!-- Tab intro banner -->
+    <div class="rental-intro">
+      <div class="rental-intro-cols">
+        <div class="rental-intro-block">
+          <span class="rental-intro-icon">📈</span>
+          <div>
+            <div class="rental-intro-heading">For investors</div>
+            <p class="rental-intro-text">Whether you're a first-time landlord or a seasoned investor, this tool cuts through the noise and shows you what you're <em>actually</em> earning — or losing — on your property after expenses.</p>
+          </div>
+        </div>
+        <div class="rental-intro-divider"></div>
+        <div class="rental-intro-block">
+          <span class="rental-intro-icon">🏠</span>
+          <div>
+            <div class="rental-intro-heading">Currently renting?</div>
+            <p class="rental-intro-text">Plug in your address details and weekly rent to see exactly how much your landlord is pocketing from you every year — it might surprise you.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Summary metrics -->
@@ -1563,7 +1564,10 @@
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>High-interest debt (credit cards, personal loans) paid down</span></label>
             </div>
             <div class="ready-group">
-              <div class="ready-group-label">🏦 Savings Habits</div>
+              <div class="ready-group-hd">
+                <div class="ready-group-label">🏦 Savings Habits</div>
+                <button class="ready-shortcut" onclick="switchTab('deposit', document.querySelectorAll('.tab-btn')[1])">Optimise your savings <span class="ready-shortcut-arrow">→</span></button>
+              </div>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Consistent monthly saving habit (at least 3 months running)</span></label>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Deposit goal calculated including stamp duty, LMI, and legal fees</span></label>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Checked government grants and schemes for your state</span></label>
@@ -1597,6 +1601,8 @@
       </div>
       <h2 class="kb-feat-title">What is the process of buying a home?</h2>
       <p class="kb-feat-sub">From saving your deposit to collecting the keys — here's every stage of the home-buying journey in order.</p>
+
+      <p class="kb-feat-summary-label">Brief Summary</p>
 
       <div class="kb-stepper">
 
@@ -2128,8 +2134,8 @@
 
 <!-- Scripts — Chart.js first, then app logic, then tab-specific, then data files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="js/app.js?v=6"></script>
-<script src="js/calculator.js?v=2"></script>
+<script src="js/app.js?v=9"></script>
+<script src="js/calculator.js?v=5"></script>
 <script src="js/grants.js?v=2"></script>
 <script src="js/rental.js?v=2"></script>
 <script src="js/faq.js?v=4"></script>

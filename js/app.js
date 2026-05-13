@@ -206,9 +206,9 @@ function openHelpGuide() {
   if (window._dtShow) window._dtShow();
 }
 
-// Dismiss the coach mark and record it permanently in localStorage.
+// Dismiss the coach mark for this session only (X button).
 function dismissCoach() {
-  localStorage.setItem('hp_help_seen', '1');
+  sessionStorage.setItem('hp_coach_dismissed', '1');
   const coach = document.getElementById('help-coach');
   if (!coach) return;
   coach.classList.remove('visible');
@@ -218,9 +218,9 @@ function dismissCoach() {
   }, { once: true });
 }
 
-// One-time coach mark — shown only on the first visit.
+// Coach mark — shown every visit unless dismissed this session.
 (function () {
-  if (localStorage.getItem('hp_help_seen')) return;
+  if (sessionStorage.getItem('hp_coach_dismissed')) return;
 
   const coach    = document.getElementById('help-coach');
   const helpBtn  = document.getElementById('help-btn');
@@ -285,11 +285,11 @@ function dismissCoach() {
   const RESULTS = {
     faq: {
       icon:  '📚',
-      badge: 'Common Questions',
+      badge: 'Knowledge Hub',
       title: 'Start with the Basics',
       desc:  'A complete guide to the home-buying process — from pre-approval to settlement, plus every hidden fee you need to know about.',
       tab:   'faq',
-      cta:   'Open Common Questions →'
+      cta:   'Open Knowledge Hub →'
     },
     rental: {
       icon:  '🏘️',
@@ -399,6 +399,5 @@ function dismissCoach() {
 // Track whether the rental tab has been initialised yet.
 let rentalInitialised = false;
 
-// Boot both the calculator and the stats panel.
-initCalc();
+// Boot the stats panel. (initCalc is called at the end of calculator.js)
 initStats();

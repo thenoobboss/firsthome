@@ -9,7 +9,7 @@
 
 // ---- STATE ----
 
-const DEFAULTS = { loan: 500000, rate: 5.84, term: 30, extra: 0 };
+const DEFAULTS = { loan: 600000, rate: 6.04, term: 30, extra: 0 };
 const state = { ...DEFAULTS, freq: 'monthly', ioYears: 0 };
 
 // Currency formatters
@@ -37,6 +37,18 @@ function syncInput(key, val) {
   document.getElementById('in-' + key).value = val;
   updateLabels();
   updateCalc();
+}
+
+// Clear the input on focus so the user can type a fresh value.
+function calcFocus(key, el) {
+  el.value = '';
+}
+
+// On blur, restore the current state value if the field was left empty.
+function calcBlur(key, el) {
+  if (el.value === '' || isNaN(parseFloat(el.value))) {
+    el.value = state[key];
+  }
 }
 
 // Sync the range slider from the number input and recalculate.
@@ -473,3 +485,8 @@ function updateRateScenarios() {
     document.getElementById('rs-diff-' + n).textContent    = '+' + fmtDec.format(diff) + '/' + fl + ' more';
   });
 }
+
+// ---- INIT ----
+
+// Run once after this script loads — DOM is ready since scripts are at the bottom.
+initCalc();

@@ -315,14 +315,46 @@
 
 .ready-group { display: flex; flex-direction: column; gap: 8px; }
 
+.ready-group-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--teal-light);
+}
+
 .ready-group-label {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .6px;
   color: var(--teal-dark);
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--teal-light);
+}
+
+.ready-shortcut {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0d7a70;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  transition: color .15s;
+  white-space: nowrap;
+}
+
+.ready-shortcut:hover { color: #083f39; }
+
+.ready-shortcut-arrow {
+  display: inline-block;
+  transition: transform .2s ease;
+}
+
+.ready-shortcut:hover .ready-shortcut-arrow {
+  transform: translateX(3px);
 }
 
 .ready-item {
@@ -397,8 +429,17 @@
 .kb-feat-sub {
   font-size: 14px;
   color: var(--muted);
-  margin: 0 0 28px;
+  margin: 0 0 16px;
   line-height: 1.55;
+}
+
+.kb-feat-summary-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin: 0 0 16px;
 }
 
 /* Stepper */
