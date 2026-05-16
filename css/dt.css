@@ -176,20 +176,27 @@
   transform: translateX(3px);
 }
 
-/* ── Skip link ── */
+/* ── Skip / secondary button ── */
 .dt-skip {
-  background: none;
-  border: none;
-  font-size: 13px;
-  color: var(--muted);
-  cursor: pointer;
-  padding: 0;
-  text-align: center;
+  display: block;
   width: 100%;
-  transition: color 0.15s;
+  padding: 11px 24px;
+  background: #f1f5f9;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.dt-skip:hover { color: var(--text); }
+.dt-skip:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #475569;
+}
 
 /* ══ Result step ══ */
 
