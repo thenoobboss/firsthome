@@ -7,13 +7,13 @@
 
 <!-- Styles — main first, then tab-specific files -->
 <link rel="stylesheet" href="css/main.css?v=5">
-<link rel="stylesheet" href="css/navbar.css?v=8">
-<link rel="stylesheet" href="css/hero.css?v=2">
+<link rel="stylesheet" href="css/navbar.css?v=9">
+<link rel="stylesheet" href="css/hero.css?v=5">
 <link rel="stylesheet" href="css/calculator.css?v=2">
 <link rel="stylesheet" href="css/grants.css?v=2">
 <link rel="stylesheet" href="css/rental.css?v=3">
 <link rel="stylesheet" href="css/faq.css?v=8">
-<link rel="stylesheet" href="css/deposit.css?v=3">
+<link rel="stylesheet" href="css/deposit.css?v=5">
 <link rel="stylesheet" href="css/simulator.css?v=4">
 <link rel="stylesheet" href="css/dt.css?v=1">
 </head>
@@ -78,6 +78,7 @@
         <div class="dt-dots">
           <span class="dt-dot"></span>
           <span class="dt-dot on"></span>
+          <span class="dt-dot"></span>
         </div>
       </div>
       <h2 class="dt-question">What is your main financial priority right now?</h2>
@@ -108,6 +109,17 @@
 
     <!-- ─ Result summary card ─ -->
     <div class="dt-step" id="dt-result">
+      <div class="dt-meta">
+        <button class="dt-back-btn" onclick="dtGoStep2()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <div class="dt-dots">
+          <span class="dt-dot"></span>
+          <span class="dt-dot"></span>
+          <span class="dt-dot on"></span>
+        </div>
+      </div>
       <div class="dt-res-emoji"  id="dt-res-icon"></div>
       <span class="dt-res-pill"  id="dt-res-badge"></span>
       <h2  class="dt-res-title"  id="dt-res-title"></h2>
@@ -157,12 +169,30 @@
       </svg>
     </div>
     <nav>
-      <button class="tab-btn" onclick="switchTab('faq', this)">Knowledge Hub</button>
-      <button class="tab-btn" data-tab="deposit" onclick="switchTab('deposit', this)">Deposit Growth</button>
-      <button class="tab-btn" onclick="switchTab('grants', this)">Grants &amp; schemes</button>
-      <button class="tab-btn" onclick="switchTab('borrow', this)">Borrowing power</button>
-      <button class="tab-btn" onclick="switchTab('calc', this)">Mortgage calculator</button>
-      <button class="tab-btn" onclick="switchTab('rental', this)">Rental yield (For investors)</button>
+      <button class="tab-btn" onclick="switchTab('faq', this)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="3" y="2" width="11" height="14" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M6 6h5M6 9h5M6 12h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 5h1a2 2 0 012 2v9a2 2 0 01-2 2H7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Knowledge Hub
+      </button>
+      <button class="tab-btn" data-tab="deposit" onclick="switchTab('deposit', this)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 14l5-5 3 3 5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 6h3v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Deposit Growth
+      </button>
+      <button class="tab-btn" onclick="switchTab('grants', this)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="2" y="8" width="16" height="2.5" rx="1" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="10.5" width="12" height="7" rx="1" stroke="currentColor" stroke-width="1.6"/><path d="M10 8.5V18M10 8.5C10 6.5 11.5 4 13 4s2 2.5 0 3M10 8.5C10 6.5 8.5 4 7 4S5 6.5 7 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Grants &amp; Schemes
+      </button>
+      <button class="tab-btn" onclick="switchTab('borrow', this)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M2 8.5l8-5 8 5H2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 9.5v5M8 9.5v5M12 9.5v5M16 9.5v5M2 14.5h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Borrowing Power
+      </button>
+      <button class="tab-btn" onclick="switchTab('calc', this)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="2" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><rect x="6.5" y="4.5" width="7" height="3" rx="1" stroke="currentColor" stroke-width="1.4"/><circle cx="7" cy="11.5" r="1" fill="currentColor"/><circle cx="10" cy="11.5" r="1" fill="currentColor"/><circle cx="13" cy="11.5" r="1" fill="currentColor"/><circle cx="7" cy="14.5" r="1" fill="currentColor"/><circle cx="10" cy="14.5" r="1" fill="currentColor"/><circle cx="13" cy="14.5" r="1" fill="currentColor"/></svg>
+        Mortgage Calculator
+      </button>
+      <button class="tab-btn" onclick="switchTab('rental', this)">
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="7.5" cy="9" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M11.5 11.5l6.5 6.5M16 15l2-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Rental Yield
+      </button>
     </nav>
     <div class="scroll-track"><div id="nav-scroll-bar"></div></div>
     <!-- ── Help button ── -->
@@ -213,78 +243,90 @@
       <span><strong>Heads up:</strong> HomePocket doesn't give financial advice. This is just a look at how different people tackle the 'savings mountain.' Do your own research or talk to a pro before moving big money.</span>
     </div>
 
+    <!-- ── Motivational banner ── -->
+    <div class="deposit-quote-banner">
+      <p class="deposit-quote-eyebrow">A reminder</p>
+      <blockquote class="deposit-quote-text">
+        In this economy? Yes.<br>
+        <span class="deposit-quote-nowrap">In every market, there are those who get left behind and those who get ahead.</span><br>
+        Don't be the one left behind.<br>
+        <span class="deposit-quote-bold">Use the tools, master the strategy, and win.</span>
+      </blockquote>
+      <p class="deposit-quote-sig">— E.T</p>
+    </div>
+
     <!-- 3-pathway card grid -->
     <div class="deposit-pathways-wrapper">
 
-      <!-- ── Pathway 1: The 'Sleep Easy' Path ── -->
+      <!-- ── Pathway 1: Capital Preservation ── -->
       <div class="pathway-card deposit-pathway-low">
         <div class="pathway-card-accent"></div>
         <div class="pathway-card-inner">
           <div class="pathway-card-header">
             <span class="pathway-badge pathway-badge-low">Low Risk</span>
-            <span class="pathway-icon">😴</span>
+            <span class="pathway-icon">🏦</span>
           </div>
-          <h3 class="pathway-title">The Safest Option</h3>
+          <h3 class="pathway-title">Capital Preservation</h3>
 
           <div class="pathway-section">
-            <div class="pathway-section-label">The Vibe</div>
-            <p>Capital preservation is the priority. Steady, predictable growth with no exposure to market swings — your balance only ever goes up.</p>
+            <div class="pathway-section-label">Strategic Objective</div>
+            <p>Priority is placed on asset security and liquidity. This pathway provides predictable growth with zero exposure to market volatility — your principal balance is fully protected.</p>
           </div>
 
           <div class="pathway-whatif pathway-whatif-low">
-            <div class="pathway-section-label">The 'What If?'</div>
-            <p>The trade-off is pace. Your money is fully protected, but savings rates rarely keep up with rising property prices — so your deposit goal can quietly drift further away over time.</p>
+            <div class="pathway-section-label">Key Considerations</div>
+            <p>The primary trade-off is pace. While capital is secure, interest rates may not keep pace with property market inflation, potentially extending the savings timeline.</p>
           </div>
 
-          <button class="pathway-cta" onclick="openDepositSim('low')">See how it works →</button>
+          <button class="pathway-cta" onclick="openDepositSim('low')">View Strategy Breakdown →</button>
         </div>
       </div>
 
-      <!-- ── Pathway 2: The 'Slow & Steady' Path ── -->
+      <!-- ── Pathway 2: Diversified Growth ── -->
       <div class="pathway-card deposit-pathway-med">
         <div class="pathway-card-accent"></div>
         <div class="pathway-card-inner">
           <div class="pathway-card-header">
             <span class="pathway-badge pathway-badge-med">Medium Risk</span>
-            <span class="pathway-icon">📈</span>
+            <span class="pathway-icon">📊</span>
           </div>
-          <h3 class="pathway-title">The Balanced Approach</h3>
+          <h3 class="pathway-title">Diversified Growth</h3>
 
           <div class="pathway-section">
-            <div class="pathway-section-label">The Vibe</div>
-            <p>You're comfortable with some market movement in exchange for the potential to outperform a standard savings account over time.</p>
+            <div class="pathway-section-label">Strategic Objective</div>
+            <p>Exposure to a combination of cash and market-linked assets. This approach seeks to outperform standard savings rates over a medium-term horizon.</p>
           </div>
 
           <div class="pathway-whatif pathway-whatif-med">
-            <div class="pathway-section-label">The 'What If?'</div>
-            <p>A <strong>3–5 year horizon</strong> is recommended. If markets pull back close to your target date, you may need to wait for a recovery — or accept a lower return to stay on schedule.</p>
+            <div class="pathway-section-label">Key Considerations</div>
+            <p>A <strong>3–5 year time horizon</strong> is typically associated with this strategy. Market fluctuations may necessitate a flexible withdrawal date to ensure capital is not liquidated during a downturn.</p>
           </div>
 
-          <button class="pathway-cta" onclick="openDepositSim('med')">See how it works →</button>
+          <button class="pathway-cta" onclick="openDepositSim('med')">View Strategy Breakdown →</button>
         </div>
       </div>
 
-      <!-- ── Pathway 3: The 'Wildcard' Path ── -->
+      <!-- ── Pathway 3: Aggressive Appreciation ── -->
       <div class="pathway-card deposit-pathway-high">
         <div class="pathway-card-accent"></div>
         <div class="pathway-card-inner">
           <div class="pathway-card-header">
             <span class="pathway-badge pathway-badge-high">High Risk</span>
-            <span class="pathway-icon">🎲</span>
+            <span class="pathway-icon">📈</span>
           </div>
-          <h3 class="pathway-title">The High Growth Option</h3>
+          <h3 class="pathway-title">Aggressive Appreciation</h3>
 
           <div class="pathway-section">
-            <div class="pathway-section-label">The Vibe</div>
-            <p>You're targeting accelerated growth and willing to accept meaningful risk to get there. Best suited for those with an existing financial buffer.</p>
+            <div class="pathway-section-label">Strategic Objective</div>
+            <p>Targeting accelerated capital growth through high-volatility assets. This pathway is designed for those with established financial buffers and longer-term saving windows.</p>
           </div>
 
           <div class="pathway-whatif pathway-whatif-high">
-            <div class="pathway-section-label">The 'What If?'</div>
-            <p>Returns can be significant — but so can losses. This approach requires a high tolerance for volatility. <strong>Only allocate capital you could afford to lose without derailing your plans.</strong></p>
+            <div class="pathway-section-label">Key Considerations</div>
+            <p>Higher potential returns are coupled with the risk of significant capital loss. This strategy is generally suited to those who can tolerate market volatility <strong>without compromising their primary housing goals.</strong></p>
           </div>
 
-          <button class="pathway-cta" onclick="openDepositSim('high')">See how it works →</button>
+          <button class="pathway-cta" onclick="openDepositSim('high')">View Strategy Breakdown →</button>
         </div>
       </div>
 
@@ -433,10 +475,29 @@
 
     <!-- Hero -->
     <div class="home-hero">
-      <div class="home-hero-eyebrow">NSW First Home Buyer Toolkit</div>
-      <div class="home-hero-title">Home<span>Pocket</span></div>
-      <div class="home-hero-desc">HomePocket is your essential toolkit for navigating the NSW property market. We simplify complex government grants, mortgage math, and investment analysis into clear, actionable data.</div>
-      <button class="home-hero-cta" onclick="if(window._dtShow) window._dtShow()">Get started →</button>
+      <div class="home-hero-content">
+        <div class="home-hero-eyebrow">NSW First Home Buyer Toolkit</div>
+        <div class="home-hero-title">Home<span>Pocket</span></div>
+        <div class="home-hero-desc">HomePocket is your essential toolkit for navigating the NSW property market. We simplify complex government grants, mortgage math, and investment analysis into clear, actionable data.</div>
+        <button class="home-hero-cta" onclick="if(window._dtShow) window._dtShow()">Get started →</button>
+      </div>
+      <div class="home-hero-stats" aria-hidden="true">
+        <div class="home-hero-stat-label-top">Live Market</div>
+        <div class="home-hero-stat">
+          <div class="home-hero-stat-val">4.10%</div>
+          <div class="home-hero-stat-lbl">RBA Cash Rate</div>
+        </div>
+        <div class="home-hero-stat-divider"></div>
+        <div class="home-hero-stat">
+          <div class="home-hero-stat-val">$1.47M</div>
+          <div class="home-hero-stat-lbl">Sydney Median</div>
+        </div>
+        <div class="home-hero-stat-divider"></div>
+        <div class="home-hero-stat">
+          <div class="home-hero-stat-val">6.34%</div>
+          <div class="home-hero-stat-lbl">Big 4 Variable</div>
+        </div>
+      </div>
     </div>
 
     <!-- Mobile translate button (hidden on desktop via CSS) -->
@@ -474,86 +535,47 @@
       </div>
     </div>
 
-    <!-- Feature cards -->
-    <div class="home-features">
+    <!-- Quick-access tab strip -->
+    <div class="home-tab-strip">
+      <button class="home-tab-pill" onclick="switchTab('faq', document.querySelectorAll('.tab-btn')[0])">Knowledge Hub</button>
+      <button class="home-tab-pill" onclick="switchTab('deposit', document.querySelectorAll('.tab-btn')[1])">Deposit Growth</button>
+      <button class="home-tab-pill" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[2])">Grants &amp; Schemes</button>
+      <button class="home-tab-pill" onclick="switchTab('borrow', document.querySelectorAll('.tab-btn')[3])">Borrowing Power</button>
+      <button class="home-tab-pill" onclick="switchTab('calc', document.querySelectorAll('.tab-btn')[4])">Mortgage Calculator</button>
+      <button class="home-tab-pill" onclick="switchTab('rental', document.querySelectorAll('.tab-btn')[5])">Rental Yield</button>
+    </div>
 
-      <div class="home-feature-card" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[2])">
-        <div class="home-feature-icon">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="5" width="14" height="11" rx="2" stroke="#0f766e" stroke-width="1.6"/>
-            <path d="M7 5V4a3 3 0 0 1 6 0v1" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round"/>
-            <path d="M7 10h6M7 13h4" stroke="#0f766e" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
+    <!-- Audience heading rows -->
+    <div class="home-audience">
+
+      <div class="home-audience-row">
+        <div class="home-audience-bar home-audience-bar--green"></div>
+        <div class="home-audience-icon home-audience-icon--green">🏠</div>
+        <div class="home-audience-body">
+          <div class="home-audience-eyebrow">Grants · Knowledge Hub · Deposit Growth</div>
+          <h3 class="home-audience-heading">For the First Home Buyer</h3>
+          <p class="home-audience-text">Navigating the path to ownership with precision. Access tailored pathways for government support and market entry designed specifically for the current economy.</p>
         </div>
-        <div>
-          <div class="home-feature-tag">Grants &amp; Schemes</div>
-          <div class="home-feature-title">NSW grants &amp; stamp duty relief</div>
-        </div>
-        <div class="home-feature-desc">A guide to the NSW First Home Buyers Assistance Scheme (FHBAS), the $10,000 New Home Grant, and the Federal First Home Super Saver Scheme (FHSS). Understand exactly what you're eligible for before you buy.</div>
-        <div class="home-feature-arrow">Explore grants →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('borrow', document.querySelectorAll('.tab-btn')[3])">
-        <div class="home-feature-icon">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="6" width="16" height="11" rx="2" stroke="#0f766e" stroke-width="1.6"/>
-            <path d="M6 6V5a4 4 0 0 1 8 0v1" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round"/>
-            <circle cx="10" cy="12" r="2" stroke="#0f766e" stroke-width="1.5"/>
-            <path d="M10 14v1" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+      <div class="home-audience-row">
+        <div class="home-audience-bar home-audience-bar--amber"></div>
+        <div class="home-audience-icon home-audience-icon--amber">📈</div>
+        <div class="home-audience-body">
+          <div class="home-audience-eyebrow">Deposit Growth · Rental Yield</div>
+          <h3 class="home-audience-heading">For the Growth-Minded</h3>
+          <p class="home-audience-text">Accelerating the journey from saving to settlement. Build your deposit with intent using strategic growth pathways designed to outpace the market current.</p>
         </div>
-        <div>
-          <div class="home-feature-tag">Lender Limits</div>
-          <div class="home-feature-title">Maximum borrowing power</div>
-        </div>
-        <div class="home-feature-desc">Compare borrowing capacities from Australia's Big Four banks. Understand how lenders assess your income and expenses to determine your total loan capacity.</div>
-        <div class="home-feature-arrow">Check capacity →</div>
       </div>
 
-      <div class="home-feature-card" onclick="switchTab('calc', document.querySelectorAll('.tab-btn')[4])">
-        <div class="home-feature-icon">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="3" y="3" width="14" height="14" rx="2" stroke="#0f766e" stroke-width="1.6"/>
-            <path d="M7 7h2M11 7h2M7 10h2M11 10h2M7 13h2M11 13h2" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+      <div class="home-audience-row">
+        <div class="home-audience-bar home-audience-bar--blue"></div>
+        <div class="home-audience-icon home-audience-icon--blue">🎓</div>
+        <div class="home-audience-body">
+          <div class="home-audience-eyebrow">Mortgage Calculator · Borrowing Power</div>
+          <h3 class="home-audience-heading">For the Knowledge</h3>
+          <p class="home-audience-text">Mastering the mechanics of the mortgage market. High-precision tools for those who skip the bank-speak and go straight to the raw math and strategy.</p>
         </div>
-        <div>
-          <div class="home-feature-tag">Mortgage Calculator</div>
-          <div class="home-feature-title">High-precision mortgage modelling</div>
-        </div>
-        <div class="home-feature-desc">Model Principle &amp; Interest and Interest-Only repayments with simple daily interest, multiple payment frequencies, extra repayments, and rate rise scenarios. See the real impact of an offset account on your loan term.</div>
-        <div class="home-feature-arrow">Open calculator →</div>
-      </div>
-
-      <div class="home-feature-card" onclick="switchTab('rental', document.querySelectorAll('.tab-btn')[5])">
-        <div class="home-feature-icon">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 15l4-5 4 3 3-4 3 3" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="16" cy="5" r="2" stroke="#0f766e" stroke-width="1.5"/>
-          </svg>
-        </div>
-        <div>
-          <div class="home-feature-tag">Rental Yield</div>
-          <div class="home-feature-title">Investor cashflow analyser</div>
-        </div>
-        <div class="home-feature-desc">Calculate gross and net rental yields, annual cashflow after expenses and mortgage repayments, and the exact weekly rent needed to break even. Built for investors evaluating NSW properties.</div>
-        <div class="home-feature-arrow">Analyse a property →</div>
-      </div>
-
-      <div class="home-feature-card" onclick="switchTab('faq', document.querySelectorAll('.tab-btn')[6])">
-        <div class="home-feature-icon">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="10" cy="10" r="7.5" stroke="#0f766e" stroke-width="1.6"/>
-            <path d="M10 11V10c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2" stroke="#0f766e" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="10" cy="13.5" r=".75" fill="#0f766e"/>
-          </svg>
-        </div>
-        <div>
-          <div class="home-feature-tag">Knowledge Hub</div>
-          <div class="home-feature-title">Buying process &amp; hidden costs</div>
-        </div>
-        <div class="home-feature-desc">A knowledge base covering the end-to-end buying process — from pre-approval to settlement — plus a breakdown of hidden fees including LMI, solicitor costs, transfer duty, and mortgage registration.</div>
-        <div class="home-feature-arrow">Read the guide →</div>
       </div>
 
     </div>
@@ -2134,7 +2156,7 @@
 
 <!-- Scripts — Chart.js first, then app logic, then tab-specific, then data files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="js/app.js?v=10"></script>
+<script src="js/app.js?v=11"></script>
 <script src="js/calculator.js?v=5"></script>
 <script src="js/grants.js?v=2"></script>
 <script src="js/rental.js?v=2"></script>

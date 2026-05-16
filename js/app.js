@@ -22,6 +22,9 @@ function switchTab(tab, btn) {
     // Trigger pathway card entrance animations on first visit to this tab
     const wrapper = document.querySelector('.deposit-pathways-wrapper');
     if (wrapper) wrapper.classList.add('cards-animate');
+    // Trigger quote banner animation (slight delay after cards)
+    const quote = document.querySelector('.deposit-quote-banner');
+    if (quote) quote.classList.add('quote-animate');
   }
   if (tab === 'rental') {
     if (!rentalInitialised) {

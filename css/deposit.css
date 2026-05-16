@@ -171,15 +171,16 @@
 
 /* ── Section label (THE VIBE / THE WHAT IF?) ── */
 .pathway-section-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--teal-dark);
   margin-bottom: 6px;
+  opacity: 0.7;
 }
 
-/* ── Vibe section ── */
+/* ── Strategic Objective section ── */
 .pathway-section p {
   font-size: 14px;
   color: var(--text);
@@ -187,11 +188,13 @@
   margin: 0;
 }
 
-/* ── What If? section — divider + colour-coded text ── */
+/* ── Key Considerations section — grows to fill card, pins button to bottom ── */
 .pathway-whatif {
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid var(--border);
+  flex: 1;
+  margin-bottom: 24px;
 }
 
 .pathway-whatif p {
@@ -204,14 +207,12 @@
 .pathway-whatif-med p  { color: #92400e; }
 .pathway-whatif-high p { color: #b91c1c; }
 
-/* ── CTA button — pushed to card bottom with breathing room above ── */
+/* ── CTA button — sits flush at card bottom ── */
 .pathway-cta {
   display: block;
   width: 100%;
-  margin-top: auto;
+  margin-top: 0;
   padding: 11px 16px;
-  padding-top: 11px;
-  margin-top: 24px;   /* clear gap above the button */
   background: var(--teal);
   border: none;
   border-radius: 10px;
@@ -396,4 +397,92 @@
 @media (max-width: 600px) {
   .dm-container { max-height: 92vh; border-radius: 12px; }
   .dm-close { width: 40px; height: 40px; font-size: 20px; }
+}
+
+/* ══════════════════════════════════════════
+   MOTIVATIONAL FOOTER BANNER
+   ══════════════════════════════════════════ */
+
+@keyframes quote-rise {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.deposit-quote-banner {
+  width: 100%;
+  background: linear-gradient(135deg, #0d2b27 0%, #0f4f45 55%, #0d7a70 100%);
+  padding: 60px 32px;
+  margin-top: 12px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  position: relative;
+
+  /* Hidden until cards-animate fires */
+  opacity: 0;
+  animation: quote-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-play-state: paused;
+  animation-delay: 0.1s;
+}
+
+.deposit-quote-banner.quote-animate {
+  animation-play-state: running;
+}
+
+.deposit-quote-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 20px;
+}
+
+.deposit-quote-text {
+  margin: 0 auto;
+  max-width: 680px;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.9);
+  font-style: normal;
+  border: none;
+  padding: 0;
+}
+
+.deposit-quote-bold {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.deposit-quote-nowrap { white-space: nowrap; }
+
+.deposit-quote-sig {
+  position: absolute;
+  bottom: 18px;
+  right: 24px;
+  margin: 0;
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 700px) {
+  .deposit-quote-banner { padding: 44px 24px; border-radius: 14px; }
+  .deposit-quote-text { font-size: 18px; }
+  .deposit-quote-bold { font-size: 20px; }
+  .deposit-quote-nowrap { white-space: normal; }
 }
