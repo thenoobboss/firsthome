@@ -8,6 +8,43 @@
 ==============================================
 */
 
+// ---- TAB CONTENT ANIMATION ----
+
+// Elements that manage their own entrance animation — skip the generic slide-in.
+const _ANIM_SKIP = new Set([
+  'deposit-quote-banner',   // has quote-rise animation triggered by .quote-animate
+  'deposit-pathways-wrapper', // has pathway-slide-in triggered by .cards-animate
+]);
+
+// Add .tab-anim-item with staggered animationDelay to each direct child of the
+// tab panel, then force-reflow so re-visits re-trigger the animation from scratch.
+function animateTabContent(tabId) {
+  const panel = document.getElementById('tab-' + tabId);
+  if (!panel) return;
+
+  const children = Array.from(panel.children);
+
+  // Step 1 — strip previous animation class so re-entry replays from the start.
+  children.forEach(el => {
+    el.classList.remove('tab-anim-item');
+    el.style.animationDelay = '';
+  });
+
+  // Step 2 — force a synchronous reflow so the browser registers the removal
+  //           before we add the class back.
+  void panel.offsetWidth;
+
+  // Step 3 — re-apply with staggered delays, skipping own-animated elements.
+  let delay = 0;
+  children.forEach(el => {
+    const hasOwnAnim = [...el.classList].some(c => _ANIM_SKIP.has(c));
+    if (hasOwnAnim) return;
+    el.style.animationDelay = delay + 'ms';
+    el.classList.add('tab-anim-item');
+    delay += 80; // 80 ms stagger between each child
+  });
+}
+
 // ---- TAB SWITCHING ----
 
 // Switch to the given tab and activate the nav button.
@@ -17,6 +54,7 @@ function switchTab(tab, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
   btn.classList.add('active');
+  animateTabContent(tab);
   if (tab === 'calc') updateCalc();
   if (tab === 'deposit') {
     // Trigger pathway card entrance animations on first visit to this tab
@@ -160,6 +198,7 @@ function switchHome() {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-home').classList.add('active');
+  animateTabContent('home');
   updateStatsHighlight('home');
 }
 
@@ -404,6 +443,9 @@ let rentalInitialised = false;
 
 // Boot the stats panel. (initCalc is called at the end of calculator.js)
 initStats();
+
+// Animate the initial home tab on page load.
+animateTabContent('home');
 
 // Auto-open the decision tree on every page load.
 requestAnimationFrame(() => {
