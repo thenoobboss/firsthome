@@ -35,25 +35,25 @@ let _simHz   = 3;           // horizon years for the "In X years" secondary card
 
 // ── Config per path ───────────────────────────────────────────────────────────
 const SIM_CFG = {
-  low:  { rate: 5,  badgeClass: 'sim-badge-low',  badge: 'Low Risk — The Safest Option'      },
-  med:  { rate: 8,  badgeClass: 'sim-badge-med',  badge: 'Medium Risk — The Balanced Approach' },
-  high: { rate: 15, badgeClass: 'sim-badge-high', badge: 'High Risk — The High Growth Option'  },
+  low:  { rate: 5,  badgeClass: 'sim-badge-low',  badge: 'Low Risk — Cash & Deposit Vehicles'           },
+  med:  { rate: 8,  badgeClass: 'sim-badge-med',  badge: 'Medium Risk — Diversified Market Exposure'     },
+  high: { rate: 15, badgeClass: 'sim-badge-high', badge: 'High Risk — Concentrated & Speculative Assets' },
 };
 
 // ── Educational content per path ──────────────────────────────────────────────
 const SIM_EDU = {
 
   low: `
-    <h2 class="sim-edu-title">How the Safest Option Works</h2>
+    <h2 class="sim-edu-title">Understanding Cash &amp; Superannuation Vehicles</h2>
 
     <div class="sim-edu-section">
       <div class="sim-edu-section-title">💰 High-Interest Savings Account (HISA)</div>
-      <p>A HISA pays significantly more than a standard everyday account — typically <strong>4–5.5% p.a.</strong> at a major bank or online lender. Some accounts require a minimum monthly deposit or restrict withdrawals to earn the bonus rate, so it's worth reading the conditions carefully before committing.</p>
-      <p>The Australian Government guarantees deposits up to <strong>$250,000 per person, per institution</strong> under the Financial Claims Scheme. Your balance is fully protected regardless of what happens to the bank.</p>
-      <p class="sim-edu-fine">Where to compare: RateCity, Canstar, or Finder. Look for accounts with no monthly fees and a consistently high <em>base</em> rate — not just a promotional rate that expires after a few months.</p>
+      <p>HISAs are designed to offer higher interest rates than standard transaction accounts — typically <strong>4–5.5% p.a.</strong> at a major bank or online lender. Some accounts require a minimum monthly deposit or restrict withdrawals to qualify for the bonus rate. Product conditions vary between providers.</p>
+      <p>The Australian Government guarantees deposits up to <strong>$250,000 per person, per institution</strong> under the Financial Claims Scheme — a statutory protection applicable to all authorised deposit-taking institutions (ADIs).</p>
+      <p class="sim-edu-fine">To compare current rates: RateCity, Canstar, or Finder. When comparing, note the distinction between a promotional introductory rate and the ongoing base rate, as the latter determines long-term returns.</p>
       <div class="sim-edu-note sim-edu-note-green">
         ${_SC}
-        <span><strong>The simulator is pre-filled at 5% p.a.</strong> — a reasonable HISA benchmark. Adjust the slider to reflect your actual account's current rate.</span>
+        <span><strong>The simulator is pre-filled at 5% p.a.</strong> — a hypothetical example for simulation purposes. Adjust the slider to reflect the current rate of the specific account you are considering.</span>
       </div>
     </div>
 
@@ -68,46 +68,96 @@ const SIM_EDU = {
     </div>
 
     <div class="sim-edu-section">
-      <div class="sim-edu-section-title">✅ Make It Automatic</div>
-      <p>The most effective savings habit is transferring money to your HISA on the same day your salary arrives — before everyday spending has a chance to erode it. Configure it once and let it run in the background.</p>
+      <div class="sim-edu-section-title">✅ Automation Principles</div>
+      <p>A common approach to consistent saving is transferring funds to a HISA on salary day, prior to discretionary spending. Automating this transfer removes the need for ongoing decision-making and reduces the likelihood of unintended drawdowns on the savings balance.</p>
       <div class="sim-edu-note sim-edu-note-green">
         ${_SC}
-        <span>Even <strong>$200 per week</strong> adds up to <strong>$10,400 per year</strong> before interest. Use the simulator below to see exactly how consistent deposits compound over your target timeline.</span>
+        <span>As a hypothetical illustration: $200 per week amounts to $10,400 per year before interest. Use the simulator below with your own figures to model different deposit amounts and timelines.</span>
       </div>
     </div>`,
 
   med: `
-    <h2 class="sim-edu-title">How the Balanced Approach Works</h2>
+    <h2 class="sim-edu-title">Understanding Diversified Equity (ETFs)</h2>
 
     <div class="sim-edu-section">
       <div class="sim-edu-section-title">📊 Exchange-Traded Funds (ETFs)</div>
-      <p>An ETF allows you to purchase exposure to hundreds of companies in a single transaction. An <strong>ASX 200 ETF</strong> tracks Australia's 200 largest listed companies. An <strong>S&amp;P 500 ETF</strong> does the same for the US market.</p>
-      <p>Rather than concentrating risk on a single company, you're participating in the broader economy's long-term growth. Historically, diversified market indexes have delivered <strong>approximately 7–10% annually</strong> over extended periods — meaningfully above standard savings rates.</p>
-      <p class="sim-edu-fine">Commonly used Aussie ETFs: VAS, IOZ (ASX 200) · IVV, NDQ, BGBL (international markets). Annual management fees (MER) typically range from 0.03–0.20%.</p>
+      <p>An ETF allows investors to gain exposure to hundreds of companies in a single transaction. An <strong>ASX 200 ETF</strong> tracks Australia's 200 largest listed companies. An <strong>S&amp;P 500 ETF</strong> does the same for the US market.</p>
+      <p>Rather than concentrating risk on a single company, the investor participates in the broader economy's long-term performance. Historically, diversified market indexes have delivered <strong>approximately 7–10% annually</strong> over extended periods — above standard savings rates, though with greater variability.</p>
+      <p class="sim-edu-fine">Commonly referenced Aussie ETFs: VAS, IOZ (ASX 200) · IVV, NDQ, BGBL (international markets). Annual management fees (MER) typically range from 0.03–0.20%.</p>
       <div class="sim-edu-note sim-edu-note-amber">
         ${_SW}
-        <span><strong>The 8% rate in the simulator reflects a long-run historical average — it is not a guarantee.</strong> Annual returns fluctuate. Some years deliver +25%, others −20%. Plan accordingly.</span>
+        <span><strong>The 8% rate used in this simulator is a hypothetical figure for educational purposes and does not represent a projected return for any ETF.</strong> Annual returns fluctuate materially — some years deliver +25%, others −20%. Historical averages do not predict future outcomes.</span>
       </div>
     </div>
 
     <div class="sim-edu-section">
       <div class="sim-edu-section-title">📈 The Effect of Compounding</div>
-      <p>When your investments generate returns, those returns begin generating returns of their own. Reinvesting dividends — the periodic cash payments companies distribute to shareholders — accelerates this effect considerably over time.</p>
-      <p><strong>Example:</strong> $20,000 invested at 8% p.a. with dividends reinvested grows to approximately <strong>$29,400 after 5 years</strong> without contributing an additional dollar. The longer the investment horizon, the more pronounced this effect becomes.</p>
+      <p>When investments generate returns, those returns can themselves generate returns. Reinvesting dividends — the periodic distributions companies make to shareholders — accelerates this compounding effect over time.</p>
+      <p><strong>Illustrative example:</strong> $20,000 invested at a hypothetical 8% p.a. with dividends reinvested grows to approximately <strong>$29,400 after 5 years</strong> without additional contributions. This is an illustrative calculation only and does not represent the expected performance of any investment.</p>
     </div>
 
     <div class="sim-edu-section">
-      <div class="sim-edu-section-title">⏱️ Your Timeline Matters</div>
-      <p>ETFs are not appropriate for short-term savings. If markets decline significantly close to your intended purchase date, you may need to wait for a recovery — or accept a lower return to meet your timeline.</p>
+      <div class="sim-edu-section-title">⏱️ Time Horizon Considerations</div>
+      <p>Market volatility typically necessitates a longer time horizon (e.g., 3+ years) to recover from potential short-term downturns. If markets decline close to an intended drawdown date, the value of holdings may be lower than the amount originally invested.</p>
       <div class="sim-edu-note sim-edu-note-amber">
         ${_SW}
-        <span><strong>Only allocate funds you won't need for at least 3 years.</strong> If your purchase is within the next 12 months, a HISA is the more appropriate option. ETFs are best suited to a 3–7 year horizon.</span>
+        <span>ETFs are frequently utilised for timelines spanning 3 to 7 years due to their growth-focused nature. Shorter timeframes carry a higher probability of negative real returns.</span>
       </div>
     </div>
 
-    <div class="sim-wip">
-      <span class="sim-wip-text">⚠ Work in Progress</span>
-      <p class="sim-wip-sub">ETF and share-specific tools — including real fund data and visual growth projections — are coming soon to this section.</p>
+    <div class="sim-mkt-context">
+      <div class="sim-mkt-eyebrow">Market Snapshot</div>
+      <h3 class="sim-mkt-title">Historical Market Context</h3>
+      <p class="sim-mkt-desc">This table illustrates the historical annual fluctuations of two major market indices alongside estimated cash savings yields. It is provided for contextual education only and does not imply any expected future return.</p>
+      <p class="sim-mkt-table-label">Annual Total Returns vs. Cash Yields</p>
+
+      <table class="sim-edu-table">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>ASX 200 <span class="sim-mkt-th-sub">(Total Return incl. dividends)</span></th>
+            <th>S&amp;P 500 <span class="sim-mkt-th-sub">(Total Return incl. dividends)</span></th>
+            <th class="sim-hisa-col">Avg. Bonus HISA Rate <span class="sim-mkt-th-sub">(Cash yield — est. p.a.)</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025</td>
+            <td><span class="sim-ret-pos">+6.80%</span></td>
+            <td><span class="sim-ret-pos">+17.88%</span></td>
+            <td class="sim-hisa-col"><span class="sim-ret-hisa">~4.15%</span></td>
+          </tr>
+          <tr>
+            <td>2024</td>
+            <td><span class="sim-ret-pos">+7.49%</span></td>
+            <td><span class="sim-ret-pos">+25.02%</span></td>
+            <td class="sim-hisa-col"><span class="sim-ret-hisa">~4.90%</span></td>
+          </tr>
+          <tr>
+            <td>2023</td>
+            <td><span class="sim-ret-pos">+7.84%</span></td>
+            <td><span class="sim-ret-pos">+26.29%</span></td>
+            <td class="sim-hisa-col"><span class="sim-ret-hisa">~4.20%</span></td>
+          </tr>
+          <tr>
+            <td>2022</td>
+            <td><span class="sim-ret-neg">−5.45%</span></td>
+            <td><span class="sim-ret-neg">−18.11%</span></td>
+            <td class="sim-hisa-col"><span class="sim-ret-hisa">~1.50%</span></td>
+          </tr>
+          <tr>
+            <td>2021</td>
+            <td><span class="sim-ret-pos">+13.02%</span></td>
+            <td><span class="sim-ret-pos">+28.71%</span></td>
+            <td class="sim-hisa-col"><span class="sim-ret-hisa">~0.35%</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sim-mkt-footer">
+        <p>Past performance is not a reliable indicator of future performance. HISA rates shown are estimated annual averages for bonus savings accounts and do not reflect any specific bank's current offer.</p>
+        <p>Source: Market Index Data (Annual Total Returns); RBA historical cash rate and Finder savings rate data. All figures are provided for educational context only.</p>
+      </div>
     </div>`,
 
   high: `
@@ -130,8 +180,8 @@ const SIM_EDU = {
       <div class="sim-edu-note sim-edu-note-red">
         ${_SW}
         <span>
-          <strong>This approach trades security for the potential of faster growth.</strong> Values can fall sharply and without warning — a stock can go to zero, and platforms can fail.<br><br>
-          If you choose this path: <strong>(1)</strong> Limit exposure to a small portion of your total savings — many advisers suggest no more than 10–15%. <strong>(2)</strong> Do not put your full deposit at risk here. <strong>(3)</strong> Only commit capital you could lose entirely without affecting your plans. The 15% rate in the simulator represents an optimistic scenario — not a projection.
+          <strong>Concentrated and speculative asset classes carry a high risk of total capital loss.</strong> Values can fall sharply and without warning — individual stocks can go to zero, and platforms can fail.<br><br>
+          Investors in this category generally consider factors such as their total exposure relative to overall savings, their capacity to sustain losses, and their target timeline. These are complex personal decisions. <strong>HomePocket does not provide guidance on appropriate allocation for any individual.</strong> The 15% rate used in this simulator is a hypothetical figure for educational purposes only and does not represent a projected return. Consult a licensed financial adviser before committing any funds intended for a first home deposit to high-risk or speculative instruments.
         </span>
       </div>
     </div>

@@ -305,18 +305,18 @@ function dismissCoach() {
     deposit: {
       icon:  '💰',
       badge: 'Deposit Growth',
-      title: 'Deposit Growth Pathways',
-      desc:  'Explore savings strategies tailored to your risk appetite — from HYSA to ETFs — and see exactly when you\'ll hit your deposit goal.',
+      title: 'Understanding Asset Characteristics',
+      desc:  'An educational overview of different savings vehicles and their characteristics — from cash deposits to market-based instruments — with tools to model deposit timelines.',
       tab:   'deposit',
       cta:   'Open Deposit Growth →'
     },
     borrow: {
       icon:  '🏦',
       badge: 'Borrowing Power',
-      title: 'Maximum Borrowing Power',
-      desc:  'Compare borrowing capacities from Australia\'s Big Four banks and see how lenders assess your income and expenses.',
+      title: 'Borrowing Capacity Calculators',
+      desc:  'Links to the borrowing capacity calculators published by Australia\'s Big Four banks. Each calculator is operated by the relevant lender and estimates capacity based on the inputs you provide.',
       tab:   'borrow',
-      cta:   'Check My Borrowing Power →'
+      cta:   'View Borrowing Calculators →'
     },
     grants: {
       icon:  '🎁',

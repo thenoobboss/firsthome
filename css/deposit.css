@@ -169,7 +169,7 @@
   line-height: 1.3;
 }
 
-/* ── Section label (THE VIBE / THE WHAT IF?) ── */
+/* ── Section label ── */
 .pathway-section-label {
   font-size: 9.5px;
   font-weight: 800;
@@ -180,7 +180,13 @@
   opacity: 0.7;
 }
 
-/* ── Strategic Objective section ── */
+/* ── Characteristics section — grows to push the divider to a consistent Y position ── */
+.pathway-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .pathway-section p {
   font-size: 14px;
   color: var(--text);
@@ -188,12 +194,11 @@
   margin: 0;
 }
 
-/* ── Key Considerations section — grows to fill card, pins button to bottom ── */
+/* ── Key Considerations section — fixed height, sits at aligned divider ── */
 .pathway-whatif {
   margin-top: 16px;
   padding-top: 16px;
   border-top: 1px solid var(--border);
-  flex: 1;
   margin-bottom: 24px;
 }
 

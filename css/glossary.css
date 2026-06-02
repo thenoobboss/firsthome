@@ -1,0 +1,88 @@
+/*
+==============================================
+  glossary.css — Interactive tooltip glossary.
+  Terms flagged with .gt get a teal dotted
+  underline; the singleton #glossary-tip
+  floats above/below via JS positioning.
+==============================================
+*/
+
+/* ── Inline term indicator ── */
+.gt {
+  border-bottom: 1.5px dotted var(--teal);
+  cursor: help;
+  white-space: nowrap;
+  display: inline;
+}
+
+.gt:focus {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ── Floating tooltip card ── */
+#glossary-tip {
+  position: fixed;
+  width: 248px;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  padding: 10px 14px 12px;
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.32);
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.14s ease;
+  z-index: 9999;
+  font-weight: 400;
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+#glossary-tip.gt-visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Term label inside the tooltip */
+.gt-tip-term {
+  display: block;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  margin-bottom: 5px;
+  opacity: 0.85;
+}
+
+/* Directional arrow */
+#glossary-tip::after {
+  content: '';
+  position: absolute;
+  left: var(--gt-arrow-left, 50%);
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+}
+
+#glossary-tip:not(.gt-below)::after {
+  bottom: -12px;
+  border-top-color: #0f172a;
+}
+
+#glossary-tip.gt-below::after {
+  top: -12px;
+  border-bottom-color: #0f172a;
+}
+
+/* Mobile: slightly smaller */
+@media (max-width: 480px) {
+  #glossary-tip {
+    width: 220px;
+    font-size: 12px;
+  }
+}
