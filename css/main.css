@@ -145,6 +145,7 @@ main {
   margin-right: 40px;   /* 32px handle + 8px gap — panel starts minimised */
   padding: 36px 40px 60px;
   transition: margin-right 250ms ease;
+  overflow-x: hidden;   /* clips tab-item slide-in animation, prevents horizontal scroll */
 }
 
 body.sp-open main { margin-right: 268px; }
@@ -374,12 +375,21 @@ body.sp-open #sp-content {
 /* Elements with their own animation systems are skipped by JS (see SKIP set).  */
 
 @keyframes tab-item-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .tab-anim-item {
-  animation: tab-item-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  /* Identical easing and duration to deposit pathway cards */
+  animation: tab-item-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (max-width: 1024px) {
+  /* Shorter travel distance on smaller screens — prevents scrollbar flash */
+  @keyframes tab-item-in {
+    from { opacity: 0; transform: translateX(28px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
 }
 
 /* ── Disclaimer ── */
