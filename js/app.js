@@ -24,24 +24,25 @@ function animateTabContent(tabId) {
 
   const children = Array.from(panel.children);
 
-  // Step 1 — strip previous animation class so re-entry replays from the start.
+  // Step 1 — strip the animation class so a re-visit replays from the start.
+  //           Do this synchronously so the browser can process the removal.
   children.forEach(el => {
     el.classList.remove('tab-anim-item');
     el.style.animationDelay = '';
   });
 
-  // Step 2 — force a synchronous reflow so the browser registers the removal
-  //           before we add the class back.
-  void panel.offsetWidth;
-
-  // Step 3 — re-apply with staggered delays, skipping own-animated elements.
-  let delay = 0;
-  children.forEach(el => {
-    const hasOwnAnim = [...el.classList].some(c => _ANIM_SKIP.has(c));
-    if (hasOwnAnim) return;
-    el.style.animationDelay = delay + 'ms';
-    el.classList.add('tab-anim-item');
-    delay += 80; // 80 ms stagger between each child
+  // Step 2 — re-add in the NEXT animation frame.
+  //           Using requestAnimationFrame (not a force-reflow) avoids disrupting
+  //           other animation systems on the panel (e.g. deposit card slide-in).
+  requestAnimationFrame(() => {
+    let delay = 0;
+    children.forEach(el => {
+      if (!el.isConnected) return; // guard: element may have been removed
+      if ([...el.classList].some(c => _ANIM_SKIP.has(c))) return;
+      el.style.animationDelay = delay + 'ms';
+      el.classList.add('tab-anim-item');
+      delay += 80;
+    });
   });
 }
 

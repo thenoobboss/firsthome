@@ -160,6 +160,10 @@
   }
 
   function wrapTerms(root) {
+    // Guard: never re-process a node that is itself a glossary span — this
+    // would cause the MutationObserver to loop infinitely as each new .gt
+    // span triggers another wrapTerms call, which adds another .gt span, etc.
+    if (!root || root.classList.contains('gt')) return;
     const usedTerms = new Set();
     getTextNodes(root).forEach(n => processTextNode(n, usedTerms));
   }
@@ -240,10 +244,17 @@
   });
 
   // ── MutationObserver — catch dynamically injected simulator content ─────────
+  // Scoped to #sim-edu-col only (the only element that receives innerHTML
+  // injection at runtime). Watching all of `main` caused an infinite loop:
+  // wrapTerms adds .gt spans → observer fires on those spans → wrapTerms
+  // called again on the .gt span → wraps the term again → fires again → ∞.
   const observer = new MutationObserver(mutations => {
     mutations.forEach(({ addedNodes }) => {
       addedNodes.forEach(node => {
-        if (node.nodeType === 1) wrapTerms(node);
+        // Skip text nodes and .gt spans to prevent re-wrapping loops
+        if (node.nodeType !== 1) return;
+        if (node.classList.contains('gt')) return;
+        wrapTerms(node);
       });
     });
   });
@@ -256,9 +267,11 @@
     const stats = document.getElementById('stats-panel');
     if (stats) wrapTerms(stats);
 
-    // Watch for content injected by simulator.js
-    const main = document.querySelector('main');
-    if (main) observer.observe(main, { childList: true, subtree: true });
+    // Watch only the simulator content column — the sole target for runtime
+    // HTML injection (openDepositSim sets its innerHTML). Narrowing the scope
+    // avoids observing the entire main element and keeps the loop fix tight.
+    const simCol = document.getElementById('sim-edu-col');
+    if (simCol) observer.observe(simCol, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {
