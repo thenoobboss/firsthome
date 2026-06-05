@@ -150,21 +150,19 @@ main {
 
 body.sp-open main { margin-right: 268px; }
 
-@media (max-width: 768px) {
+/* Mobile: no left margin (sidebar is a drawer), top margin for topbar */
+@media (max-width: 1024px) {
   main {
     margin-left: 0;
     margin-right: 0;
-    margin-top: 62px;
+    margin-top: 58px; /* height of #mobile-topbar */
     padding: 24px 20px 60px;
     transition: none;
   }
 }
 
-@media (max-width: 600px) {
-  main {
-    margin-top: 120px;
-    padding: 20px 16px 60px;
-  }
+@media (max-width: 480px) {
+  main { padding: 20px 16px 60px; }
 }
 
 /* ── Stats panel (right column) ── */

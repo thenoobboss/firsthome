@@ -44,7 +44,7 @@ function updateReadiness() {
   else                 { fill.classList.add('r-ready');  }
 
   // Verdict label
-  const labels = ['Not started', 'Early stages', 'Getting there', 'Almost ready', 'Ready to go! 🎉'];
+  const labels = ['Not started', 'Early stages', 'Getting there', 'Almost ready', 'Ready to proceed'];
   const idx = pct === 0 ? 0 : pct <= 33 ? 1 : pct <= 66 ? 2 : pct < 100 ? 3 : 4;
   verdict.textContent = labels[idx];
 
@@ -113,4 +113,14 @@ function kbClearSearch() {
 
   document.querySelectorAll('.kb-acc-item').forEach(i => i.style.display = '');
   document.querySelectorAll('.kb-cat').forEach(c => c.style.display = '');
+}
+
+// ── Buying Journey tab switcher ─────────────
+
+function kbJourneyGo(step, btn) {
+  document.querySelectorAll('.kb-jt').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.kb-jp').forEach(p => { p.classList.remove('active'); p.hidden = true; });
+  btn.classList.add('active');
+  const panel = document.getElementById('kb-jp-' + step);
+  if (panel) { panel.classList.add('active'); panel.hidden = false; }
 }

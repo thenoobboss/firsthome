@@ -55,10 +55,12 @@
 
 .home-hero-stat-val {
   font-size: 22px;
-  font-weight: 800;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Fira Mono', 'Consolas', 'Roboto Mono', monospace;
   color: #fff;
   line-height: 1;
   margin-bottom: 3px;
+  letter-spacing: -0.02em;
 }
 
 .home-hero-stat-lbl {
@@ -177,11 +179,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
   flex-shrink: 0;
   margin-right: 20px;
   align-self: flex-start;
   margin-top: 2px;
+}
+
+.home-audience-icon svg {
+  display: block;
+  flex-shrink: 0;
 }
 
 .home-audience-icon--green { background: #f0fdf4; }
@@ -248,19 +254,48 @@
   background: var(--bg);
 }
 
+/* ── Hero: stack vertically on medium screens ── */
 @media (max-width: 860px) {
-  /* Hide the stats card on smaller screens — stats show in the inline section below */
-  .home-hero-stats { display: none; }
+  .home-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 32px 28px;
+  }
+
+  /* Show stats as a horizontal strip below the copy */
+  .home-hero-stats {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-width: unset;
+    padding: 14px 18px;
+    gap: 0;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .home-hero-stat { padding: 0; text-align: center; }
+  .home-hero-stat-val { font-size: 17px; }
+
+  /* Vertical dividers → horizontal spacer */
+  .home-hero-stat-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(255,255,255,.2);
+  }
+
+  .home-hero-stat-label-top { margin-bottom: 0; font-size: 8px; }
 }
 
 @media (max-width: 640px) {
-  .home-hero { padding: 32px 24px; }
-  .home-hero-title { font-size: 24px; }
+  .home-hero { padding: 24px 20px; }
+  .home-hero-title { font-size: 26px; }
+  /* Hide stats widget on very small screens — inline stats section below covers it */
+  .home-hero-stats { display: none; }
   .home-audience-heading { font-size: 20px; }
   .home-audience-bar { margin-right: 14px; }
-  .home-audience-icon { width: 40px; height: 40px; font-size: 20px; margin-right: 14px; }
-  .home-tab-strip { gap: 6px; }
-  .home-tab-pill { font-size: 12px; padding: 6px 12px; }
+  .home-audience-icon { width: 40px; height: 40px; margin-right: 14px; }
 }
 
 .home-disclaimer {

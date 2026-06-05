@@ -51,6 +51,7 @@ function animateTabContent(tabId) {
 // Switch to the given tab and activate the nav button.
 // Also triggers calc/rental updates and highlights the relevant stats widgets.
 function switchTab(tab, btn) {
+  closeSidebar();
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
@@ -196,6 +197,7 @@ function toggleTranslate() {
 
 // Navigate back to the home tab and deactivate all nav buttons.
 function switchHome() {
+  closeSidebar();
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-home').classList.add('active');
@@ -241,52 +243,25 @@ function toggleSubAcc(id) {
   el.classList.toggle('open');
 }
 
-// ---- HELP BUTTON & COACH MARK ----
+// ---- MOBILE SIDEBAR ----
+
+// Toggle the slide-in sidebar drawer on mobile.
+function toggleSidebar() {
+  document.body.classList.toggle('sidebar-open');
+}
+
+// Close the sidebar drawer (called from overlay click or nav selection).
+function closeSidebar() {
+  document.body.classList.remove('sidebar-open');
+}
+
+// ---- HELP BUTTON ----
 
 // Open the decision-tree guide from the Help button.
 function openHelpGuide() {
-  dismissCoach();
+  closeSidebar();
   if (window._dtShow) window._dtShow();
 }
-
-// Dismiss the coach mark for this session only (X button).
-function dismissCoach() {
-  sessionStorage.setItem('hp_coach_dismissed', '1');
-  const coach = document.getElementById('help-coach');
-  if (!coach) return;
-  coach.classList.remove('visible');
-  coach.addEventListener('transitionend', function onEnd() {
-    coach.removeEventListener('transitionend', onEnd);
-    coach.style.display = 'none';
-  }, { once: true });
-}
-
-// Coach mark — shown every visit unless dismissed this session.
-(function () {
-  if (sessionStorage.getItem('hp_coach_dismissed')) return;
-
-  const coach    = document.getElementById('help-coach');
-  const helpBtn  = document.getElementById('help-btn');
-  const closeBtn = document.getElementById('help-coach-close');
-  if (!coach || !helpBtn || !closeBtn) return;
-
-  function positionCoach() {
-    const rect = helpBtn.getBoundingClientRect();
-    coach.style.left   = rect.left + 'px';
-    coach.style.bottom = (window.innerHeight - rect.top + 10) + 'px';
-  }
-
-  positionCoach();
-  window.addEventListener('resize', positionCoach);
-
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      coach.classList.add('visible');
-    });
-  });
-
-  closeBtn.addEventListener('click', dismissCoach);
-})();
 
 // ---- SPLASH SCREEN ----
 

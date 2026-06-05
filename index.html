@@ -6,13 +6,13 @@
 <title>HomePocket</title>
 
 <!-- Styles — main first, then tab-specific files -->
-<link rel="stylesheet" href="css/main.css?v=6">
-<link rel="stylesheet" href="css/navbar.css?v=9">
-<link rel="stylesheet" href="css/hero.css?v=5">
+<link rel="stylesheet" href="css/main.css?v=7">
+<link rel="stylesheet" href="css/navbar.css?v=10">
+<link rel="stylesheet" href="css/hero.css?v=6">
 <link rel="stylesheet" href="css/calculator.css?v=3">
 <link rel="stylesheet" href="css/grants.css?v=2">
 <link rel="stylesheet" href="css/rental.css?v=3">
-<link rel="stylesheet" href="css/faq.css?v=8">
+<link rel="stylesheet" href="css/faq.css?v=9">
 <link rel="stylesheet" href="css/deposit.css?v=6">
 <link rel="stylesheet" href="css/simulator.css?v=7">
 <link rel="stylesheet" href="css/dt.css?v=2">
@@ -217,12 +217,32 @@
     </div>
 </div>
 
-<!-- ── Coach mark speech bubble (one-time first-visit hint) ── -->
-<div id="help-coach" role="tooltip" aria-label="Help tip">
-  <p class="coach-text">Click here if you need help.</p>
-  <button id="help-coach-close" aria-label="Dismiss tip">✕</button>
-  <span class="coach-arrow" aria-hidden="true"></span>
+<!-- ── Mobile top bar (hidden on desktop) ── -->
+<div id="mobile-topbar">
+  <div class="mobile-logo" onclick="switchHome()" role="button" tabindex="0" aria-label="Go to HomePocket home">
+    <svg width="118" height="29" viewBox="0 0 360 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="HomePocket">
+      <polyline points="6,42 44,8 82,42" stroke="#0f766e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <line x1="14" y1="37" x2="14" y2="78" stroke="#0f766e" stroke-width="5" stroke-linecap="round"/>
+      <line x1="74" y1="37" x2="74" y2="78" stroke="#0f766e" stroke-width="5" stroke-linecap="round"/>
+      <path d="M18,52 L18,72 Q18,78 24,78 L64,78 Q70,78 70,72 L70,52 Z" stroke="#0f766e" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
+      <line x1="18" y1="52" x2="28" y2="52" stroke="#0f766e" stroke-width="4.5" stroke-linecap="round"/>
+      <line x1="60" y1="52" x2="70" y2="52" stroke="#0f766e" stroke-width="4.5" stroke-linecap="round"/>
+      <text x="96" y="46" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="32" font-weight="800" letter-spacing="-0.5">
+        <tspan fill="#0f766e">Home</tspan><tspan fill="#1e293b" font-weight="600">Pocket</tspan>
+      </text>
+    </svg>
+  </div>
+  <button id="hamburger-btn" onclick="toggleSidebar()" aria-label="Open navigation menu">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
 </div>
+
+<!-- ── Sidebar backdrop (mobile) ── -->
+<div id="sidebar-overlay" onclick="closeSidebar()" aria-hidden="true"></div>
 
 <main>
 
@@ -478,7 +498,7 @@
       <div class="home-hero-content">
         <div class="home-hero-eyebrow">NSW First Home Buyer Toolkit</div>
         <div class="home-hero-title">Home<span>Pocket</span></div>
-        <div class="home-hero-desc">HomePocket is a general information toolkit for navigating the NSW property market. It provides factual data and calculation tools to help you understand government grants, mortgage mathematics, and the characteristics of common savings vehicles. It does not provide financial advice.</div>
+        <div class="home-hero-desc">Factual data and calculation tools for navigating the property market. Estimate government grants, analyse mortgage mathematics, and model savings vehicles without the bank-speak.</div>
         <button class="home-hero-cta" onclick="if(window._dtShow) window._dtShow()">Get started →</button>
       </div>
       <div class="home-hero-stats" aria-hidden="true">
@@ -498,14 +518,6 @@
           <div class="home-hero-stat-lbl">Big 4 Variable</div>
         </div>
       </div>
-    </div>
-
-    <!-- Mobile translate button (hidden on desktop via CSS) -->
-    <div id="translate-mobile-wrap">
-      <button id="translate-btn-mobile" onclick="toggleTranslate()" aria-label="Translate page">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M3 5h8M7 3v2M11 5c0 3-2 5.5-5 6.5M9 14c-1-1-3-2.5-3-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 11l5 8M12.5 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span id="translate-btn-mobile-label">翻译 / Translate</span>
-      </button>
     </div>
 
     <!-- Mobile-only inline stats (hidden on desktop — desktop uses fixed #stats-panel) -->
@@ -535,46 +547,53 @@
       </div>
     </div>
 
-    <!-- Quick-access tab strip -->
-    <div class="home-tab-strip">
-      <button class="home-tab-pill" onclick="switchTab('faq', document.querySelectorAll('.tab-btn')[0])">Knowledge Hub</button>
-      <button class="home-tab-pill" onclick="switchTab('deposit', document.querySelectorAll('.tab-btn')[1])">Deposit Growth</button>
-      <button class="home-tab-pill" onclick="switchTab('grants', document.querySelectorAll('.tab-btn')[2])">Grants &amp; Schemes</button>
-      <button class="home-tab-pill" onclick="switchTab('borrow', document.querySelectorAll('.tab-btn')[3])">Borrowing Power</button>
-      <button class="home-tab-pill" onclick="switchTab('calc', document.querySelectorAll('.tab-btn')[4])">Mortgage Calculator</button>
-      <button class="home-tab-pill" onclick="switchTab('rental', document.querySelectorAll('.tab-btn')[5])">Rental Yield</button>
-    </div>
-
     <!-- Audience heading rows -->
     <div class="home-audience">
 
       <div class="home-audience-row">
         <div class="home-audience-bar home-audience-bar--green"></div>
-        <div class="home-audience-icon home-audience-icon--green">🏠</div>
+        <div class="home-audience-icon home-audience-icon--green">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
         <div class="home-audience-body">
-          <div class="home-audience-eyebrow">Grants · Knowledge Hub · Deposit Growth</div>
-          <h3 class="home-audience-heading">For the First Home Buyer</h3>
-          <p class="home-audience-text">Navigating the path to ownership with precision. Access tailored pathways for government support and market entry designed specifically for the current economy.</p>
+          <div class="home-audience-eyebrow">Grants · Stamp Duty · First Home Guarantee</div>
+          <h3 class="home-audience-heading">First Home Buyer Hub</h3>
+          <p class="home-audience-text">Check your eligibility for stamp duty exemptions, the First Home Guarantee, and regional grants with zero guesswork.</p>
         </div>
       </div>
 
       <div class="home-audience-row">
         <div class="home-audience-bar home-audience-bar--amber"></div>
-        <div class="home-audience-icon home-audience-icon--amber">📈</div>
+        <div class="home-audience-icon home-audience-icon--amber">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+            <polyline points="17 6 23 6 23 12"/>
+          </svg>
+        </div>
         <div class="home-audience-body">
-          <div class="home-audience-eyebrow">Deposit Growth · Rental Yield</div>
-          <h3 class="home-audience-heading">For the Growth-Minded</h3>
-          <p class="home-audience-text">Explore the characteristics of different savings and investment vehicles, and use modelling tools to understand how deposit timelines and growth rates interact.</p>
+          <div class="home-audience-eyebrow">Deposit Growth · HISA · ETFs · Rental Yield</div>
+          <h3 class="home-audience-heading">Deposit Growth &amp; Yield Modeller</h3>
+          <p class="home-audience-text">Compare savings vehicles and project your deposit timeline based on compound interest, high-interest savings accounts, or investment yields.</p>
         </div>
       </div>
 
       <div class="home-audience-row">
         <div class="home-audience-bar home-audience-bar--blue"></div>
-        <div class="home-audience-icon home-audience-icon--blue">🎓</div>
+        <div class="home-audience-icon home-audience-icon--blue">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="5" y="2" width="14" height="20" rx="2"/>
+            <line x1="9" y1="7" x2="15" y2="7"/>
+            <line x1="9" y1="11" x2="15" y2="11"/>
+            <line x1="9" y1="15" x2="12" y2="15"/>
+          </svg>
+        </div>
         <div class="home-audience-body">
-          <div class="home-audience-eyebrow">Mortgage Calculator · Borrowing Power</div>
-          <h3 class="home-audience-heading">For the Knowledge</h3>
-          <p class="home-audience-text">Mastering the mechanics of the mortgage market. High-precision tools for those who skip the bank-speak and go straight to the raw math and strategy.</p>
+          <div class="home-audience-eyebrow">Mortgage Calculator · Borrowing Power · Amortisation</div>
+          <h3 class="home-audience-heading">Mortgage &amp; Borrowing Math</h3>
+          <p class="home-audience-text">Run the raw numbers on borrowing power, amortisation schedules, and rental yields using clean, institutional-grade calculators.</p>
         </div>
       </div>
 
@@ -1584,33 +1603,39 @@
             <p class="kb-gs-sub">Key factors to decide what fits your goals and lifestyle.</p>
           </div>
           <div class="hva-tabs" role="tablist">
-            <button class="hva-tab active" onclick="hvaSwitch('house', this)" role="tab">🏡 House</button>
-            <button class="hva-tab" onclick="hvaSwitch('apt', this)" role="tab">🏢 Apartment</button>
+            <button class="hva-tab active" onclick="hvaSwitch('house', this)" role="tab">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5L12 3l9 6.5V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              House
+            </button>
+            <button class="hva-tab" onclick="hvaSwitch('apt', this)" role="tab">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+              Apartment
+            </button>
           </div>
           <div class="hva-panel" id="hva-house" role="tabpanel">
             <div class="hva-group">
               <div class="hva-group-label hva-pro">✓ Advantages</div>
-              <div class="hva-row"><span class="hva-emoji">📈</span><div><strong>Land value growth</strong><br>Land appreciates; buildings depreciate. Houses historically deliver stronger long-term capital gains.</div></div>
-              <div class="hva-row"><span class="hva-emoji">🔨</span><div><strong>Full control</strong><br>No strata approval needed. Renovate, extend, or landscape however you like.</div></div>
-              <div class="hva-row"><span class="hva-emoji">🌿</span><div><strong>Space &amp; privacy</strong><br>Ideal for families — backyard, more rooms, distance from neighbours.</div></div>
+              <div class="hva-row"><div><strong>Land value growth</strong><br>Land appreciates; buildings depreciate. Houses historically deliver stronger long-term capital gains.</div></div>
+              <div class="hva-row"><div><strong>Full control</strong><br>No strata approval needed. Renovate, extend, or landscape however you like.</div></div>
+              <div class="hva-row"><div><strong>Space &amp; privacy</strong><br>Ideal for families — backyard, more rooms, distance from neighbours.</div></div>
             </div>
             <div class="hva-group">
               <div class="hva-group-label hva-con">⚠ Watch out for</div>
-              <div class="hva-row"><span class="hva-emoji">💸</span><div><strong>Higher entry cost</strong><br>Metro houses typically cost $200k–$500k+ more than comparable apartments.</div></div>
-              <div class="hva-row"><span class="hva-emoji">🔧</span><div><strong>Maintenance is yours</strong><br>Roof, plumbing, garden — all costs and labour fall on you as the owner.</div></div>
+              <div class="hva-row"><div><strong>Higher entry cost</strong><br>Metro houses typically cost $200k–$500k+ more than comparable apartments.</div></div>
+              <div class="hva-row"><div><strong>Maintenance is yours</strong><br>Roof, plumbing, garden — all costs and labour fall on you as the owner.</div></div>
             </div>
           </div>
           <div class="hva-panel" id="hva-apt" role="tabpanel" style="display:none">
             <div class="hva-group">
               <div class="hva-group-label hva-pro">✓ Advantages</div>
-              <div class="hva-row"><span class="hva-emoji">💰</span><div><strong>Lower entry price</strong><br>More affordable entry point — helps first-home buyers get into the market sooner.</div></div>
-              <div class="hva-row"><span class="hva-emoji">📍</span><div><strong>Prime locations</strong><br>Often walkable to transport and cafes — lifestyle convenience that houses at the same price can't match.</div></div>
-              <div class="hva-row"><span class="hva-emoji">🛠️</span><div><strong>Low maintenance</strong><br>Strata handles common areas. Ideal for busy professionals or frequent travellers.</div></div>
+              <div class="hva-row"><div><strong>Lower entry price</strong><br>More affordable entry point — helps first-home buyers get into the market sooner.</div></div>
+              <div class="hva-row"><div><strong>Prime locations</strong><br>Often walkable to transport and cafes — lifestyle convenience that houses at the same price can't match.</div></div>
+              <div class="hva-row"><div><strong>Low maintenance</strong><br>Strata handles common areas. Ideal for busy professionals or frequent travellers.</div></div>
             </div>
             <div class="hva-group">
               <div class="hva-group-label hva-con">⚠ Watch out for</div>
-              <div class="hva-row"><span class="hva-emoji">📋</span><div><strong>Strata fees</strong><br>Ongoing levies cover building insurance and upkeep. Can be $500–$3,000 per quarter.</div></div>
-              <div class="hva-row"><span class="hva-emoji">📉</span><div><strong>Slower capital growth</strong><br>Apartments historically appreciate more slowly than houses, particularly in oversupplied markets.</div></div>
+              <div class="hva-row"><div><strong>Strata fees</strong><br>Ongoing levies cover building insurance and upkeep. Can be $500–$3,000 per quarter.</div></div>
+              <div class="hva-row"><div><strong>Slower capital growth</strong><br>Apartments historically appreciate more slowly than houses, particularly in oversupplied markets.</div></div>
             </div>
           </div>
         </div><!-- /hva card -->
@@ -1631,14 +1656,14 @@
           </div>
           <div class="ready-list">
             <div class="ready-group">
-              <div class="ready-group-label">💰 Financial Stability</div>
+              <div class="ready-group-label">Financial Stability</div>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Stable income for 6+ months</span></label>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>3-month emergency fund separate from deposit savings</span></label>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>High-interest debt (credit cards, personal loans) paid down</span></label>
             </div>
             <div class="ready-group">
               <div class="ready-group-hd">
-                <div class="ready-group-label">🏦 Savings Habits</div>
+                <div class="ready-group-label">Savings Habits</div>
                 <button class="ready-shortcut" onclick="switchTab('deposit', document.querySelectorAll('.tab-btn')[1])">Explore savings information <span class="ready-shortcut-arrow">→</span></button>
               </div>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Consistent monthly saving habit (at least 3 months running)</span></label>
@@ -1646,7 +1671,7 @@
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Checked government grants and schemes for your state</span></label>
             </div>
             <div class="ready-group">
-              <div class="ready-group-label">🧠 Emotional Readiness</div>
+              <div class="ready-group-label">Emotional Readiness</div>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Comfortable staying in one location for 5+ years</span></label>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Understand that rate rises can significantly increase repayments</span></label>
               <label class="ready-item"><input type="checkbox" class="ready-cb" onchange="updateReadiness()"><span>Ready to prioritise the mortgage over discretionary spending for a while</span></label>
@@ -1669,101 +1694,92 @@
     <!-- ── Step-by-Step Process Featured Card ── -->
     <div class="kb-featured" id="kb-feat-process" data-kb-searchable="process step buying conveyancer settlement exchange finance approval pre-approval inspection auction offer">
       <div class="kb-feat-top">
-        <div class="kb-feat-badge">🏠 Step-by-Step Process</div>
+        <div class="kb-feat-badge">Step-by-Step Process</div>
         <span class="kb-feat-start">Essential reading</span>
       </div>
       <h2 class="kb-feat-title">What is the process of buying a home?</h2>
-      <p class="kb-feat-sub">From saving your deposit to collecting the keys — here's every stage of the home-buying journey in order.</p>
+      <p class="kb-feat-sub">From saving your deposit to settlement — every stage of the home-buying journey, in order.</p>
 
-      <p class="kb-feat-summary-label">Brief Summary</p>
+      <!-- ── Journey: side-tab on desktop, compact on mobile ── -->
+      <div class="kb-journey-wrapper">
 
-      <div class="kb-stepper">
+        <nav class="kb-journey-nav" role="tablist" aria-label="Buying journey steps">
+          <button class="kb-jt active" onclick="kbJourneyGo(1, this)" role="tab" aria-selected="true" aria-controls="kb-jp-1">
+            <span class="kb-jt-num">01</span>
+            <span class="kb-jt-label">Get Financially Ready</span>
+            <svg class="kb-jt-arr" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="kb-jt" onclick="kbJourneyGo(2, this)" role="tab" aria-selected="false" aria-controls="kb-jp-2">
+            <span class="kb-jt-num">02</span>
+            <span class="kb-jt-label">Get Pre-Approved</span>
+            <svg class="kb-jt-arr" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="kb-jt" onclick="kbJourneyGo(3, this)" role="tab" aria-selected="false" aria-controls="kb-jp-3">
+            <span class="kb-jt-num">03</span>
+            <span class="kb-jt-label">Search &amp; Inspect</span>
+            <svg class="kb-jt-arr" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="kb-jt" onclick="kbJourneyGo(4, this)" role="tab" aria-selected="false" aria-controls="kb-jp-4">
+            <span class="kb-jt-num">04</span>
+            <span class="kb-jt-label">Make an Offer</span>
+            <svg class="kb-jt-arr" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="kb-jt" onclick="kbJourneyGo(5, this)" role="tab" aria-selected="false" aria-controls="kb-jp-5">
+            <span class="kb-jt-num">05</span>
+            <span class="kb-jt-label">Exchange &amp; Settlement</span>
+            <svg class="kb-jt-arr" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </nav>
 
-        <!-- Step 1 -->
-        <div class="kb-step">
-          <div class="kb-step-left">
-            <div class="kb-step-num">1</div>
-            <div class="kb-step-line"></div>
+        <div class="kb-journey-panels">
+          <div class="kb-jp active" id="kb-jp-1" role="tabpanel">
+            <div class="kb-jp-title">Get Financially Ready</div>
+            <ul class="kb-jp-list">
+              <li>Build your deposit — typically 10–20% of the purchase price</li>
+              <li>Check your credit score and clear high-interest debt before applying</li>
+              <li>Budget for upfront costs: stamp duty, legal fees, and building inspections</li>
+              <li>Establish your borrowing capacity via the Borrow tab</li>
+            </ul>
           </div>
-          <div class="kb-step-body">
-            <div class="kb-step-title">Get financially ready</div>
-            <ul class="kb-step-list">
-              <li>Build your deposit (typically 10–20% of purchase price)</li>
-              <li>Check your credit score and clear high-interest debt</li>
-              <li>Save for stamp duty, legal fees, and inspections</li>
-              <li>Understand your borrowing capacity</li>
+          <div class="kb-jp" id="kb-jp-2" role="tabpanel" hidden>
+            <div class="kb-jp-title">Get Pre-Approved for a Home Loan</div>
+            <ul class="kb-jp-list">
+              <li>Compare loan types: variable, fixed, or split rate</li>
+              <li>Submit income documentation, bank statements, and valid ID</li>
+              <li>Pre-approval (Approval in Principle) is typically valid for 90 days</li>
+              <li>Factor in the APRA 3% serviceability buffer applied by all lenders</li>
+            </ul>
+          </div>
+          <div class="kb-jp" id="kb-jp-3" role="tabpanel" hidden>
+            <div class="kb-jp-title">Search and Inspect Properties</div>
+            <ul class="kb-jp-list">
+              <li>Define non-negotiable criteria versus desirable features before inspecting</li>
+              <li>Attend open homes and document findings with a standardised checklist</li>
+              <li>Research suburb median prices, clearance rates, and rental yields</li>
+              <li>Commission a building and pest inspection report before committing</li>
+            </ul>
+          </div>
+          <div class="kb-jp" id="kb-jp-4" role="tabpanel" hidden>
+            <div class="kb-jp-title">Make an Offer or Bid at Auction</div>
+            <ul class="kb-jp-list">
+              <li>Private treaty: negotiate price with the vendor's agent; include finance conditions</li>
+              <li>Auction: unconditional on the fall of the hammer — have finance confirmed beforehand</li>
+              <li>Have a conveyancer review the contract of sale before signing or bidding</li>
+              <li>Cooling-off period: 5 business days in NSW — does not apply to auction purchases</li>
+            </ul>
+          </div>
+          <div class="kb-jp" id="kb-jp-5" role="tabpanel" hidden>
+            <div class="kb-jp-title">Exchange, Settle &amp; Take Possession</div>
+            <ul class="kb-jp-list">
+              <li>Exchange contracts: pay the 10% deposit (or negotiated holding deposit)</li>
+              <li>Settlement period: typically 42 days in NSW — coordinate with your solicitor</li>
+              <li>Pre-settlement inspection 1–3 days prior to confirm property condition</li>
+              <li>Settlement day: funds transfer via PEXA, title registers in your name</li>
             </ul>
           </div>
         </div>
 
-        <!-- Step 2 -->
-        <div class="kb-step">
-          <div class="kb-step-left">
-            <div class="kb-step-num">2</div>
-            <div class="kb-step-line"></div>
-          </div>
-          <div class="kb-step-body">
-            <div class="kb-step-title">Get pre-approved for a home loan</div>
-            <ul class="kb-step-list">
-              <li>Compare lenders and loan types (variable, fixed, split)</li>
-              <li>Submit income proof, bank statements, and ID</li>
-              <li>Pre-approval is typically valid for 3 months</li>
-              <li>Use our Borrow tab to estimate your capacity</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="kb-step">
-          <div class="kb-step-left">
-            <div class="kb-step-num">3</div>
-            <div class="kb-step-line"></div>
-          </div>
-          <div class="kb-step-body">
-            <div class="kb-step-title">Search and inspect properties</div>
-            <ul class="kb-step-list">
-              <li>Define your must-haves vs nice-to-haves</li>
-              <li>Attend open homes — bring a checklist</li>
-              <li>Research suburb median prices and rental yields</li>
-              <li>Get a building &amp; pest inspection before committing</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="kb-step">
-          <div class="kb-step-left">
-            <div class="kb-step-num">4</div>
-            <div class="kb-step-line"></div>
-          </div>
-          <div class="kb-step-body">
-            <div class="kb-step-title">Make an offer or bid at auction</div>
-            <ul class="kb-step-list">
-              <li>Private treaty: negotiate price with the agent</li>
-              <li>Auction: register to bid — unconditional on the fall of the hammer</li>
-              <li>Always have a conveyancer review the contract first</li>
-              <li>Cooling-off period: 5 business days in NSW (does not apply at auction)</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Step 5 (final) -->
-        <div class="kb-step kb-step-last">
-          <div class="kb-step-left">
-            <div class="kb-step-num kb-step-num-final">5</div>
-          </div>
-          <div class="kb-step-body">
-            <div class="kb-step-title">Exchange, settle, and collect keys 🎉</div>
-            <ul class="kb-step-list">
-              <li>Exchange contracts: pay the 10% deposit (or negotiated amount)</li>
-              <li>Settlement period: typically 42 days in NSW</li>
-              <li>Final inspection the day before settlement</li>
-              <li>Settlement day: funds transfer, title transfers — you're a homeowner!</li>
-            </ul>
-          </div>
-        </div>
-
-      </div><!-- /kb-stepper -->
+      </div><!-- /kb-journey-wrapper -->
     </div><!-- /kb-feat-process -->
 
     <!-- ── 03. Deep Dives ── -->
@@ -1779,7 +1795,7 @@
     <div class="kb-grid kb-grid-3">
 
       <!-- ─ Category A: Incentives & Maximising Savings ─ -->
-      <div class="kb-cat kb-cat-priority" id="kb-cat-incentives">
+      <div class="kb-cat" id="kb-cat-incentives">
         <div class="kb-cat-hd">
           <div class="kb-cat-icon kb-cat-icon-incentives">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
@@ -1787,7 +1803,7 @@
             </svg>
           </div>
           <div>
-            <div class="kb-cat-tag kb-cat-tag-priority">Category A · High Priority</div>
+            <div class="kb-cat-tag kb-cat-tag-grants">Grants &amp; Savings</div>
             <h3 class="kb-cat-title">Incentives &amp; Maximising Savings</h3>
           </div>
         </div>
@@ -1878,7 +1894,7 @@
             </svg>
           </div>
           <div>
-            <div class="kb-cat-tag">Category B</div>
+            <div class="kb-cat-tag kb-cat-tag-mortgage">Mortgage Strategy</div>
             <h3 class="kb-cat-title">Determine Comfortable Repayments</h3>
           </div>
         </div>
@@ -1961,7 +1977,7 @@
             </svg>
           </div>
           <div>
-            <div class="kb-cat-tag">Category C</div>
+            <div class="kb-cat-tag kb-cat-tag-legal">Legal &amp; Process</div>
             <h3 class="kb-cat-title">Process &amp; Legal</h3>
           </div>
         </div>
@@ -1999,7 +2015,7 @@
                 <ul class="faq-steps">
                   <li><strong>Pre-Settlement Inspection</strong> — Confirm the property is in agreed condition 1–3 days before.</li>
                   <li><strong>Settlement Day</strong> — Bank and solicitor transfer the balance to the seller.</li>
-                  <li><strong>Collect the Keys 🎉</strong> — Funds confirmed, agent releases keys.</li>
+                  <li><strong>Title Transfer &amp; Key Release</strong> — Funds confirmed by solicitor; agent releases keys upon settlement confirmation.</li>
                 </ul>
                 <div class="faq-phase"><span class="faq-phase-num">5</span>The Long Game</div>
                 <ul class="faq-steps">
@@ -2208,11 +2224,11 @@
 <!-- Scripts — Chart.js first, then app logic, then tab-specific, then data files -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script src="js/glossary.js?v=2"></script>
-<script src="js/app.js?v=14"></script>
+<script src="js/app.js?v=15"></script>
 <script src="js/calculator.js?v=5"></script>
 <script src="js/grants.js?v=2"></script>
 <script src="js/rental.js?v=2"></script>
-<script src="js/faq.js?v=4"></script>
+<script src="js/faq.js?v=5"></script>
 <script src="data/grants-data.js?v=2"></script>
 <script src="data/faq-data.js?v=2"></script>
 <script src="js/deposit.js?v=2"></script>
